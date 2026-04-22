@@ -3,6 +3,13 @@
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
 
+/* Fonts */
+@theme {
+  --font-inter: "Inter", sans-serif;
+  --font-unbounded: "Unbounded", sans-serif;
+  --font-clash: "Clash Display", sans-serif;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
