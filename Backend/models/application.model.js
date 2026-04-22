@@ -7,7 +7,7 @@ const applicationSchema = new mongoose.Schema(
             ref: "Job",
             required: true,
         },
-        applicacant: {
+        applicant: {
             type: mongoose.Schema.Types.ObjectId, // Reference to the User model (applicant)
             ref: "User",
             required: true,

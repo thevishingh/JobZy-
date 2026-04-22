@@ -6,6 +6,7 @@ import connectDb from "./utils/db.js";
 import userRoutes from "./routes/user.route.js";
 import companyRoutes from "./routes/company.route.js";
 import jobRoutes from "./routes/job.route.js";
+import jobsApplication from "./routes/application.route.js";
 
 // Create Express app
 const app = express();
@@ -28,6 +29,7 @@ app.use(cors(app.corsOptions));
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/company", companyRoutes);
 app.use("/api/v1/job", jobRoutes);
+app.use("/api/v1/application", jobsApplication);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
