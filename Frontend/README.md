@@ -1,6 +1,3 @@
-Got it — here’s a **clean one-file README with icons + tech stack + folder structure**, still compact and professional 👇
-
----
 
 ````md
 # 🚀 JobZy Frontend
