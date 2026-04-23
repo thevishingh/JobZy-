@@ -44,7 +44,7 @@ function Register() {
             alt="JobZy register"
             className="absolute inset-0 h-full w-full object-cover opacity-75"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-t from-black via-black/50 to-transparent" />
 
           <div className="relative z-10 max-w-2xl">
             <h3 className="font-unbounded text-4xl font-bold text-white drop-shadow-lg sm:text-5xl">
@@ -75,7 +75,7 @@ function Register() {
           </div>
         </div>
 
-        <div className="relative flex items-center justify-center bg-gradient-to-br from-white via-red-100 to-white px-4 py-12 sm:px-6 lg:px-8">
+        <div className="relative flex items-center justify-center bg-linear-to-br from-white via-red-100 to-white px-4 py-12 sm:px-6 lg:px-8">
           <div className="w-full max-w-2xl rounded-3xl bg-white/70 p-8 shadow-xl backdrop-blur-xl lg:p-10">
             <h2 className="font-unbounded text-3xl font-bold text-gray-900 sm:text-4xl">
               Create{" "}
