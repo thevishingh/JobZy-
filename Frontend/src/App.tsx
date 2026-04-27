@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, useLocation } from "react-router-dom"
 import Navbar from "./components/shared/Navbar"
 import Home from "./pages/Home"
 import About from "./pages/About"
@@ -9,11 +9,14 @@ import Login from "./pages/Login"
 import Register from "./pages/Register"
 import Footer from "./pages/Footer"
 export function App() {
+  const { pathname } = useLocation()
+
+  const hideFooterRoutes = ["/login", "/signup"]
+  const shouldHideFooter = hideFooterRoutes.includes(pathname)
+
   return (
     <div className="flex min-h-screen flex-col">
       <Navbar />
-
-      {/* Main content takes remaining space */}
       <main className="flex-1">
         <Routes>
           <Route path="/" element={<Home />} />
@@ -25,8 +28,7 @@ export function App() {
           <Route path="/signup" element={<Register />} />
         </Routes>
       </main>
-
-      <Footer />
+      {!shouldHideFooter && <Footer />}
     </div>
   )
 }

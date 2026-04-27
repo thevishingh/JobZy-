@@ -6,6 +6,7 @@ import {
   FaPhone,
   FaGoogle,
   FaCheckCircle,
+  FaImage,
 } from "react-icons/fa"
 import { Link } from "react-router-dom"
 
@@ -14,6 +15,7 @@ type RegisterFormData = {
   email: string
   password: string
   phoneNumber: string
+  profilePhoto: FileList
   role: "student" | "recruiter"
 }
 
@@ -186,6 +188,46 @@ function Register() {
                     </p>
                   )}
                 </div>
+              </div>
+
+              <div>
+                <p className="mb-3 pl-1 font-mont text-sm font-medium text-gray-700">
+                  Profile Picture
+                </p>
+
+                <label className="flex cursor-pointer items-center gap-4 rounded-2xl border border-gray-200 bg-white px-5 py-4 transition hover:border-red-400 hover:bg-red-50">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-red-100">
+                    <FaImage className="text-lg text-red-500" />
+                  </div>
+
+                  <div className="flex-1">
+                    <p className="font-mont text-sm font-medium text-gray-800">
+                      Upload Profile Photo
+                    </p>
+                    <p className="font-mont text-xs text-gray-500">
+                      JPG, PNG or JPEG
+                    </p>
+                  </div>
+
+                  <span className="rounded-xl bg-black px-4 py-2 font-mont text-xs font-medium text-white">
+                    Choose File
+                  </span>
+
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    {...register("profilePhoto", {
+                      required: "Profile photo is required",
+                    })}
+                  />
+                </label>
+
+                {errors.profilePhoto && (
+                  <p className="mt-1 pl-1 font-mont text-sm text-red-500">
+                    {errors.profilePhoto.message}
+                  </p>
+                )}
               </div>
 
               <div>
