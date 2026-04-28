@@ -11,28 +11,28 @@ The project focuses on creating a **modern, scalable, and user-friendly hiring p
 
 ### 👨‍💼 Recruiter
 
-* Create recruiter account and login
-* Post new job listings
-* Manage and update job postings
-* View applicants for each job
-* Update candidate application status
+- Create recruiter account and login
+- Post new job listings
+- Manage and update job postings
+- View applicants for each job
+- Update candidate application status
 
 ### 🎓 Student / Job Seeker
 
-* Create student account and login
-* Browse available job listings
-* Apply for jobs
-* Upload resume
-* Track application status
+- Create student account and login
+- Browse available job listings
+- Apply for jobs
+- Upload resume
+- Track application status
 
 ### ⚙️ General
 
-* Role-based authentication
-* Secure REST API
-* Resume upload functionality
-* Form validation with React Hook Form
-* Modern UI with Tailwind CSS & ShadCN
-* Global state management using Redux Toolkit
+- Role-based authentication
+- Secure REST API
+- Resume upload functionality
+- Form validation with React Hook Form
+- Modern UI with Tailwind CSS & ShadCN
+- Global state management using Redux Toolkit
 
 ---
 
@@ -40,21 +40,21 @@ The project focuses on creating a **modern, scalable, and user-friendly hiring p
 
 ### Frontend
 
-* React.js
-* Tailwind CSS
-* ShadCN UI
-* React Hook Form
-* Redux Toolkit
-* Axios
-* React Router DOM
+- React.js
+- Tailwind CSS
+- ShadCN UI
+- React Hook Form
+- Redux Toolkit
+- Axios
+- React Router DOM
 
 ### Backend
 
-* Node.js
-* Express.js
-* MongoDB
-* Mongoose
-* JWT Authentication
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- JWT Authentication
 
 ---
 
@@ -74,8 +74,8 @@ JobZy
 
 More detailed documentation will be available inside:
 
-* `frontend/README.md`
-* `backend/README.md`
+- `frontend/README.md`
+- `backend/README.md`
 
 ---
 
@@ -141,12 +141,12 @@ Job Application Page
 
 ## 🔮 Future Improvements
 
-* Advanced job search filters
-* Email notifications for applications
-* Admin dashboard
-* Saved jobs feature
-* Interview scheduling
-* Resume parsing
+- Advanced job search filters
+- Email notifications for applications
+- Admin dashboard
+- Saved jobs feature
+- Interview scheduling
+- Resume parsing
 
 ---
 
