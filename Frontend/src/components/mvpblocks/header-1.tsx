@@ -92,15 +92,17 @@ export default function Header1() {
       initial="initial"
       animate={isScrolled ? "scrolled" : "animate"}
       transition={{ duration: 0.3, ease: "easeInOut" }}
-      style={{
-        backdropFilter: isScrolled ? "blur(20px)" : "none",
-        backgroundColor: isScrolled
-          ? theme === "dark"
-            ? "rgba(0, 0, 0, 0.8)"
-            : "rgba(255, 255, 255, 0.8)"
-          : "transparent",
-        boxShadow: isScrolled ? "0 8px 32px rgba(0, 0, 0, 0.1)" : "none",
-      }}
+  style={{
+  backdropFilter: isScrolled ? "blur(20px)" : "none",
+  backgroundColor: isScrolled
+    ? theme === "dark"
+      ? "rgba(0, 0, 0, 0.8)"
+      : "rgba(255, 240, 245, 0.9)"
+    : "rgba(255, 240, 245, 1)",
+  boxShadow: isScrolled
+    ? "0 8px 32px rgba(0, 0, 0, 0.1)"
+    : "0 2px 10px rgba(0, 0, 0, 0.05)",
+}}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between lg:h-20">

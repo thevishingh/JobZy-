@@ -8,7 +8,14 @@ import {
   FaCheckCircle,
   FaImage,
 } from "react-icons/fa"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import type { RootState } from "@/redux/store"
+import axios from "axios"
+import { USER_API_END_POINT } from "@/utils/constant"
+import { toast } from "sonner"
+import { useState } from "react"
+import { useSelector } from "react-redux"
+import { Loader2 } from "lucide-react"
 
 type RegisterFormData = {
   fullName: string
@@ -25,16 +32,50 @@ function Register() {
     handleSubmit,
     formState: { errors, isSubmitting },
     watch,
+    reset,
   } = useForm<RegisterFormData>({
     defaultValues: {
       role: "student",
     },
   })
+  const [previewImage, setPreviewImage] = useState<string | null>(null)
+  // naviagate
+  const navigate = useNavigate()
+  const { loading } = useSelector((store: RootState) => store.auth)
 
   const selectedRole = watch("role")
 
-  const onSubmit = (data: RegisterFormData) => {
-    console.log(data)
+  const onSubmit = async (data: RegisterFormData) => {
+    try {
+      const formData = new FormData()
+
+      formData.append("fullName", data.fullName)
+      formData.append("email", data.email)
+      formData.append("password", data.password)
+      formData.append("phoneNumber", data.phoneNumber)
+      formData.append("role", data.role)
+      formData.append("file", data.profilePhoto[0])
+
+      const response = await axios.post(
+        `${USER_API_END_POINT}/register`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true,
+        }
+      )
+
+      if (response.data.success) {
+        toast.success(response.data.message)
+        navigate("/login")
+      }
+      reset()
+      setPreviewImage(null)
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Something went wrong")
+    }
   }
 
   return (
@@ -196,21 +237,32 @@ function Register() {
                 </p>
 
                 <label className="flex cursor-pointer items-center gap-4 rounded-2xl border border-gray-200 bg-white px-5 py-4 transition hover:border-red-400 hover:bg-red-50">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-red-100">
-                    <FaImage className="text-lg text-red-500" />
+                  <div className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-full bg-red-100">
+                    {previewImage ? (
+                      <img
+                        src={previewImage}
+                        alt="Profile Preview"
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <FaImage className="text-lg text-red-500" />
+                    )}
                   </div>
 
                   <div className="flex-1">
                     <p className="font-mont text-sm font-medium text-gray-800">
                       Upload Profile Photo
                     </p>
+
                     <p className="font-mont text-xs text-gray-500">
-                      JPG, PNG or JPEG
+                      {watch("profilePhoto")?.[0]?.name
+                        ? watch("profilePhoto")[0].name
+                        : "JPG, PNG or JPEG"}
                     </p>
                   </div>
 
                   <span className="rounded-xl bg-black px-4 py-2 font-mont text-xs font-medium text-white">
-                    Choose File
+                    {watch("profilePhoto")?.[0] ? "Selected" : "Choose File"}
                   </span>
 
                   <input
@@ -219,6 +271,12 @@ function Register() {
                     className="hidden"
                     {...register("profilePhoto", {
                       required: "Profile photo is required",
+                      onChange: (e) => {
+                        const file = e.target.files?.[0]
+                        if (file) {
+                          setPreviewImage(URL.createObjectURL(file))
+                        }
+                      },
                     })}
                   />
                 </label>
@@ -293,10 +351,20 @@ function Register() {
 
               <button
                 type="button"
-                className="flex w-full cursor-pointer items-center justify-center gap-3 rounded-2xl border border-gray-200 bg-white px-6 py-3.5 font-unbounded text-gray-700 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
+                disabled={loading}
+                className="flex w-full items-center justify-center gap-3 rounded-2xl border border-gray-200 bg-white px-6 py-3.5 font-unbounded text-gray-700 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-70"
               >
-                <FaGoogle className="h-5 w-5 text-rose-500" />
-                Continue with Google
+                {loading ? (
+                  <>
+                    <Loader2 className="h-5 w-5 animate-spin" />
+                    <span>Signing in...</span>
+                  </>
+                ) : (
+                  <>
+                    <FaGoogle className="h-5 w-5 text-rose-500" />
+                    <span>Sign in with Google</span>
+                  </>
+                )}
               </button>
             </div>
           </div>

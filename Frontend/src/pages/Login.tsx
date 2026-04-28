@@ -1,6 +1,13 @@
+import { setLoading } from "@/redux/authSlice"
+import { USER_API_END_POINT } from "@/utils/constant"
+import axios from "axios"
 import { useForm } from "react-hook-form"
 import { FaCheckCircle, FaEnvelope, FaLock, FaGoogle } from "react-icons/fa"
-import { Link } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import type { RootState } from "@/redux/store"
+import { Link, useNavigate } from "react-router-dom"
+import { toast } from "sonner"
+import { Loader2 } from "lucide-react"
 
 type LoginFormData = {
   email: string
@@ -22,13 +29,60 @@ function Login() {
     },
   })
 
+  //navigate
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { loading } = useSelector((store: RootState) => store.auth)
   const selectedRole = watch("role")
 
-  const onSubmit = async (data: LoginFormData) => {
-    console.log("Login Form Data:", data)
-    alert(`Logged in as ${data.role}`)
+  // Voice welcome function
+  const speakWelcome = (name: string) => {
+    const message = new SpeechSynthesisUtterance(`Hello ${name}, welcome back`)
+
+    const voices = window.speechSynthesis.getVoices()
+
+    // try to find a female-like English voice
+    const femaleVoice = voices.find(
+      (voice) =>
+        voice.name.includes("Female") ||
+        voice.name.includes("Google UK English Female") ||
+        voice.name.includes("Samantha") ||
+        voice.name.includes("Zira")
+    )
+
+    if (femaleVoice) {
+      message.voice = femaleVoice
+    }
+
+    message.rate = 1
+    message.pitch = 1.1
+    message.volume = 1
+
+    window.speechSynthesis.speak(message)
   }
 
+  const onSubmit = async (data: LoginFormData) => {
+    try {
+      dispatch(setLoading(true))
+      const response = await axios.post(`${USER_API_END_POINT}/login`, data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      })
+
+      if (response.data.success) {
+        toast.success(response.data.message)
+        const userName = response.data.user?.fullName || "User"
+        speakWelcome(userName)
+        navigate("/")
+      }
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Login failed")
+    } finally {
+      dispatch(setLoading(false))
+    }
+  }
   return (
     <section className="relative min-h-screen bg-transparent">
       <div className="grid min-h-screen grid-cols-1 lg:grid-cols-2">
@@ -97,7 +151,7 @@ function Login() {
                       type="email"
                       id="email"
                       placeholder="Email Address"
-                      className="w-full rounded-2xl border border-gray-200 bg-white py-3.5 pr-4 pl-11 font-mont text-sm text-black outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-200"
+                      className="w-full rounded-2xl border border-gray-200 bg-white py-3.5 pr-4 pl-11 font-mont text-sm text-black transition outline-none focus:border-red-500 focus:ring-2 focus:ring-red-200"
                       {...register("email", {
                         required: "Email is required",
                         pattern: {
@@ -121,7 +175,7 @@ function Login() {
                       type="password"
                       id="password"
                       placeholder="Password"
-                      className="w-full rounded-2xl border border-gray-200 bg-white py-3.5 pr-4 pl-11 font-mont text-sm text-black outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-200"
+                      className="w-full rounded-2xl border border-gray-200 bg-white py-3.5 pr-4 pl-11 font-mont text-sm text-black transition outline-none focus:border-red-500 focus:ring-2 focus:ring-red-200"
                       {...register("password", {
                         required: "Password is required",
                         minLength: {
@@ -201,7 +255,7 @@ function Login() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full cursor-pointer rounded-2xl bg-black py-3.5 px-6 font-unbounded font-semibold text-white shadow-lg transition-all duration-300 hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70"
+                className="w-full cursor-pointer rounded-2xl bg-black px-6 py-3.5 font-unbounded font-semibold text-white shadow-lg transition-all duration-300 hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70"
               >
                 {isSubmitting ? "Logging in..." : "Log in"}
               </button>
@@ -221,10 +275,20 @@ function Login() {
 
               <button
                 type="button"
-                className="flex w-full cursor-pointer items-center justify-center gap-3 rounded-2xl border border-gray-200 bg-white py-3.5 px-6 font-unbounded text-gray-700 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
+                disabled={loading}
+                className="flex w-full items-center justify-center gap-3 rounded-2xl border border-gray-200 bg-white px-6 py-3.5 font-unbounded text-gray-700 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-70"
               >
-                <FaGoogle className="h-5 w-5 text-rose-500" />
-                Sign in with Google
+                {loading ? (
+                  <>
+                    <Loader2 className="h-5 w-5 animate-spin" />
+                    <span>Signing in...</span>
+                  </>
+                ) : (
+                  <>
+                    <FaGoogle className="h-5 w-5 text-rose-500" />
+                    <span>Sign in with Google</span>
+                  </>
+                )}
               </button>
             </div>
           </div>
