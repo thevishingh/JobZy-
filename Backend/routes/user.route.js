@@ -8,9 +8,10 @@ import {
   logoutUser,
 } from "../controllers/user.controllers.js";
 import isAuthenticated from "../middlewares/isAuthenticated.js";
+import { singleUpload } from "../middlewares/multer.js";
 
 // Register a new user
-router.route("/register").post(registerUser);
+router.route("/register").post(singleUpload, registerUser);
 
 // Login user
 router.route("/login").post(loginUser);
@@ -19,7 +20,7 @@ router.route("/login").post(loginUser);
 router.route("/profile/update").put(isAuthenticated, updateUserProfile);
 
 // Logout user
-router.route("/logout").get(logoutUser)
+router.route("/logout").get(logoutUser);
 
 // export default router;
 export default router;
