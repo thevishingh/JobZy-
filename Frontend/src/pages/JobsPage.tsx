@@ -1,6 +1,37 @@
 import FilterCards from "@/components/shared/FilterCards"
 import SingleJobs from "@/components/shared/singleJobs"
 import { ArrowDownRight } from "lucide-react"
+import { BriefcaseBusiness, SearchCheck, Zap } from "lucide-react"
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
+
+// Faq's data
+const faqs = [
+  {
+    question: "How do I create a Jobzy account?",
+    answer:
+      "Simply click on the Sign Up button, enter your details, and verify your email. Once registered, you can start exploring jobs, saving opportunities, and applying instantly.",
+  },
+  {
+    question: "Are job listings on Jobzy verified?",
+    answer:
+      "Yes, Jobzy focuses on trusted job postings from verified companies, so candidates can apply with confidence.",
+  },
+  {
+    question: "How can I reset my password?",
+    answer:
+      "Click on Forgot Password on the login page, enter your registered email, and follow the instructions to securely reset your password.",
+  },
+  {
+    question: "Is Jobzy free for job seekers?",
+    answer:
+      "Yes, Jobzy is free for job seekers. You can search, filter, save, and apply for jobs without any charges.",
+  },
+]
 
 const jobsArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
 
@@ -299,6 +330,206 @@ export default function Jobs() {
           </div>
         </div>
       </div>
+      {/* why choose us */}
+      <section className="bg-top py-20 md:py-32">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <p className="mb-4 font-mont text-sm font-semibold tracking-wide text-red-500 uppercase lg:text-base">
+            Our Values
+          </p>
+
+          <h2 className="font-unbounded text-3xl font-extrabold text-zinc-900 lg:text-4xl">
+            Why Choose Jobzy?
+          </h2>
+
+          <div className="mt-14 grid gap-6 lg:mt-20 lg:grid-cols-3">
+            <div className="rounded-2xl bg-zinc-100 p-6 transition hover:-translate-y-1 hover:shadow-lg">
+              <span className="mb-8 flex size-12 items-center justify-center rounded-full bg-white text-red-500">
+                <SearchCheck className="size-6" />
+              </span>
+
+              <h3 className="mb-2 font-unbounded text-xl font-semibold text-zinc-900">
+                Smart Job Matching
+              </h3>
+
+              <p className="font-mont leading-7 text-zinc-600">
+                Discover opportunities that match your skills, experience, and
+                career goals without wasting time on irrelevant listings.
+              </p>
+            </div>
+
+            <div className="rounded-2xl bg-zinc-100 p-6 transition hover:-translate-y-1 hover:shadow-lg">
+              <span className="mb-8 flex size-12 items-center justify-center rounded-full bg-white text-orange-500">
+                <BriefcaseBusiness className="size-6" />
+              </span>
+
+              <h3 className="mb-2 font-unbounded text-xl font-semibold text-zinc-900">
+                Verified Companies
+              </h3>
+
+              <p className="font-mont leading-7 text-zinc-600">
+                Apply confidently to trusted companies with clear job details,
+                transparent roles, and a smoother hiring experience.
+              </p>
+            </div>
+
+            <div className="rounded-2xl bg-zinc-100 p-6 transition hover:-translate-y-1 hover:shadow-lg">
+              <span className="mb-8 flex size-12 items-center justify-center rounded-full bg-white text-yellow-500">
+                <Zap className="size-6" />
+              </span>
+
+              <h3 className="mb-2 font-unbounded text-xl font-semibold text-zinc-900">
+                Faster Applications
+              </h3>
+
+              <p className="font-mont leading-7 text-zinc-600">
+                Save time with a clean, simple job search flow designed to help
+                candidates apply faster and move forward with confidence.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* faq's */}
+      <section className="bg-bottom py-2">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto flex max-w-full flex-col items-center justify-center gap-x-16 gap-y-8 lg:flex-row lg:justify-between xl:gap-28">
+            <div className="w-full lg:w-1/2">
+              <img
+                src="https://pagedone.io/asset/uploads/1696230182.png"
+                alt="Jobzy FAQ support"
+                className="w-full rounded-2xl object-cover shadow-lg"
+              />
+            </div>
+
+            <div className="w-full lg:w-1/2">
+              <div className="lg:max-w-xl">
+                <div className="mb-8 lg:mb-12">
+                  <h6 className="mb-2 text-center font-mont text-lg font-medium text-red-500 lg:text-left">
+                    Support
+                  </h6>
+
+                  <h2 className="text-center font-unbounded text-3xl leading-tight font-extrabold text-gray-900 sm:text-4xl lg:text-left">
+                    Frequently Asked Questions
+                  </h2>
+
+                  <p className="mt-4 text-center font-mont text-gray-500 lg:text-left">
+                    Everything you need to know before starting your job search
+                    with Jobzy.
+                  </p>
+                </div>
+
+                <Accordion type="single" collapsible defaultValue="item-0">
+                  {faqs.map((faq, index) => (
+                    <AccordionItem key={index} value={`item-${index}`}>
+                      <AccordionTrigger className="cursor-pointer text-left font-mont text-lg font-medium text-gray-700 hover:text-red-500">
+                        {faq.question}
+                      </AccordionTrigger>
+
+                      <AccordionContent className="font-mont text-base leading-7 text-gray-500">
+                        {faq.answer}
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* tems */}
+      <section className="bg-top py-20 md:py-24">
+        <div className="mx-auto max-w-[85rem] px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col items-center justify-between lg:flex-row">
+            {/* Left Content */}
+            <div className="w-full lg:w-1/2">
+              <h2 className="text-center font-unbounded text-3xl leading-tight font-extrabold text-gray-900 sm:text-4xl lg:text-left lg:text-5xl">
+                Empowering careers that reach new heights
+              </h2>
+
+              <p className="mt-4 text-center font-mont text-base text-gray-600 lg:text-left lg:text-lg">
+                Thousands of professionals have transformed their careers with
+                Jobzy landing roles at top companies and growing into impactful
+                positions.
+              </p>
+
+              <button className="mx-auto mt-8 block w-70 rounded-full bg-black px-8 py-3 text-center font-mont text-base font-semibold text-white transition hover:bg-red-600 lg:mx-0">
+                Explore Opportunities
+              </button>
+            </div>
+
+            {/* Right Images */}
+            <div className="mt-12 w-full max-w-2xl lg:mt-0 lg:w-1/2">
+              <div className="grid grid-cols-1 gap-6 min-[450px]:grid-cols-2 md:grid-cols-3">
+                <img
+                  src="https://pagedone.io/asset/uploads/1696238644.png"
+                  className="mx-auto h-56 w-44 rounded-2xl object-cover md:mt-20"
+                />
+
+                <img
+                  src="https://pagedone.io/asset/uploads/1696238665.png"
+                  className="mx-auto h-56 w-44 rounded-2xl object-cover"
+                />
+
+                <img
+                  src="https://pagedone.io/asset/uploads/1696238684.png"
+                  className="mx-auto h-56 w-44 rounded-2xl object-cover md:mt-20"
+                />
+
+                <img
+                  src="https://pagedone.io/asset/uploads/1696238702.png"
+                  className="mx-auto h-56 w-44 rounded-2xl object-cover"
+                />
+
+                <img
+                  src="https://pagedone.io/asset/uploads/1696238720.png"
+                  className="mx-auto h-56 w-44 rounded-2xl object-cover md:-mt-20"
+                />
+
+                <img
+                  src="https://pagedone.io/asset/uploads/1696238737.png"
+                  className="mx-auto h-56 w-44 rounded-2xl object-cover"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* stats */}
+      <section className="bg-bottom py-16 md:py-20">
+        <div className="mx-auto max-w-[85rem] px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col gap-10 lg:flex-row lg:justify-between xl:gap-14">
+            {/* Stat 1 */}
+            <div className="w-full lg:w-1/3">
+              <div className="mb-4 text-center font-unbounded text-4xl font-extrabold text-red-500 sm:text-5xl">
+                1M+
+              </div>
+              <p className="text-center font-mont text-base leading-7 text-gray-600 sm:text-lg">
+                Job seekers actively exploring opportunities on Jobzy
+              </p>
+            </div>
+
+            {/* Stat 2 */}
+            <div className="w-full lg:w-1/3">
+              <div className="mb-4 text-center font-unbounded text-4xl font-extrabold text-orange-500 sm:text-5xl">
+                50K+
+              </div>
+              <p className="text-center font-mont text-base leading-7 text-gray-600 sm:text-lg">
+                Verified job listings from trusted companies across industries
+              </p>
+            </div>
+
+            {/* Stat 3 */}
+            <div className="w-full lg:w-1/3">
+              <div className="mb-4 text-center font-unbounded text-4xl font-extrabold text-yellow-500 sm:text-5xl">
+                95%
+              </div>
+              <p className="text-center font-mont text-base leading-7 text-gray-600 sm:text-lg">
+                User satisfaction rate from candidates finding relevant jobs
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
     </>
   )
 }
