@@ -1,4 +1,10 @@
 import TextHoverEffectDemo from "@/components/text-hover-effect-demo"
+import {
+  FaXTwitter,
+  FaInstagram,
+  FaLinkedinIn,
+  FaYoutube,
+} from "react-icons/fa6"
 import { Link } from "react-router-dom"
 
 export default function Footer() {
@@ -118,9 +124,7 @@ export default function Footer() {
 
           {/* COMPANY */}
           <div>
-            <h4 className="mb-5 text-lg font-medium text-gray-900">
-              Company
-            </h4>
+            <h4 className="mb-5 text-lg font-medium text-gray-900">Company</h4>
 
             <ul className="space-y-4 text-sm">
               <li>
@@ -217,30 +221,30 @@ export default function Footer() {
             <div className="flex space-x-4">
               <Link
                 to="/x"
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-700 text-white transition hover:bg-red-600"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-black text-white transition hover:scale-110"
               >
-                X
+                <FaXTwitter />
               </Link>
 
               <Link
                 to="/instagram"
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-700 text-white transition hover:bg-red-600"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-pink-500 text-white transition hover:scale-110"
               >
-                IG
+                <FaInstagram />
               </Link>
 
               <Link
                 to="/linkedin"
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-700 text-white transition hover:bg-red-600"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-blue-600 text-white transition hover:scale-110"
               >
-                IN
+                <FaLinkedinIn />
               </Link>
 
               <Link
                 to="/youtube"
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-700 text-white transition hover:bg-red-600"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-red-600 text-white transition hover:scale-110"
               >
-                YT
+                <FaYoutube />
               </Link>
             </div>
           </div>
