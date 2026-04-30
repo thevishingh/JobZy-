@@ -1,4 +1,5 @@
 import CanvasTextDemo from "@/components/canvas-text-demo"
+import CoverDemo from "@/components/cover-demo"
 import BrandLogo from "@/components/shared/BrandLogo"
 import CallToAction from "@/components/shared/CallToAction"
 import LatestJobs from "@/components/shared/LatestJobs"
@@ -104,8 +105,7 @@ const Hero: React.FC = () => {
           skilled talent
         </Highlighter>
       </h1>
-      {/* nimated chategories */}
-
+      {/* Animated chategories */}
       <section className="overflow-hidden py-10">
         <div className="relative w-full overflow-hidden">
           <div className="animate-marqueeee flex w-max gap-4">
@@ -130,6 +130,7 @@ const Hero: React.FC = () => {
       <section>
         <BrandLogo />
       </section>
+      {/* Testimonials */}
       <section className="bg-linear-to-t from-red-200 to-white py-12">
         <div className="mx-auto pb-12 max-w-7xl">
           <div className="mb-4 inline-flex max-w-full items-center rounded-full border px-2.5 py-0.5 text-sm font-normal text-foreground transition-colors focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-none lg:mb-10 lg:py-2 lg:pr-5 lg:pl-2">
@@ -155,9 +156,11 @@ const Hero: React.FC = () => {
         </div>
         <MarqueeDemo />
       </section>
+      {/* Why us */}
       <section className="bg-linear-to-t from-white to-red-200 py-12">
         <div className="mx-auto max-w-7xl">
           <div className="flex flex-col gap-10">
+            <CoverDemo/>
             {/* Top Highlight */}
             <div className="grid grid-cols-1 items-stretch gap-4 lg:grid-cols-3">
               <img
