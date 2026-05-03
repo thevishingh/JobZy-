@@ -1,4 +1,4 @@
-import React from "react"
+
 import { ArrowDownRight } from "lucide-react"
 
 type Logo = {
@@ -79,11 +79,11 @@ function BrandLogo() {
 
           <div>
             <h1 className="mb-6 font-unbounded text-4xl font-bold sm:text-5xl lg:text-7xl">
-              <span className="bg-gradient-to-r from-red-500 via-orange-500 to-pink-500 bg-clip-text text-transparent">
+              <span className="bg-linear-to-r from-red-500 via-orange-500 to-pink-500 bg-clip-text text-transparent">
                 Hire Smarter.
               </span>
               <br />
-              <span className="bg-gradient-to-r from-gray-900 via-gray-700 to-gray-500 bg-clip-text text-transparent">
+              <span className="bg-linear-to-r from-gray-900 via-gray-700 to-gray-500 bg-clip-text text-transparent">
                 Grow Faster with JobZy
               </span>
             </h1>
