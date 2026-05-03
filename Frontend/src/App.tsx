@@ -9,6 +9,8 @@ import Login from "./pages/Login"
 import Register from "./pages/Register"
 import Footer from "./pages/Footer"
 import BrowseJobs from "./components/shared/BrowseJobs"
+import Profile from "./components/shared/Profile"
+import JobsDetails from "./components/shared/JobsDetails"
 export function App() {
   const { pathname } = useLocation()
 
@@ -23,9 +25,11 @@ export function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/jobs" element={<Jobs />} />
-          <Route path="/browse-jobs" element={<BrowseJobs/>}/>
+          <Route path="/job-details/:id" element={<JobsDetails />} />
+          <Route path="/browse-jobs" element={<BrowseJobs />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Register />} />
         </Routes>

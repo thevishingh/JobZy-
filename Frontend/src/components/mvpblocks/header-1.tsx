@@ -29,7 +29,7 @@ const navItems: NavItem[] = [
   // { name: "Jobs", to: "/jobs" },
   {
     name: "Jobs",
-    to: "/products",
+    to: "/jobs",
     hasDropdown: true,
     dropdownItems: [
       {

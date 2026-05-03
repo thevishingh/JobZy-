@@ -1,10 +1,12 @@
 import { Bookmark } from "lucide-react"
-import React from "react"
 import { Button } from "../ui/button"
 import { Avatar, AvatarImage } from "../ui/avatar"
 import { Badge } from "../ui/badge"
+import { useNavigate } from "react-router-dom"
 
 export default function singleJobs() {
+  const navigate = useNavigate();
+  const jobId = "123"; // Replace with actual job ID
   return (
     <>
       <section className="w-full max-w-sm rounded-2xl border border-gray-200 bg-[#f4ecec] p-5 shadow-2xl transition hover:shadow-md">
@@ -56,7 +58,9 @@ export default function singleJobs() {
           </Badge>
         </div>
         <div className="mt-4 flex font-mont items-center gap-4">
-          <Button className="cursor-pointer">Details</Button>
+          <Button onClick={() => navigate(`/job-details/${jobId}`)} className="cursor-pointer">
+            Details
+          </Button>
           <Button className="cursor-pointer">Save for later</Button>
         </div>
       </section>
