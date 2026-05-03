@@ -17,7 +17,7 @@ router.route("/register").post(singleUpload, registerUser);
 router.route("/login").post(loginUser);
 
 // Update user profile
-router.route("/profile/update").put(isAuthenticated, updateUserProfile);
+router.route("/profile/update").post(singleUpload,isAuthenticated, updateUserProfile);
 
 // Logout user
 router.route("/logout").get(logoutUser);
