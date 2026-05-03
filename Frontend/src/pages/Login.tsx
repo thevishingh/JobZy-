@@ -1,4 +1,4 @@
-import { setLoading } from "@/redux/authSlice"
+import { setAuthUser, setLoading } from "@/redux/authSlice"
 import { USER_API_END_POINT } from "@/utils/constant"
 import axios from "axios"
 import { useForm } from "react-hook-form"
@@ -72,6 +72,7 @@ function Login() {
       })
 
       if (response.data.success) {
+        dispatch(setAuthUser(response.data.user))
         toast.success(response.data.message)
         const userName = response.data.user?.fullName || "User"
         speakWelcome(userName)

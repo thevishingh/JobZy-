@@ -13,6 +13,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { useTheme } from "next-themes"
+import { useSelector } from "react-redux"
+import type { RootState } from "@/redux/store"
 
 interface NavItem {
   name: string
@@ -24,25 +26,24 @@ interface NavItem {
 const navItems: NavItem[] = [
   { name: "Home", to: "/" },
   { name: "About", to: "/about" },
-  { name: "Jobs", to: "/jobs" },
-  // {
-  //   name: 'Products',
-  //   to: '/products',
-  //   hasDropdown: true,
-  //   dropdownItems: [
-  //     {
-  //       name: 'Analytics',
-  //       to: '/analytics',
-  //       description: 'Track your metrics',
-  //     },
-  //     {
-  //       name: 'Dashboard',
-  //       to: '/dashboard',
-  //       description: 'Manage your data',
-  //     },
-  //     { name: 'Reports', to: '/reports', description: 'Generate insights' },
-  //   ],
-  // },
+  // { name: "Jobs", to: "/jobs" },
+  {
+    name: "Jobs",
+    to: "/products",
+    hasDropdown: true,
+    dropdownItems: [
+      {
+        name: "Jobs",
+        to: "/jobs",
+        description: "Latest opportunities",
+      },
+      {
+        name: "Search Jobs",
+        to: "/browse-jobs",
+        description: "Find your dream job",
+      },
+    ],
+  },
   { name: "Pricing", to: "/pricing" },
   { name: "Contact", to: "/contact" },
 ]
@@ -53,8 +54,8 @@ export default function Header1() {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
   const { theme } = useTheme()
 
-  // Activity
-  const user: boolean = false
+  // User
+  const { user } = useSelector((store: RootState) => store.auth)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -92,17 +93,17 @@ export default function Header1() {
       initial="initial"
       animate={isScrolled ? "scrolled" : "animate"}
       transition={{ duration: 0.3, ease: "easeInOut" }}
-  style={{
-  backdropFilter: isScrolled ? "blur(20px)" : "none",
-  backgroundColor: isScrolled
-    ? theme === "dark"
-      ? "rgba(0, 0, 0, 0.8)"
-      : "rgba(255, 240, 245, 0.9)"
-    : "rgba(255, 240, 245, 1)",
-  boxShadow: isScrolled
-    ? "0 8px 32px rgba(0, 0, 0, 0.1)"
-    : "0 2px 10px rgba(0, 0, 0, 0.05)",
-}}
+      style={{
+        backdropFilter: isScrolled ? "blur(20px)" : "none",
+        backgroundColor: isScrolled
+          ? theme === "dark"
+            ? "rgba(0, 0, 0, 0.8)"
+            : "rgba(255, 240, 245, 0.9)"
+          : "rgba(255, 240, 245, 1)",
+        boxShadow: isScrolled
+          ? "0 8px 32px rgba(0, 0, 0, 0.1)"
+          : "0 2px 10px rgba(0, 0, 0, 0.05)",
+      }}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between lg:h-20">
@@ -184,6 +185,7 @@ export default function Header1() {
               >
                 Sign In
               </Link>
+
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -199,14 +201,16 @@ export default function Header1() {
             </div>
           ) : (
             <Popover>
-              <PopoverTrigger>
+              <PopoverTrigger asChild>
                 <button className="relative rounded-full ring-offset-background transition outline-none hover:scale-105 focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2">
-                  <Avatar className="h-10 cursor-pointer w-10 border border-gray-200 shadow-sm">
+                  <Avatar className="h-10 w-10 cursor-pointer border border-gray-200 shadow-sm">
                     <AvatarImage
-                      src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80"
-                      alt="User avatar"
+                      src={user?.profile?.profilePhoto || ""}
+                      alt={user?.fullName || "User avatar"}
                     />
-                    <AvatarFallback>TS</AvatarFallback>
+                    <AvatarFallback>
+                      {user?.fullName?.charAt(0)?.toUpperCase() || "U"}
+                    </AvatarFallback>
                   </Avatar>
 
                   <Badge className="absolute -right-1 -bottom-1 h-3 w-3 rounded-full bg-green-500 p-0" />
@@ -221,25 +225,29 @@ export default function Header1() {
                   <div className="flex items-center gap-3">
                     <Avatar className="h-12 w-12 border border-gray-200">
                       <AvatarImage
-                        src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80"
-                        alt="User avatar"
+                        src={user?.profile?.profilePhoto || ""}
+                        alt={user?.fullName || "User avatar"}
                       />
-                      <AvatarFallback>TS</AvatarFallback>
+                      <AvatarFallback>
+                        {user?.fullName?.charAt(0)?.toUpperCase() || "U"}
+                      </AvatarFallback>
                     </Avatar>
 
                     <div className="min-w-0">
                       <h4 className="truncate font-unbounded text-sm font-semibold text-gray-900">
-                        Thevishingh
+                        {user?.fullName}
                       </h4>
+
                       <p className="truncate font-mont text-xs text-gray-500">
-                        Frontend Developer
+                        {user?.email}
                       </p>
                     </div>
                   </div>
 
                   <p className="mt-3 font-mont text-sm leading-5 text-gray-600">
-                    Building JobZy — a modern job portal for students and
-                    recruiters.
+                    {user?.role === "recruiter"
+                      ? "Manage jobs, review applicants, and hire the right talent."
+                      : "Explore jobs, build your profile, and apply with confidence."}
                   </p>
                 </div>
 

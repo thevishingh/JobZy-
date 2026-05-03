@@ -7,7 +7,7 @@ import { Badge } from "../ui/badge"
 export default function singleJobs() {
   return (
     <>
-      <section className="w-full max-w-sm rounded-2xl border border-gray-200 bg-[#E5EEE4] p-5 shadow-sm transition hover:shadow-md">
+      <section className="w-full max-w-sm rounded-2xl border border-gray-200 bg-[#f4ecec] p-5 shadow-2xl transition hover:shadow-md">
         {/* Top Row */}
         <div className="flex items-center font-mont justify-between text-sm text-gray-500">
           <p>2 days ago</p>

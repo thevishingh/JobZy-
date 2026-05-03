@@ -8,6 +8,7 @@ import Contact from "./pages/Contact"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
 import Footer from "./pages/Footer"
+import BrowseJobs from "./components/shared/BrowseJobs"
 export function App() {
   const { pathname } = useLocation()
 
@@ -22,6 +23,7 @@ export function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/jobs" element={<Jobs />} />
+          <Route path="/browse-jobs" element={<BrowseJobs/>}/>
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
