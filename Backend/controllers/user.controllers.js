@@ -1,6 +1,8 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import cloudinary from "../utils/cloudinary.js";
+import uploadFromBuffer from "../utils/streamifier.js";
 
 // Register a new user
 export const registerUser = async (req, res) => {
@@ -214,12 +216,12 @@ export const logoutUser = async (req, res) => {
 //   }
 // };
 
+// update frofile
 export const updateUserProfile = async (req, res) => {
   try {
     const {
       fullName,
       phoneNumber,
-      profilePicture,
       bio,
       skills,
       email,
@@ -235,7 +237,6 @@ export const updateUserProfile = async (req, res) => {
     if (
       !fullName &&
       !phoneNumber &&
-      !profilePicture &&
       !bio &&
       !skills &&
       !email &&
@@ -263,7 +264,10 @@ export const updateUserProfile = async (req, res) => {
     }
 
     const skillArray = skills
-      ? skills.split(",").map((skill) => skill.trim()).filter(Boolean)
+      ? skills
+        .split(",")
+        .map((skill) => skill.trim())
+        .filter(Boolean)
       : undefined;
 
     if (fullName) user.fullName = fullName;
@@ -282,6 +286,12 @@ export const updateUserProfile = async (req, res) => {
           endDate: endDate || null,
         },
       ];
+    }
+
+    if (file) {
+      const cloudResponse = await uploadFromBuffer(file.buffer);
+      user.profile.resume = cloudResponse.secure_url;
+      user.profile.resumeFileName = file.originalname;
     }
 
     await user.save();
