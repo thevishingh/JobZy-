@@ -1,4 +1,3 @@
-
 import { ArrowDownRight } from "lucide-react"
 
 type Logo = {
@@ -69,7 +68,7 @@ const logos: Logo[] = [
 
 function BrandLogo() {
   return (
-    <section className="relative overflow-hidden bg-linear-to-t from-white to-red-200 py-24">
+    <section className="relative overflow-hidden py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="relative z-10 mx-auto flex max-w-7xl flex-col items-center gap-6 text-center">
           <div className="inline-flex items-center rounded-full border border-gray-200 px-3 py-1 text-xs font-semibold text-gray-700">

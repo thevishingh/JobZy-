@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Menu, X, ChevronDown, ArrowRight, Sparkles } from "lucide-react"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import {
   Popover,
   PopoverContent,
@@ -53,9 +53,13 @@ export default function Header1() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
   const { theme } = useTheme()
+  const location = useLocation()
 
   // User
   const { user } = useSelector((store: RootState) => store.auth)
+
+  // pages change effect
+  const isSignupPage = location.pathname === "/signup"
 
   useEffect(() => {
     const handleScroll = () => {
@@ -97,12 +101,10 @@ export default function Header1() {
         backdropFilter: isScrolled ? "blur(20px)" : "none",
         backgroundColor: isScrolled
           ? theme === "dark"
-            ? "rgba(0, 0, 0, 0.8)"
-            : "rgba(255, 240, 245, 0.9)"
-          : "rgba(255, 240, 245, 1)",
-        boxShadow: isScrolled
-          ? "0 8px 32px rgba(0, 0, 0, 0.1)"
-          : "0 2px 10px rgba(0, 0, 0, 0.05)",
+            ? "rgba(0, 0, 0, 0.6)"
+            : "rgba(255, 255, 255, 0.6)"
+          : "transparent",
+        boxShadow: isScrolled ? "0 8px 24px rgba(0,0,0,0.08)" : "none",
       }}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -113,11 +115,11 @@ export default function Header1() {
             transition={{ type: "spring", stiffness: 400, damping: 10 }}
           >
             <Link to="/" className="flex items-center space-x-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-linear-to-br from-rose-500 to-rose-700">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-linear-to-br from-rose-500 to-black">
                 <Sparkles className="h-5 w-5 text-white" />
               </div>
-              <span className="bg-linear-to-r from-rose-500 to-rose-700 bg-clip-text text-xl font-bold text-transparent">
-                Acme Inc.
+              <span className="bg-linear-to-r from-red-500 to-white bg-clip-text font-unbounded text-xl font-bold tracking-wider text-transparent">
+                Jobzy
               </span>
             </Link>
           </motion.div>
@@ -134,7 +136,9 @@ export default function Header1() {
               >
                 <Link
                   to={item.to}
-                  className="flex items-center space-x-1 font-medium text-foreground transition-colors duration-200 hover:text-rose-500"
+                  className={`flex items-center space-x-1 font-medium transition-colors duration-200 hover:text-rose-500 ${
+                    isSignupPage ? "text-white" : "text-black"
+                  }`}
                 >
                   <span>{item.name}</span>
                   {item.hasDropdown && (
@@ -181,7 +185,9 @@ export default function Header1() {
             <div className="hidden items-center space-x-4 lg:flex">
               <Link
                 to="/login"
-                className="font-medium text-foreground transition-colors duration-200 hover:text-rose-500"
+                className={`font-medium transition-colors duration-200 hover:text-rose-500 ${
+                  isSignupPage ? "text-white" : "text-black"
+                }`}
               >
                 Sign In
               </Link>
@@ -278,7 +284,9 @@ export default function Header1() {
           )}
 
           <motion.button
-            className="rounded-lg p-2 transition-colors duration-200 hover:bg-muted lg:hidden"
+            className={`rounded-lg p-2 transition-colors duration-200 hover:bg-muted lg:hidden ${
+              isSignupPage ? "text-white" : "text-black"
+            }`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             whileTap={{ scale: 0.95 }}
           >

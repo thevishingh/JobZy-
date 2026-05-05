@@ -9,24 +9,24 @@ import { Link } from "react-router-dom"
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-gradient-to-t from-white to-red-200">
+    <footer className="w-full border-t border-black">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* TOP GRID */}
         <div className="grid grid-cols-2 gap-3 gap-y-8 py-10 sm:grid-cols-4 lg:grid-cols-6">
           {/* LOGO + ABOUT */}
           <div className="col-span-full mb-10 lg:col-span-2 lg:mb-0">
-            <h2 className="text-2xl font-bold text-gray-900">
+            <h2 className="text-3xl font-unbounded tracking-tighter font-bold text-gray-900">
               Job<span className="text-red-500">Zy</span>
             </h2>
 
-            <p className="py-6 text-sm text-gray-500 lg:max-w-xs">
+            <p className="py-6 text-sm font-mont text-gray-800 lg:max-w-xs">
               JobZy is your all-in-one job portal to discover opportunities,
               connect with recruiters, and grow your career faster.
             </p>
 
             <Link
               to="/contact"
-              className="inline-block rounded-full bg-red-600 px-5 py-2 text-xs text-white transition hover:bg-red-700"
+              className="inline-block rounded-full bg-black font-mont  px-5 py-2 text-xs text-white transition hover:bg-red-700"
             >
               Contact Us
             </Link>
@@ -34,11 +34,11 @@ export default function Footer() {
 
           {/* FOR CANDIDATES */}
           <div>
-            <h4 className="mb-5 text-lg font-medium text-gray-900">
+            <h4 className="mb-5 text-base font-mont uppercase font-extrabold underline underline-offset-2 text-gray-900">
               For Candidates
             </h4>
 
-            <ul className="space-y-4 text-sm">
+            <ul className="space-y-4 font-mont text-sm">
               <li>
                 <Link
                   to="/jobs"
@@ -79,11 +79,11 @@ export default function Footer() {
 
           {/* FOR RECRUITERS */}
           <div>
-            <h4 className="mb-5 text-lg font-medium text-gray-900">
+            <h4 className="mb-5 text-base font-mont uppercase font-extrabold underline underline-offset-2 text-gray-900">
               For Recruiters
             </h4>
 
-            <ul className="space-y-4 text-sm">
+            <ul className="space-y-4 font-mont text-sm">
               <li>
                 <Link
                   to="/post-job"
@@ -124,9 +124,9 @@ export default function Footer() {
 
           {/* COMPANY */}
           <div>
-            <h4 className="mb-5 text-lg font-medium text-gray-900">Company</h4>
+            <h4 className="mb-5 text-base font-mont uppercase font-extrabold underline underline-offset-2 text-gray-900">Company</h4>
 
-            <ul className="space-y-4 text-sm">
+            <ul className="space-y-4 font-mont text-sm">
               <li>
                 <Link
                   to="/about"
@@ -167,11 +167,11 @@ export default function Footer() {
 
           {/* RESOURCES */}
           <div>
-            <h4 className="mb-5 text-lg font-medium text-gray-900">
+            <h4 className="mb-5 text-base font-mont uppercase font-extrabold underline underline-offset-2 text-gray-900">
               Resources
             </h4>
 
-            <ul className="space-y-4 text-sm">
+            <ul className="space-y-4 font-mont text-sm">
               <li>
                 <Link
                   to="/help-center"

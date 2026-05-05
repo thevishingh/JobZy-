@@ -30,7 +30,7 @@ export default function Profile() {
 
   return (
     <>
-      <section className="min-h-screen bg-top px-4 py-10 sm:px-6 lg:px-8">
+      <section className="min-h-screen bg-top px-4 py-32 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <Card className="overflow-hidden rounded-3xl border-gray-200 shadow-xl">
             <div className="h-36 bg-linear-to-r from-lime-100 via-rose-100 to-orange-200 sm:h-44" />

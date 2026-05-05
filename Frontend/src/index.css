@@ -12,13 +12,14 @@
 }
 
 /* global.css */
-.bg-top {
-  @apply bg-gradient-to-b from-red-200 to-white;
+/* global.css */
+/* .bg-top {
+  @apply bg-gradient-to-b from-red-200 via-rose-100 to-white;
 }
 
 .bg-bottom {
-  @apply bg-linear-to-t from-red-200 to-white;
-}
+  @apply bg-gradient-to-t from-red-200 via-rose-100 to-white;
+} */
 
 @custom-variant dark (&:is(.dark *));
 
@@ -182,4 +183,12 @@
 
 .animate-marqueeee {
   animation: marqueeee 30s linear infinite;
+}
+
+/* body {
+background-image: radial-gradient(circle, #a89a69, #afab6b, #b2bd6f, #b0cf76, #a8e382);
+} */
+
+body{
+  background-image: radial-gradient(circle, #b3cfa6, #b5cba4, #b6c8a3, #b7c4a2, #b8c1a1, #b6c4a6, #b4c7ac, #b2cab2, #afd3c4, #afdbd6, #b4e2e9, #c0e8f9);
 }

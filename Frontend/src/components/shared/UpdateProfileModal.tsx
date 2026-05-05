@@ -115,6 +115,7 @@ export default function UpdateProfileModal({
       toast.error(error.response?.data?.message || "Failed to update profile")
     }
   }
+  
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="max-h-[90vh] overflow-y-auto rounded-3xl border-gray-200 bg-bottom p-0 sm:max-w-3xl">

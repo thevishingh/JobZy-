@@ -6,7 +6,7 @@ import { FaApple, FaAndroid, FaWindows } from "react-icons/fa"
 
 export default function CallToAction() {
   return (
-    <section className="relative overflow-hidden bg-linear-to-t from-red-200 to-white py-24 sm:py-28 lg:py-12">
+    <section className="relative overflow-hidden py-24 sm:py-28 lg:py-12">
       {/* Gradient Background */}
       {/* <div className="absolute inset-0 z-0 bg-radial from-red-100 via-white to-transparent" /> */}
 
@@ -42,7 +42,7 @@ export default function CallToAction() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <Briefcase className="mx-auto h-14 w-14 text-red-600" />
+          <Briefcase className="mx-auto h-14 w-14 text-black" />
         </motion.div>
 
         {/* Heading */}
@@ -68,7 +68,7 @@ export default function CallToAction() {
 
         {/* Download Buttons */}
         <motion.div
-          className="mt-10 flex flex-nowrap items-center justify-center gap-4 overflow-x-auto pb-2"
+          className="mt-10 flex flex-wrap items-center justify-center gap-3"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.6 }}
@@ -120,31 +120,31 @@ export default function CallToAction() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6, duration: 0.6 }}
         >
-          <div className="rounded-2xl bg-white p-6 shadow-2xl">
-            <h4 className="font-mont text-base font-medium text-indigo-600 capitalize">
+          <div className="rounded-2xl bg-transparent border p-6 shadow-2xl">
+            <h4 className="font-unbounded text-base font-medium text-amber-900 capitalize">
               Verified Job Openings
             </h4>
-            <p className="mt-2 font-mont text-sm font-medium text-red-600">
+            <p className="mt-2 font-mont text-sm font-medium text-black">
               Apply to trusted companies with clear role, salary, and location
               details.
             </p>
           </div>
 
-          <div className="rounded-2xl bg-white p-6 shadow-2xl">
-            <h4 className="font-mont text-base font-medium text-indigo-600 capitalize">
+          <div className="rounded-2xl bg-transparent border p-6 shadow-2xl">
+            <h4 className="font-unbounded text-base font-medium text-amber-900 capitalize">
               Faster Applications
             </h4>
-            <p className="mt-2 font-mont text-sm font-medium text-red-600">
+            <p className="mt-2 font-mont text-sm font-medium text-black">
               Find relevant jobs quickly and apply with a smooth, simple
               experience.
             </p>
           </div>
 
-          <div className="rounded-2xl bg-white p-6 shadow-2xl">
-            <h4 className="font-mont text-base font-medium text-indigo-600 capitalize">
+          <div className="rounded-2xl bg-transparent border p-6 shadow-2xl">
+            <h4 className="font-unbounded text-base font-medium text-amber-900 capitalize">
               Smart Hiring
             </h4>
-            <p className="mt-2 font-mont text-sm font-medium text-red-600">
+            <p className="mt-2 font-mont text-sm font-medium text-black">
               Recruiters can discover skilled candidates and close positions
               faster.
             </p>

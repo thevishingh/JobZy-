@@ -19,11 +19,11 @@ type JobProps = {
 
 export default function LatestJobsCards({ job }: JobProps) {
   return (
-    <Card className="group rounded-3xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+    <Card className="group rounded-3xl border border-gray-200 bg-white/80 shadow-sm backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
       <CardHeader className="space-y-4">
         <div className="flex items-start justify-between gap-4">
           <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-50">
-            <Briefcase className="h-6 w-6 text-red-500" />
+            <Briefcase className="h-6 w-6 bg-linear-to-br from-white/80 to-white/40" />
           </div>
 
           <Button
@@ -66,7 +66,7 @@ export default function LatestJobsCards({ job }: JobProps) {
           </Badge>
         </div>
 
-        <p className="line-clamp-2 font-mont text-sm leading-6 text-gray-600">
+        <p className="line-clamp-1 font-mont text-sm leading-6 text-gray-600">
           {job.description}
         </p>
       </CardContent>

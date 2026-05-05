@@ -3,8 +3,8 @@ import { TextHoverEffect } from "@/components/ui/text-hover-effect";
 
 export default function TextHoverEffectDemo() {
   return (
-    <div className="h-160 font-unbounded flex items-center justify-center">
-      <TextHoverEffect text="Jobzy" />
-    </div>
+  <div className="hidden h-160 items-center justify-center font-unbounded lg:flex">
+  <TextHoverEffect text="Jobzy" />
+</div>
   );
 }
