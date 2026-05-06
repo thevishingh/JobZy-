@@ -9,6 +9,8 @@ export const registerUser = async (req, res) => {
   try {
     const { fullName, email, password, role, phoneNumber } = req.body;
 
+    const file = req.file;
+
     // check if user already exists
     if (!fullName || !email || !password || !role || !phoneNumber) {
       return res.status(400).json({
@@ -26,6 +28,15 @@ export const registerUser = async (req, res) => {
       });
     }
 
+    // upload image to cloudinary
+    let profilePicture = "";
+
+    if (file) {
+      const cloudResponse = await uploadFromBuffer(file.buffer);
+
+      profilePicture = cloudResponse.secure_url;
+    }
+
     // hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -36,6 +47,9 @@ export const registerUser = async (req, res) => {
       password: hashedPassword,
       phoneNumber,
       role,
+      profile: {
+        profilePicture,
+      },
     });
 
     res.status(201).json({
@@ -265,9 +279,9 @@ export const updateUserProfile = async (req, res) => {
 
     const skillArray = skills
       ? skills
-        .split(",")
-        .map((skill) => skill.trim())
-        .filter(Boolean)
+          .split(",")
+          .map((skill) => skill.trim())
+          .filter(Boolean)
       : undefined;
 
     if (fullName) user.fullName = fullName;
