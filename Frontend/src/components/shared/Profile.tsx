@@ -120,7 +120,7 @@ export default function Profile() {
                     <a
                       href={user.profile.resume}
                       target="_blank"
-                      rel="noreferrer"
+                        rel="noopener noreferrer"
                       className="flex items-center justify-between rounded-2xl border border-gray-200 bg-gray-50 p-4 transition hover:border-red-300 hover:bg-red-50"
                     >
                       <div className="flex items-center gap-3">

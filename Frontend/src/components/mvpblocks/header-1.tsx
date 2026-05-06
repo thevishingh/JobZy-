@@ -2,19 +2,24 @@
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Menu, X, ChevronDown, ArrowRight, Sparkles } from "lucide-react"
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { LogOut, User } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { useTheme } from "next-themes"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import type { RootState } from "@/redux/store"
+import { toast } from "sonner"
+import axios, { AxiosError } from "axios"
+import { USER_API_END_POINT } from "@/utils/constant"
+import { setAuthUser } from "@/redux/authSlice"
 
 interface NavItem {
   name: string
@@ -90,6 +95,36 @@ export default function Header1() {
     visible: { opacity: 1, y: 0, scale: 1 },
   }
 
+  // distpatch
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  // logout handler
+  const handleLogout = async () => {
+    try {
+      const response = await axios.get(`${USER_API_END_POINT}/logout`, {
+        withCredentials: true,
+      })
+
+      if (response.status === 200 || response.data.success) {
+        toast.success("Logged out successfully!")
+
+        dispatch(setAuthUser(null))
+
+        navigate("/login")
+      }
+    } catch (error) {
+      const err = error as AxiosError<{ message: string }>
+
+      console.log(err)
+
+      toast.error(
+        err.response?.data?.message ||
+          err.message ||
+          "Logout failed. Please try again."
+      )
+    }
+  }
   return (
     <motion.header
       className="fixed top-0 right-0 left-0 z-50 transition-all duration-300"
@@ -206,96 +241,165 @@ export default function Header1() {
               </motion.div>
             </div>
           ) : (
-            <Popover>
-              <PopoverTrigger asChild>
-                <button className="relative rounded-full ring-offset-background transition outline-none hover:scale-105 focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2">
-                  <Avatar className="h-10 w-10 cursor-pointer border border-gray-200 shadow-sm">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="group relative rounded-full ring-offset-background transition-all duration-200 outline-none hover:scale-105 focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2">
+                  <Avatar className="h-10 w-10 cursor-pointer border border-gray-200 shadow-sm transition-all duration-200 group-hover:border-gray-300 group-hover:shadow-md">
                     <AvatarImage
-                      src={user?.profile?.profilePhoto || ""}
+                      src={user?.profile?.profilePicture || ""}
                       alt={user?.fullName || "User avatar"}
                     />
-                    <AvatarFallback>
+                    <AvatarFallback className="bg-gradient-to-br from-red-100 to-red-50 text-sm font-semibold text-red-600">
                       {user?.fullName?.charAt(0)?.toUpperCase() || "U"}
                     </AvatarFallback>
                   </Avatar>
 
-                  <Badge className="absolute -right-1 -bottom-1 h-3 w-3 rounded-full bg-green-500 p-0" />
+                  <Badge className="absolute -right-1 -bottom-1 h-3 w-3 rounded-full border-2 border-white bg-green-500 p-0 shadow-sm" />
                 </button>
-              </PopoverTrigger>
+              </DropdownMenuTrigger>
 
-              <PopoverContent
+              <DropdownMenuContent
                 align="end"
-                className="w-72 rounded-2xl border border-gray-200 bg-white p-0 shadow-xl"
+                className="w-80 overflow-hidden rounded-2xl border border-gray-200 bg-white p-0 shadow-2xl"
               >
-                <div className="p-4">
-                  <div className="flex items-center gap-3">
-                    <Avatar className="h-12 w-12 border border-gray-200">
+                {/* Section 1: User Header */}
+                <div className="bg-gradient-to-br from-red-50 via-white to-white px-4 py-4">
+                  <div className="flex items-start gap-3">
+                    <Avatar className="h-14 w-14 shrink-0 border border-gray-200 shadow-sm">
                       <AvatarImage
-                        src={user?.profile?.profilePhoto || ""}
+                        src={user?.profile?.profilePicture || ""}
                         alt={user?.fullName || "User avatar"}
                       />
-                      <AvatarFallback>
+                      <AvatarFallback className="bg-gradient-to-br from-red-100 to-red-50 text-base font-semibold text-red-600">
                         {user?.fullName?.charAt(0)?.toUpperCase() || "U"}
                       </AvatarFallback>
                     </Avatar>
 
-                    <div className="min-w-0">
+                    <div className="min-w-0 flex-1">
                       <h4 className="truncate font-unbounded text-sm font-semibold text-gray-900">
                         {user?.fullName}
                       </h4>
 
-                      <p className="truncate font-mont text-xs text-gray-500">
+                      <p className="mt-1 truncate font-mont text-xs text-gray-500">
                         {user?.email}
                       </p>
+
+                      <div className="mt-2 inline-flex items-center rounded-full border border-red-100 bg-red-50 px-2.5 py-1 font-mont text-[11px] font-medium tracking-wide text-red-600 capitalize">
+                        {user?.role || "student"}
+                      </div>
                     </div>
                   </div>
+                </div>
 
-                  <p className="mt-3 font-mont text-sm leading-5 text-gray-600">
-                    {user?.role === "recruiter"
-                      ? "Manage jobs, review applicants, and hire the right talent."
-                      : "Explore jobs, build your profile, and apply with confidence."}
+                <Separator />
+
+                {/* Section 2: Bio */}
+                <div className="px-4 py-3">
+                  <p className="mb-1 font-mont text-[11px] font-semibold tracking-[0.12em] text-gray-400 uppercase">
+                    Bio
+                  </p>
+
+                  <p className="font-mont text-sm leading-5 text-gray-600">
+                    {user?.profile?.bio?.trim()
+                      ? user.profile.bio
+                      : user?.role === "recruiter"
+                        ? "Manage jobs, review applicants, and hire the right talent."
+                        : "Explore jobs, build your profile, and apply with confidence."}
                   </p>
                 </div>
 
                 <Separator />
 
-                <div className="p-2">
-                  <Link
-                    to="/profile"
-                    className="flex items-center gap-3 rounded-xl px-3 py-2.5 font-mont text-sm text-gray-700 transition hover:bg-gray-100"
-                  >
-                    <User className="h-4 w-4 text-gray-500" />
-                    View Profile
-                  </Link>
+                {/* Section 3: Account Info */}
+                <div className="px-4 py-3">
+                  <p className="mb-2 font-mont text-[11px] font-semibold tracking-[0.12em] text-gray-400 uppercase">
+                    Account
+                  </p>
 
-                  <button
-                    type="button"
-                    onClick={() => {
-                      console.log("logout clicked")
-                    }}
-                    className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 font-mont text-sm text-red-600 transition hover:bg-red-50"
-                  >
-                    <LogOut className="h-4 w-4" />
-                    Logout
-                  </button>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between rounded-xl bg-gray-50 px-3 py-2 transition-colors hover:bg-gray-100">
+                      <span className="font-mont text-xs text-gray-500">
+                        Role
+                      </span>
+                      <span className="font-mont text-xs font-medium text-gray-800 capitalize">
+                        {user?.role}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center justify-between rounded-xl bg-gray-50 px-3 py-2 transition-colors hover:bg-gray-100">
+                      <span className="font-mont text-xs text-gray-500">
+                        Status
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 font-mont text-xs font-medium text-green-600">
+                        <span className="h-2 w-2 rounded-full bg-green-500" />
+                        Active
+                      </span>
+                    </div>
+                  </div>
                 </div>
-              </PopoverContent>
-            </Popover>
+
+                <Separator />
+
+                {/* Section 4: Actions */}
+                <div className="p-2">
+                  <DropdownMenuItem asChild>
+                    <Link
+                      to="/profile"
+                      className="group flex cursor-pointer items-center gap-3 rounded-xl px-3 py-3 font-mont text-sm text-gray-700 transition-all duration-200 outline-none hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100"
+                    >
+                      <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gray-100 text-gray-500 transition-colors duration-200 group-hover:bg-white group-hover:text-red-500">
+                        <User className="h-4 w-4" />
+                      </div>
+
+                      <div className="flex flex-col">
+                        <span className="font-medium">View Profile</span>
+                        <span className="text-xs text-gray-500">
+                          Manage your personal details
+                        </span>
+                      </div>
+                    </Link>
+                  </DropdownMenuItem>
+                </div>
+
+                <Separator />
+
+                {/* Section 5: Logout */}
+                <div className="p-2">
+                  <DropdownMenuItem
+                    onClick={handleLogout}
+                    className="group flex cursor-pointer items-center gap-3 rounded-xl px-3 py-3 font-mont text-sm text-red-600 transition-all duration-200 outline-none hover:bg-red-50 focus:bg-red-50 focus:text-red-600"
+                  >
+                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-red-50 text-red-500 transition-colors duration-200 group-hover:bg-white">
+                      <LogOut className="h-4 w-4" />
+                    </div>
+
+                    <div className="flex flex-col">
+                      <span className="font-medium">Logout</span>
+                      <span className="text-xs text-red-400">
+                        Sign out from your account
+                      </span>
+                    </div>
+                  </DropdownMenuItem>
+                </div>
+              </DropdownMenuContent>
+            </DropdownMenu>
           )}
 
-          <motion.button
-            className={`rounded-lg p-2 transition-colors duration-200 hover:bg-muted lg:hidden ${
-              isSignupPage ? "text-white" : "text-black"
-            }`}
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            whileTap={{ scale: 0.95 }}
-          >
-            {isMobileMenuOpen ? (
-              <X className="h-6 w-6" />
-            ) : (
-              <Menu className="h-6 w-6" />
-            )}
-          </motion.button>
+          {!user && (
+            <motion.button
+              className={`rounded-lg p-2 transition-colors duration-200 hover:bg-muted lg:hidden ${
+                isSignupPage ? "text-white" : "text-black"
+              }`}
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              whileTap={{ scale: 0.95 }}
+            >
+              {isMobileMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </motion.button>
+          )}
         </div>
 
         <AnimatePresence>
