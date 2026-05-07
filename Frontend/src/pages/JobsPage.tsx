@@ -8,6 +8,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import { useSelector } from "react-redux"
+import type { RootState } from "@/redux/store"
 
 // Faq's data
 const faqs = [
@@ -33,9 +35,8 @@ const faqs = [
   },
 ]
 
-const jobsArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
-
 export default function Jobs() {
+  const { allJobs } = useSelector((store: RootState) => store.job)
   return (
     <>
       {/* Hero section */}
@@ -308,6 +309,7 @@ export default function Jobs() {
         <h1 className="bg-linear-to-r from-red-500 via-orange-800 to-yellow-400 bg-clip-text text-center font-unbounded text-2xl leading-tight font-extrabold tracking-tight text-transparent sm:text-3xl lg:text-4xl">
           Great careers start with the right opportunity
         </h1>
+
         <div className="mx-auto max-w-360 px-4 sm:px-6 lg:px-8">
           <div className="grid gap-6 py-12 lg:grid-cols-[280px_1fr]">
             {/* Filter cards */}
@@ -316,17 +318,23 @@ export default function Jobs() {
             </aside>
 
             {/* Jobs list */}
-            {jobsArray.length <= 0 ? (
-              <span className="text-gray-600">Jobs not found</span>
-            ) : (
-              <div className="max-h-[88vh] overflow-y-auto pr-1">
-                <div className="grid grid-cols-1 justify-items-center gap-5 sm:grid-cols-2 xl:grid-cols-3">
-                  {jobsArray.map((item, index) => (
-                    <SingleJobs key={index} />
-                  ))}
+            <div className="min-h-[60vh]">
+              {allJobs.length <= 0 ? (
+                <div className="flex h-full min-h-[400px] items-center justify-center rounded-3xl border border-dashed border-gray-300 bg-white">
+                  <p className="font-mont text-sm text-gray-500">
+                    No jobs found
+                  </p>
                 </div>
-              </div>
-            )}
+              ) : (
+                <div className="max-h-[88vh] overflow-y-auto pr-1">
+                  <div className="grid grid-cols-1 justify-items-center gap-5 sm:grid-cols-2 xl:grid-cols-3">
+                    {allJobs.map((job) => (
+                      <SingleJobs key={job._id} job={job} />
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

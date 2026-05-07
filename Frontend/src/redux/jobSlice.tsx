@@ -1,12 +1,14 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit";
 
 interface JobState {
-  allJobs: any[]
+  allJobs: any[];
+  singleJob: any | null;
 }
 
 const initialState: JobState = {
   allJobs: [],
-}
+  singleJob: null,
+};
 
 const jobSlice = createSlice({
   name: "job",
@@ -16,11 +18,16 @@ const jobSlice = createSlice({
   reducers: {
     // action to set all jobs
     setAllJobs: (state, action: PayloadAction<any[]>) => {
-      state.allJobs = action.payload
+      state.allJobs = action.payload;
+    },
+
+    // action to set single job
+    setSingleJobs: (state, action: PayloadAction<any>) => {
+      state.singleJob = action.payload;
     },
   },
-})
+});
 
-export const { setAllJobs } = jobSlice.actions
+export const { setAllJobs, setSingleJobs } = jobSlice.actions;
 
-export default jobSlice.reducer
+export default jobSlice.reducer;

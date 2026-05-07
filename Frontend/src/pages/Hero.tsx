@@ -5,9 +5,9 @@ import CallToAction from "@/components/shared/CallToAction"
 import LatestJobs from "@/components/shared/LatestJobs"
 import { MarqueeDemo } from "@/components/shared/MarqueeDemo"
 import { Highlighter } from "@/components/ui/highlighter"
-import { Bell, CirclePlay } from "lucide-react"
+import useGetAllJobs from "@/hooks/useGetAllJobs";
+import { Bell } from "lucide-react"
 import React from "react"
-import { BiPlayCircle } from "react-icons/bi"
 import { Link } from "react-router-dom"
 
 // categories
@@ -40,6 +40,10 @@ const categories = [
 ]
 
 const Hero: React.FC = () => {
+
+  // get All jobs
+  useGetAllJobs();
+
   return (
     <>
       <section className="py-22 sm:py-22 lg:py-24">

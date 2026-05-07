@@ -8,10 +8,13 @@ import { Bookmark, Briefcase, IndianRupee, MapPin } from "lucide-react"
 type JobProps = {
   job: {
     title: string
-    company: string
+    company: {
+      _id?: string
+      name?: string
+    }
     location: string
     jobType: string
-    positions: string
+    positions: string | number
     salary: string
     description: string
   }
@@ -23,7 +26,7 @@ export default function LatestJobsCards({ job }: JobProps) {
       <CardHeader className="space-y-4">
         <div className="flex items-start justify-between gap-4">
           <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-50">
-            <Briefcase className="h-6 w-6 bg-linear-to-br from-white/80 to-white/40" />
+            <Briefcase className="h-6 w-6 text-red-500" />
           </div>
 
           <Button
@@ -41,7 +44,9 @@ export default function LatestJobsCards({ job }: JobProps) {
             {job.title}
           </h3>
 
-          <p className="mt-1 font-mont text-sm text-gray-500">{job.company}</p>
+          <p className="mt-1 font-mont text-sm text-gray-500">
+            {job.company?.name || "Company"}
+          </p>
         </div>
       </CardHeader>
 
@@ -57,7 +62,7 @@ export default function LatestJobsCards({ job }: JobProps) {
           </Badge>
 
           <Badge className="rounded-full bg-blue-50 px-3 py-1 text-blue-700 hover:bg-blue-50">
-            {job.positions}
+            {job.positions} Positions
           </Badge>
 
           <Badge className="rounded-full bg-orange-50 px-3 py-1 text-orange-700 hover:bg-orange-50">
