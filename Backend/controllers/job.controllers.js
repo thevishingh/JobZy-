@@ -73,9 +73,30 @@ export const getAllJobs = async (req, res) => {
     };
 
     // Fetch all jobs from the database that match the search query
+    // const jobs = await Job.find(query)
+    //   .populate({
+    //     path: "company",
+    //   })
+    //   .sort({
+    //     createdAt: -1,
+    //   });
+
+    // if (jobs.length === 0 || !jobs) {
+    //   return res.status(404).json({
+    //     message: "No jobs found",
+    //     success: false,
+    //   });
+    // }
+
     const jobs = await Job.find(query)
       .populate({
         path: "company",
+      })
+      .populate({
+        path: "applications",
+        populate: {
+          path: "applicant",
+        },
       })
       .sort({
         createdAt: -1,
