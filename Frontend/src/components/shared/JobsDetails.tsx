@@ -16,7 +16,7 @@ import {
   Sparkles,
   Layers3,
 } from "lucide-react";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import { APPLICATION_API_END_POINT, JOB_API_END_POINT } from "@/utils/constant";
 import { setSingleJobs } from "@/redux/jobSlice";
@@ -32,17 +32,29 @@ export default function JobsDetails() {
   const { singleJob } = useSelector((store: RootState) => store.job);
   const { user } = useSelector((store: RootState) => store.auth);
 
+  // const isApplied =
+  //   singleJob?.applications?.some((application: any) => {
+  //     const applicantId =
+  //       typeof application.applicant === "object"
+  //         ? application.applicant?._id
+  //         : application.applicant;
+
+  //     return applicantId?.toString() === user?._id;
+  //   }) || false;
+
   // is user already applied for the job
-  const isApplied =
-    singleJob?.applications?.some((application: any) => {
+  const isInitialApplied =
+    singleJob?.applications?.some((application) => {
       const applicantId =
         typeof application.applicant === "object"
           ? application.applicant?._id
           : application.applicant;
 
-      return applicantId?.toString() === user?._id;
+      return applicantId?.toString() === user?._id?.toString();
     }) || false;
+  const [isApplied, setisApplied] = React.useState(isInitialApplied);
 
+  // get single job details
   useEffect(() => {
     const fetchSingleJobs = async () => {
       try {
@@ -52,7 +64,19 @@ export default function JobsDetails() {
 
         if (response.data.success) {
           dispatch(setSingleJobs(response.data.job));
+          setisApplied(
+            response.data.job.applications?.some((application) => {
+              const applicantId =
+                typeof application.applicant === "object"
+                  ? application.applicant?._id
+                  : application.applicant;
+              return applicantId?.toString() === user?._id?.toString();
+            }) || false
+          ); // set initial application status
         }
+
+        console.log("applications:", response.data.job.applications);
+        console.log("user id:", user?._id);
       } catch (error) {
         console.log(error);
       }
@@ -91,10 +115,13 @@ export default function JobsDetails() {
       );
 
       if (response.data.success) {
-
+        setisApplied(true); // update local state to reflect the application status
+        const updatedSingleJob = {
+          ...singleJob,
+          applications: [...singleJob.applications, { applicant: user._id }],
+        };
         toast.success("Applied successfully!");
-
-        dispatch(setSingleJobs(response.data.job));
+        dispatch(setSingleJobs(updatedSingleJob)); // real time update ui 
       }
 
     } catch (error) {
