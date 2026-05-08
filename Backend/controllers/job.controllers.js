@@ -128,8 +128,16 @@ export const getJobById = async (req, res) => {
   try {
     const jobId = req.params.id;
 
-    // Fetch the job from the database using the provided ID
-    const job = await Job.findById(jobId);
+    const job = await Job.findById(jobId)
+      .populate({
+        path: "company",
+      })
+      .populate({
+        path: "applications",  // populate Application docs
+        populate: {
+          path: "applicant",   // then populate the user inside each application
+        },
+      });
 
     if (!job) {
       return res.status(404).json({
@@ -138,7 +146,6 @@ export const getJobById = async (req, res) => {
       });
     }
 
-    // Return the job details in the response
     return res.status(200).json({
       message: "Job fetched successfully",
       success: true,
@@ -151,7 +158,6 @@ export const getJobById = async (req, res) => {
     });
   }
 };
-
 // Get jobs created by a specific recruiter
 export const getJobsByRecruiter = async (req, res) => {
   try {
