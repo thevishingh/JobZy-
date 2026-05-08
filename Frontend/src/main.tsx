@@ -8,13 +8,19 @@ import { BrowserRouter } from "react-router-dom"
 import { Toaster } from "./components/ui/sonner.tsx"
 import { Provider } from "react-redux"
 import store from "./redux/store.tsx"
+import { persistStore } from "redux-persist"
+import { PersistGate } from "redux-persist/integration/react"
+
+const persistor = persistStore(store)
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
       <ThemeProvider>
         <Provider store={store}>
-          <App />
+          <PersistGate loading={null} persistor={persistor}>
+            <App />
+          </PersistGate>
         </Provider>
         <Toaster
           position="top-right"
