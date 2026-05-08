@@ -11,8 +11,16 @@ import Footer from "./pages/Footer"
 import BrowseJobs from "./components/shared/BrowseJobs"
 import Profile from "./components/shared/Profile"
 import JobsDetails from "./components/shared/JobsDetails"
+import RecruiterJobs from "./components/admin/RecruiterJobs"
+import ProtectedRoute from "./ProtectedRoute"
+import ErrorPage from "./pages/ErrroPage"
+import { useSelector } from "react-redux"
+import type { RootState } from "./redux/store"
+
 export function App() {
   const { pathname } = useLocation()
+  // user
+  const { user } = useSelector((store: RootState) => store.auth)
 
   const hideFooterRoutes = ["/login", "/signup"]
   const shouldHideFooter = hideFooterRoutes.includes(pathname)
@@ -20,20 +28,77 @@ export function App() {
   return (
     <div className="flex min-h-screen flex-col">
       <Navbar />
+
       <main className="flex-1">
         <Routes>
+          {/* Public Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
-          <Route path="/jobs" element={<Jobs />} />
-          <Route path="/job-details/:id" element={<JobsDetails />} />
-          <Route path="/browse-jobs" element={<BrowseJobs />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/profile" element={<Profile />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Register />} />
+          <Route path="/unauthorized" element={<ErrorPage user={user} />} />
+          <Route path="*" element={<ErrorPage user={user} />} />
+
+          {/* Student Protected Routes */}
+          <Route
+            path="/jobs"
+            element={
+              <ProtectedRoute allowedRoles={["student"]}>
+                <Jobs />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/job-details/:id"
+            element={
+              <ProtectedRoute allowedRoles={["student"]}>
+                <JobsDetails />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/browse-jobs"
+            element={
+              <ProtectedRoute allowedRoles={["student"]}>
+                <BrowseJobs />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute allowedRoles={["student"]}>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Recruiter Protected Routes */}
+          <Route
+            path="/admin/jobs"
+            element={
+              <ProtectedRoute allowedRoles={["recruiter"]}>
+                <RecruiterJobs />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/companies"
+            element={
+              <ProtectedRoute allowedRoles={["recruiter"]}>
+                <RecruiterJobs />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </main>
+
       {!shouldHideFooter && <Footer />}
     </div>
   )

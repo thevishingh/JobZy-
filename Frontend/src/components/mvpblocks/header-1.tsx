@@ -1,7 +1,17 @@
 "use client"
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Menu, X, ChevronDown, ArrowRight, Sparkles } from "lucide-react"
+import {
+  Menu,
+  X,
+  ChevronDown,
+  ArrowRight,
+  Sparkles,
+  Search,
+  Briefcase,
+  BriefcaseBusiness,
+  Building2,
+} from "lucide-react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import {
   DropdownMenu,
@@ -23,34 +33,64 @@ import { setAuthUser } from "@/redux/authSlice"
 
 interface NavItem {
   name: string
-  to: string
+  to?: string
+  description?: string
   hasDropdown?: boolean
-  dropdownItems?: { name: string; to: string; description?: string }[]
+  isPublic?: boolean
+  roles?: ("student" | "recruiter")[]
 }
 
 const navItems: NavItem[] = [
-  { name: "Home", to: "/" },
-  { name: "About", to: "/about" },
-  // { name: "Jobs", to: "/jobs" },
+  {
+    name: "Home",
+    to: "/",
+    isPublic: true,
+  },
+
+  {
+    name: "About",
+    to: "/about",
+    isPublic: true,
+  },
+
+  {
+    name: "Pricing",
+    to: "/pricing",
+    isPublic: true,
+  },
+
+  {
+    name: "Contact",
+    to: "/contact",
+    isPublic: true,
+  },
   {
     name: "Jobs",
     to: "/jobs",
-    hasDropdown: true,
-    dropdownItems: [
-      {
-        name: "Jobs",
-        to: "/jobs",
-        description: "Latest opportunities",
-      },
-      {
-        name: "Search Jobs",
-        to: "/browse-jobs",
-        description: "Find your dream job",
-      },
-    ],
+    description: "Explore the latest job opportunities",
+    roles: ["student"],
   },
-  { name: "Pricing", to: "/pricing" },
-  { name: "Contact", to: "/contact" },
+
+  {
+    name: "Search Jobs",
+    to: "/browse-jobs",
+    description: "Find jobs based on skills and interests",
+    roles: ["student"],
+  },
+
+  {
+    name: "Companies",
+    to: "/admin/companies",
+    description: "Manage and organize company profiles",
+    roles: ["recruiter"],
+  },
+
+  {
+    name: "Admin Jobs",
+    to: "/admin/jobs",
+    description: "Create, manage, and track job postings",
+    roles: ["recruiter"],
+  },
 ]
 
 export default function Header1() {
@@ -125,6 +165,7 @@ export default function Header1() {
       )
     }
   }
+
   return (
     <motion.header
       className="fixed top-0 right-0 left-0 z-50 transition-all duration-300"
@@ -149,10 +190,20 @@ export default function Header1() {
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 400, damping: 10 }}
           >
-            <Link to="/" className="flex items-center space-x-2">
+            <Link
+              to={
+                user?.role === "student"
+                  ? "/jobs"
+                  : user?.role === "recruiter"
+                    ? "/admin/companies"
+                    : "/"
+              }
+              className="flex items-center space-x-2"
+            >
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-linear-to-br from-rose-500 to-black">
                 <Sparkles className="h-5 w-5 text-white" />
               </div>
+
               <span className="bg-linear-to-r from-red-500 to-white bg-clip-text font-unbounded text-xl font-bold tracking-wider text-transparent">
                 Jobzy
               </span>
@@ -160,60 +211,44 @@ export default function Header1() {
           </motion.div>
 
           <nav className="hidden items-center space-x-8 lg:flex">
-            {navItems.map((item) => (
-              <div
-                key={item.name}
-                className="relative"
-                onMouseEnter={() =>
-                  item.hasDropdown && setActiveDropdown(item.name)
+            {navItems
+              .filter((item) => {
+                // Guest mode
+                if (!user) {
+                  return item.isPublic
                 }
-                onMouseLeave={() => setActiveDropdown(null)}
-              >
-                <Link
-                  to={item.to}
-                  className={`flex items-center space-x-1 font-medium transition-colors duration-200 hover:text-rose-500 ${
-                    isSignupPage ? "text-white" : "text-black"
-                  }`}
-                >
-                  <span>{item.name}</span>
-                  {item.hasDropdown && (
-                    <ChevronDown className="h-4 w-4 transition-transform duration-200" />
-                  )}
-                </Link>
 
-                {item.hasDropdown && (
-                  <AnimatePresence>
-                    {activeDropdown === item.name && (
-                      <motion.div
-                        className="absolute top-full left-0 mt-2 w-64 overflow-hidden rounded-xl border border-border bg-background/95 shadow-xl backdrop-blur-lg"
-                        variants={dropdownVariants}
-                        initial="hidden"
-                        animate="visible"
-                        exit="hidden"
-                        transition={{ duration: 0.2 }}
-                      >
-                        {item.dropdownItems?.map((dropdownItem) => (
-                          <Link
-                            key={dropdownItem.name}
-                            to={dropdownItem.to}
-                            className="block px-4 py-3 transition-colors duration-200 hover:bg-muted"
-                          >
-                            <div className="font-medium text-foreground">
-                              {dropdownItem.name}
-                            </div>
-                            {dropdownItem.description && (
-                              <div className="text-sm text-muted-foreground">
-                                {dropdownItem.description}
-                              </div>
-                            )}
-                          </Link>
-                        ))}
-                      </motion.div>
+                // Logged in users
+                return item.roles?.includes(user.role)
+              })
+              .map((item) => (
+                <div
+                  key={item.name}
+                  className="relative"
+                  onMouseEnter={() =>
+                    item.hasDropdown && setActiveDropdown(item.name)
+                  }
+                  onMouseLeave={() => setActiveDropdown(null)}
+                >
+                  <div className="group relative">
+                    <Link
+                      to={item.to || "#"}
+                      className={`flex items-center space-x-1 font-medium transition-colors duration-200 hover:text-rose-500 ${
+                        isSignupPage ? "text-white" : "text-black"
+                      }`}
+                    >
+                      <span>{item.name}</span>
+                    </Link>
+
+                    {item.description && (
+                      <div className="pointer-events-none absolute top-full left-1/2 z-50 mt-3 hidden w-max max-w-60 -translate-x-1/2 rounded-xl border border-zinc-200 bg-white/95 px-3 py-2 text-xs leading-relaxed font-medium text-zinc-700 shadow-[0_10px_30px_rgba(0,0,0,0.08)] backdrop-blur-sm group-hover:block dark:border-zinc-700 dark:bg-zinc-900/95 dark:text-zinc-200">
+                        <div className="absolute top-0 left-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rotate-45 border-t border-l border-zinc-200 bg-white/95 dark:border-zinc-700 dark:bg-zinc-900/95" />
+                        {item.description}
+                      </div>
                     )}
-                  </AnimatePresence>
-                )}
-              </div>
-            ))}
+                  </div>
+                </div>
+              ))}
           </nav>
 
           {!user ? (
@@ -249,7 +284,7 @@ export default function Header1() {
                       src={user?.profile?.profilePicture || ""}
                       alt={user?.fullName || "User avatar"}
                     />
-                    <AvatarFallback className="bg-gradient-to-br from-red-100 to-red-50 text-sm font-semibold text-red-600">
+                    <AvatarFallback className="bg-linear-to-br from-red-100 to-red-50 text-sm font-semibold text-red-600">
                       {user?.fullName?.charAt(0)?.toUpperCase() || "U"}
                     </AvatarFallback>
                   </Avatar>
@@ -260,17 +295,17 @@ export default function Header1() {
 
               <DropdownMenuContent
                 align="end"
-                className="w-80 overflow-hidden rounded-2xl border border-gray-200 bg-white p-0 shadow-2xl"
+                className="max-h-[85vh] w-80 overflow-y-auto rounded-2xl border border-gray-200 bg-white p-0 shadow-2xl"
               >
-                {/* Section 1: User Header */}
-                <div className="bg-gradient-to-br from-red-50 via-white to-white px-4 py-4">
-                  <div className="flex items-start gap-3">
-                    <Avatar className="h-14 w-14 shrink-0 border border-gray-200 shadow-sm">
+                {/* Compact User Header */}
+                <div className="bg-linear-to-br from-red-50 via-white to-white px-4 py-3">
+                  <div className="flex items-center gap-3">
+                    <Avatar className="h-11 w-11 shrink-0 border border-gray-200 shadow-sm">
                       <AvatarImage
                         src={user?.profile?.profilePicture || ""}
                         alt={user?.fullName || "User avatar"}
                       />
-                      <AvatarFallback className="bg-gradient-to-br from-red-100 to-red-50 text-base font-semibold text-red-600">
+                      <AvatarFallback className="bg-linear-to-br from-red-100 to-red-50 text-sm font-semibold text-red-600">
                         {user?.fullName?.charAt(0)?.toUpperCase() || "U"}
                       </AvatarFallback>
                     </Avatar>
@@ -280,96 +315,186 @@ export default function Header1() {
                         {user?.fullName}
                       </h4>
 
-                      <p className="mt-1 truncate font-mont text-xs text-gray-500">
+                      <p className="mt-0.5 truncate font-mont text-xs text-gray-500">
                         {user?.email}
                       </p>
 
-                      <div className="mt-2 inline-flex items-center rounded-full border border-red-100 bg-red-50 px-2.5 py-1 font-mont text-[11px] font-medium tracking-wide text-red-600 capitalize">
+                      <div className="mt-1.5 inline-flex items-center rounded-full border border-red-100 bg-red-50 px-2 py-0.5 font-mont text-[10px] font-medium tracking-wide text-red-600 capitalize">
                         {user?.role || "student"}
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <Separator />
+                {/* Desktop only details */}
+                <div className="hidden lg:block">
+                  <Separator />
 
-                {/* Section 2: Bio */}
-                <div className="px-4 py-3">
-                  <p className="mb-1 font-mont text-[11px] font-semibold tracking-[0.12em] text-gray-400 uppercase">
-                    Bio
-                  </p>
+                  <div className="px-4 py-2.5">
+                    <p className="mb-1 font-mont text-[10px] font-semibold tracking-[0.12em] text-gray-400 uppercase">
+                      Bio
+                    </p>
 
-                  <p className="font-mont text-sm leading-5 text-gray-600">
-                    {user?.profile?.bio?.trim()
-                      ? user.profile.bio
-                      : user?.role === "recruiter"
-                        ? "Manage jobs, review applicants, and hire the right talent."
-                        : "Explore jobs, build your profile, and apply with confidence."}
-                  </p>
-                </div>
+                    <p className="font-mont text-xs leading-5 text-gray-600">
+                      {user?.profile?.bio?.trim()
+                        ? user.profile.bio
+                        : user?.role === "recruiter"
+                          ? "Manage jobs, review applicants, and hire the right talent."
+                          : "Explore jobs, build your profile, and apply with confidence."}
+                    </p>
+                  </div>
 
-                <Separator />
+                  <Separator />
 
-                {/* Section 3: Account Info */}
-                <div className="px-4 py-3">
-                  <p className="mb-2 font-mont text-[11px] font-semibold tracking-[0.12em] text-gray-400 uppercase">
-                    Account
-                  </p>
+                  <div className="px-4 py-2.5">
+                    <p className="mb-2 font-mont text-[10px] font-semibold tracking-[0.12em] text-gray-400 uppercase">
+                      Account
+                    </p>
 
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between rounded-xl bg-gray-50 px-3 py-2 transition-colors hover:bg-gray-100">
-                      <span className="font-mont text-xs text-gray-500">
-                        Role
-                      </span>
-                      <span className="font-mont text-xs font-medium text-gray-800 capitalize">
-                        {user?.role}
-                      </span>
-                    </div>
+                    <div className="space-y-1.5">
+                      <div className="flex items-center justify-between rounded-lg bg-gray-50 px-3 py-1.5">
+                        <span className="font-mont text-xs text-gray-500">
+                          Role
+                        </span>
+                        <span className="font-mont text-xs font-medium text-gray-800 capitalize">
+                          {user?.role}
+                        </span>
+                      </div>
 
-                    <div className="flex items-center justify-between rounded-xl bg-gray-50 px-3 py-2 transition-colors hover:bg-gray-100">
-                      <span className="font-mont text-xs text-gray-500">
-                        Status
-                      </span>
-                      <span className="inline-flex items-center gap-1.5 font-mont text-xs font-medium text-green-600">
-                        <span className="h-2 w-2 rounded-full bg-green-500" />
-                        Active
-                      </span>
+                      <div className="flex items-center justify-between rounded-lg bg-gray-50 px-3 py-1.5">
+                        <span className="font-mont text-xs text-gray-500">
+                          Status
+                        </span>
+                        <span className="inline-flex items-center gap-1.5 font-mont text-xs font-medium text-green-600">
+                          <span className="h-2 w-2 rounded-full bg-green-500" />
+                          Active
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
 
                 <Separator />
 
-                {/* Section 4: Actions */}
-                <div className="p-2">
-                  <DropdownMenuItem asChild>
-                    <Link
-                      to="/profile"
-                      className="group flex cursor-pointer items-center gap-3 rounded-xl px-3 py-3 font-mont text-sm text-gray-700 transition-all duration-200 outline-none hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100"
-                    >
-                      <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gray-100 text-gray-500 transition-colors duration-200 group-hover:bg-white group-hover:text-red-500">
-                        <User className="h-4 w-4" />
-                      </div>
+                {/* Mobile role links */}
+                <div className="p-1.5 lg:hidden">
+                  {user?.role === "student" && (
+                    <>
+                      <DropdownMenuItem asChild>
+                        <Link
+                          to="/jobs"
+                          className="group flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 font-mont text-sm text-gray-700 transition-all duration-200 outline-none hover:bg-gray-100 hover:text-gray-900"
+                        >
+                          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 text-gray-500 transition-colors duration-200 group-hover:bg-white group-hover:text-red-500">
+                            <Briefcase className="h-4 w-4" />
+                          </div>
 
-                      <div className="flex flex-col">
-                        <span className="font-medium">View Profile</span>
-                        <span className="text-xs text-gray-500">
-                          Manage your personal details
-                        </span>
-                      </div>
-                    </Link>
-                  </DropdownMenuItem>
+                          <div className="flex flex-col">
+                            <span className="font-medium">Jobs</span>
+                            <span className="text-xs text-gray-500">
+                              Explore latest opportunities
+                            </span>
+                          </div>
+                        </Link>
+                      </DropdownMenuItem>
+
+                      <DropdownMenuItem asChild>
+                        <Link
+                          to="/browse-jobs"
+                          className="group flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 font-mont text-sm text-gray-700 transition-all duration-200 outline-none hover:bg-gray-100 hover:text-gray-900"
+                        >
+                          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 text-gray-500 transition-colors duration-200 group-hover:bg-white group-hover:text-red-500">
+                            <Search className="h-4 w-4" />
+                          </div>
+
+                          <div className="flex flex-col">
+                            <span className="font-medium">Search Jobs</span>
+                            <span className="text-xs text-gray-500">
+                              Find jobs based on your interests
+                            </span>
+                          </div>
+                        </Link>
+                      </DropdownMenuItem>
+                    </>
+                  )}
+
+                  {user?.role === "recruiter" && (
+                    <>
+                      <DropdownMenuItem asChild>
+                        <Link
+                          to="/admin/companies"
+                          className="group flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 font-mont text-sm text-gray-700 transition-all duration-200 outline-none hover:bg-gray-100 hover:text-gray-900"
+                        >
+                          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 text-gray-500 transition-colors duration-200 group-hover:bg-white group-hover:text-red-500">
+                            <Building2 className="h-4 w-4" />
+                          </div>
+
+                          <div className="flex flex-col">
+                            <span className="font-medium">Companies</span>
+                            <span className="text-xs text-gray-500">
+                              Manage company profiles
+                            </span>
+                          </div>
+                        </Link>
+                      </DropdownMenuItem>
+
+                      <DropdownMenuItem asChild>
+                        <Link
+                          to="/admin/jobs"
+                          className="group flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 font-mont text-sm text-gray-700 transition-all duration-200 outline-none hover:bg-gray-100 hover:text-gray-900"
+                        >
+                          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 text-gray-500 transition-colors duration-200 group-hover:bg-white group-hover:text-red-500">
+                            <BriefcaseBusiness className="h-4 w-4" />
+                          </div>
+
+                          <div className="flex flex-col">
+                            <span className="font-medium">Admin Jobs</span>
+                            <span className="text-xs text-gray-500">
+                              Manage job postings
+                            </span>
+                          </div>
+                        </Link>
+                      </DropdownMenuItem>
+                    </>
+                  )}
                 </div>
+
+                {/* Profile action */}
+                {user?.role === "student" && (
+                  <>
+                    <Separator />
+
+                    <div className="p-1.5">
+                      <DropdownMenuItem asChild>
+                        <Link
+                          to="/profile"
+                          className="group flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 font-mont text-sm text-gray-700 transition-all duration-200 outline-none hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100"
+                        >
+                          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 text-gray-500 transition-colors duration-200 group-hover:bg-white group-hover:text-red-500">
+                            <User className="h-4 w-4" />
+                          </div>
+
+                          <div className="flex flex-col">
+                            <span className="font-medium">View Profile</span>
+                            <span className="text-xs text-gray-500">
+                              Manage your personal details
+                            </span>
+                          </div>
+                        </Link>
+                      </DropdownMenuItem>
+                    </div>
+                  </>
+                )}
 
                 <Separator />
 
-                {/* Section 5: Logout */}
-                <div className="p-2">
+                {/* Logout */}
+                <div className="p-1.5">
                   <DropdownMenuItem
                     onClick={handleLogout}
-                    className="group flex cursor-pointer items-center gap-3 rounded-xl px-3 py-3 font-mont text-sm text-red-600 transition-all duration-200 outline-none hover:bg-red-50 focus:bg-red-50 focus:text-red-600"
+                    className="group flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 font-mont text-sm text-red-600 transition-all duration-200 outline-none hover:bg-red-50 focus:bg-red-50 focus:text-red-600"
                   >
-                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-red-50 text-red-500 transition-colors duration-200 group-hover:bg-white">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-red-50 text-red-500 transition-colors duration-200 group-hover:bg-white">
                       <LogOut className="h-4 w-4" />
                     </div>
 
@@ -413,32 +538,50 @@ export default function Header1() {
               transition={{ duration: 0.3, ease: "easeInOut" }}
             >
               <div className="mt-4 space-y-2 rounded-xl border border-border bg-background/95 py-4 shadow-xl backdrop-blur-lg">
-                {navItems.map((item) => (
-                  <Link
-                    key={item.name}
-                    to={item.to}
-                    className="block px-4 py-3 font-medium text-foreground transition-colors duration-200 hover:bg-muted"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    {item.name}
-                  </Link>
-                ))}
-                <div className="space-y-2 px-4 py-2">
-                  <Link
-                    to="/login"
-                    className="block w-full rounded-lg py-2.5 text-center font-medium text-foreground transition-colors duration-200 hover:bg-muted"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Sign In
-                  </Link>
-                  <Link
-                    to="/signup"
-                    className="block w-full rounded-lg bg-linear-to-r from-rose-500 to-rose-700 py-2.5 text-center font-medium text-white transition-all duration-200 hover:shadow-lg"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    Get Started
-                  </Link>
-                </div>
+                {navItems
+                  .filter((item) => {
+                    // Guest user
+                    if (!user) {
+                      return item.isPublic
+                    }
+
+                    // Logged in users
+                    return (
+                      item.name === "About" ||
+                      item.name === "Pricing" ||
+                      item.name === "Contact"
+                    )
+                  })
+                  .map((item) => (
+                    <Link
+                      key={item.name}
+                      to={item.to || "#"}
+                      className="block px-4 py-3 font-medium text-foreground transition-colors duration-200 hover:bg-muted"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+
+                {!user && (
+                  <div className="space-y-2 px-4 py-2">
+                    <Link
+                      to="/login"
+                      className="block w-full rounded-lg py-2.5 text-center font-medium text-foreground transition-colors duration-200 hover:bg-muted"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Sign In
+                    </Link>
+
+                    <Link
+                      to="/signup"
+                      className="block w-full rounded-lg bg-linear-to-r from-rose-500 to-rose-700 py-2.5 text-center font-medium text-white transition-all duration-200 hover:shadow-lg"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Get Started
+                    </Link>
+                  </div>
+                )}
               </div>
             </motion.div>
           )}

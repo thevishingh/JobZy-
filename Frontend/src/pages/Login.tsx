@@ -60,10 +60,11 @@ function Login() {
 
     window.speechSynthesis.speak(message)
   }
-
+  // Handle form submission
   const onSubmit = async (data: LoginFormData) => {
     try {
       dispatch(setLoading(true))
+
       const response = await axios.post(`${USER_API_END_POINT}/login`, data, {
         headers: {
           "Content-Type": "application/json",
@@ -72,11 +73,21 @@ function Login() {
       })
 
       if (response.data.success) {
-        dispatch(setAuthUser(response.data.user))
+        const loggedInUser = response.data.user
+
+        dispatch(setAuthUser(loggedInUser))
         toast.success(response.data.message)
-        const userName = response.data.user?.fullName || "User"
+
+        const userName = loggedInUser?.fullName || "User"
         speakWelcome(userName)
-        navigate("/")
+
+        if (loggedInUser?.role === "student") {
+          navigate("/jobs")
+        } else if (loggedInUser?.role === "recruiter") {
+          navigate("/admin/companies")
+        } else {
+          navigate("/")
+        }
       }
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Login failed")
@@ -84,6 +95,7 @@ function Login() {
       dispatch(setLoading(false))
     }
   }
+
   return (
     <section className="relative min-h-screen overflow-hidden bg-[#2a6240c0] text-white">
       <div className="absolute inset-0">

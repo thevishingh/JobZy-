@@ -2,6 +2,8 @@ import FilterCards from "@/components/shared/FilterCards"
 import SingleJobs from "@/components/shared/singleJobs"
 import { ArrowDownRight } from "lucide-react"
 import { BriefcaseBusiness, SearchCheck, Zap } from "lucide-react"
+import { SlidersHorizontal, ChevronDown } from "lucide-react"
+import { useState } from "react"
 import {
   Accordion,
   AccordionContent,
@@ -36,7 +38,18 @@ const faqs = [
 ]
 
 export default function Jobs() {
+  // Accessing jobs from Redux store
   const { allJobs } = useSelector((store: RootState) => store.job)
+
+  const [showFilters, setShowFilters] = useState(false)
+  const [visibleCount, setVisibleCount] = useState(12)
+
+  const visibleJobs = allJobs.slice(0, visibleCount)
+  const hasMoreJobs = visibleCount < allJobs.length
+
+  const handleLoadMore = () => {
+    setVisibleCount((prev) => prev + 12)
+  }
   return (
     <>
       {/* Hero section */}
@@ -304,39 +317,102 @@ export default function Jobs() {
           </div>
         </section>
       </section>
-      {/* hero section */}
-      <div className="bg-bottom">
-        <h1 className="bg-linear-to-r from-red-500 via-orange-800 to-yellow-400 bg-clip-text text-center font-unbounded text-2xl leading-tight font-extrabold tracking-tight text-transparent sm:text-3xl lg:text-4xl">
-          Great careers start with the right opportunity
-        </h1>
+      {/* jobs-section */}
+      <div className="min-h-screen bg-bottom">
+        <section className="mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-8 lg:pt-12">
+          <h1 className="mx-auto max-w-4xl bg-linear-to-r from-red-500 via-orange-700 to-yellow-400 bg-clip-text text-center font-unbounded text-2xl leading-tight font-extrabold tracking-tight text-transparent sm:text-3xl lg:text-5xl">
+            Great careers start with the right opportunity
+          </h1>
 
-        <div className="mx-auto max-w-360 px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-6 py-12 lg:grid-cols-[280px_1fr]">
-            {/* Filter cards */}
-            <aside className="w-full lg:sticky lg:top-24 lg:h-fit">
+          <p className="mx-auto mt-3 max-w-2xl text-center font-mont text-sm leading-6 text-gray-700 sm:text-base">
+            Discover roles that match your skills, goals, and career direction.
+          </p>
+        </section>
+
+        <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+          {/* Mobile Filter Dropdown */}
+          <div className="mb-5 lg:hidden">
+            <button
+              onClick={() => setShowFilters(!showFilters)}
+              className="flex w-full items-center justify-between rounded-2xl border border-black/10 bg-white/60 px-4 py-3 font-mont text-sm font-semibold text-gray-900 shadow-sm backdrop-blur-md"
+            >
+              <span className="flex items-center gap-2">
+                <SlidersHorizontal className="h-4 w-4" />
+                Filter Jobs
+              </span>
+
+              <ChevronDown
+                className={`h-4 w-4 transition-transform ${
+                  showFilters ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+
+            {showFilters && (
+              <div className="mt-3 rounded-2xl border border-black/10 bg-white/70 p-4 shadow-sm backdrop-blur-md">
+                <FilterCards />
+              </div>
+            )}
+          </div>
+
+          <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
+            {/* Desktop Filter Sidebar */}
+            <aside className="hidden rounded-3xl border border-black/10 bg-white/40 p-4 shadow-sm backdrop-blur-md lg:sticky lg:top-24 lg:block lg:h-fit">
               <FilterCards />
             </aside>
 
-            {/* Jobs list */}
-            <div className="min-h-[60vh]">
+            {/* Jobs Panel */}
+            <div className="min-w-0 rounded-3xl border border-black/10 bg-white/25 p-4 shadow-sm backdrop-blur-md sm:p-5">
+              <div className="mb-5 flex flex-col gap-3 border-b border-black/10 pb-4 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <h2 className="font-unbounded text-lg font-bold text-gray-900">
+                    Recommended Jobs
+                  </h2>
+
+                  <p className="mt-1 font-mont text-sm text-gray-600">
+                    Showing {visibleJobs.length} of {allJobs.length}{" "}
+                    opportunities for you
+                  </p>
+                </div>
+
+                <button className="w-full rounded-full bg-black px-4 py-2 font-mont text-sm font-medium text-white transition hover:bg-gray-800 sm:w-auto">
+                  Latest Jobs
+                </button>
+              </div>
+
               {allJobs.length <= 0 ? (
-                <div className="flex h-full min-h-[400px] items-center justify-center rounded-3xl border border-dashed border-gray-300 bg-white">
-                  <p className="font-mont text-sm text-gray-500">
+                <div className="flex min-h-[350px] flex-col items-center justify-center rounded-3xl border border-dashed border-gray-300 bg-white/70 text-center">
+                  <p className="font-unbounded text-lg font-bold text-gray-900">
                     No jobs found
+                  </p>
+
+                  <p className="mt-2 max-w-sm font-mont text-sm text-gray-500">
+                    Try changing your filters or search with different keywords.
                   </p>
                 </div>
               ) : (
-                <div className="max-h-[88vh] overflow-y-auto pr-1">
-                  <div className="grid grid-cols-1 justify-items-center gap-5 sm:grid-cols-2 xl:grid-cols-3">
-                    {allJobs.map((job) => (
+                <div className="lg:max-h-[72vh] lg:overflow-y-auto lg:pr-2">
+                  <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
+                    {visibleJobs.map((job) => (
                       <SingleJobs key={job._id} job={job} />
                     ))}
                   </div>
+
+                  {hasMoreJobs && (
+                    <div className="mt-6 flex justify-center pb-2">
+                      <button
+                        onClick={handleLoadMore}
+                        className="rounded-full bg-black px-6 py-2.5 font-mont text-sm font-medium text-white transition hover:bg-gray-800"
+                      >
+                        Load More Jobs
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
           </div>
-        </div>
+        </section>
       </div>
       {/* why choose us */}
       <section className="bg-top py-20 md:py-32">
@@ -398,47 +474,62 @@ export default function Jobs() {
         </div>
       </section>
       {/* faq's */}
-      <section className="bg-bottom py-2">
+      {/* <section className="py-16 transition-colors duration-300 dark:bg-zinc-950"> */}
+      <section className="py-16 transition-colors duration-300">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto flex max-w-full flex-col items-center justify-center gap-x-16 gap-y-8 lg:flex-row lg:justify-between xl:gap-28">
-            <div className="w-full lg:w-1/2">
-              <img
-                src="https://pagedone.io/asset/uploads/1696230182.png"
-                alt="Jobzy FAQ support"
-                className="w-full rounded-2xl object-cover shadow-lg"
-              />
+          <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+            <div className="relative">
+              <div className="absolute -inset-3 rounded-[2rem] bg-red-100/60 blur-2xl dark:bg-red-500/10" />
+              <div className="relative overflow-hidden rounded-3xl border border-zinc-200 bg-white shadow-[0_20px_60px_rgba(0,0,0,0.08)] dark:border-zinc-800 dark:bg-zinc-900 dark:shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
+                <img
+                  src="https://pagedone.io/asset/uploads/1696230182.png"
+                  alt="Jobzy FAQ support"
+                  className="h-full w-full object-cover"
+                />
+              </div>
             </div>
 
-            <div className="w-full lg:w-1/2">
-              <div className="lg:max-w-xl">
-                <div className="mb-8 lg:mb-12">
-                  <h6 className="mb-2 text-center font-mont text-lg font-medium text-red-500 lg:text-left">
+            <div className="w-full">
+              <div className="mx-auto max-w-xl lg:mx-0">
+                <div className="mb-8">
+                  <span className="inline-flex rounded-full bg-red-50 px-4 py-1 text-sm font-semibold tracking-wide text-red-500 dark:bg-red-500/10 dark:text-red-400">
                     Support
-                  </h6>
+                  </span>
 
-                  <h2 className="text-center font-unbounded text-3xl leading-tight font-extrabold text-gray-900 sm:text-4xl lg:text-left">
+                  <h2 className="mt-4 text-3xl leading-tight font-extrabold text-gray-900 sm:text-4xl dark:text-white">
                     Frequently Asked Questions
                   </h2>
 
-                  <p className="mt-4 text-center font-mont text-gray-500 lg:text-left">
+                  <p className="mt-4 text-base leading-7 text-gray-500 dark:text-zinc-400">
                     Everything you need to know before starting your job search
                     with Jobzy.
                   </p>
                 </div>
 
-                <Accordion type="single" collapsible defaultValue="item-0">
-                  {faqs.map((faq, index) => (
-                    <AccordionItem key={index} value={`item-${index}`}>
-                      <AccordionTrigger className="cursor-pointer text-left font-mont text-lg font-medium text-gray-700 hover:text-red-500">
-                        {faq.question}
-                      </AccordionTrigger>
+                <div className="space-y-4">
+                  <Accordion
+                    type="single"
+                    collapsible
+                    defaultValue="item-0"
+                    className="space-y-4"
+                  >
+                    {faqs.map((faq, index) => (
+                      <AccordionItem
+                        key={index}
+                        value={`item-${index}`}
+                        className="overflow-hidden rounded-2xl border border-zinc-200 bg-white px-5 shadow-sm transition-all duration-300 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900"
+                      >
+                        <AccordionTrigger className="cursor-pointer py-5 text-left text-base font-semibold text-gray-800 no-underline transition-colors hover:text-red-500 hover:no-underline dark:text-zinc-100 dark:hover:text-red-400">
+                          {faq.question}
+                        </AccordionTrigger>
 
-                      <AccordionContent className="font-mont text-base leading-7 text-gray-500">
-                        {faq.answer}
-                      </AccordionContent>
-                    </AccordionItem>
-                  ))}
-                </Accordion>
+                        <AccordionContent className="pb-5 text-sm leading-7 text-gray-500 dark:text-zinc-400">
+                          {faq.answer}
+                        </AccordionContent>
+                      </AccordionItem>
+                    ))}
+                  </Accordion>
+                </div>
               </div>
             </div>
           </div>
