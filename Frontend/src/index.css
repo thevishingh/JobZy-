@@ -6,9 +6,12 @@
 /* Fonts */
 @theme {
   --font-inter: "Inter", sans-serif;
-  --font-mont: "Montserrat", sans-serif;
-  --font-unbounded: "Unbounded", sans-serif;
+  /* --font-mont: "Montserrat", sans-serif; */
+  /* --font-unbounded: "Unbounded", sans-serif; */
   --font-clash: "Clash Display", sans-serif;
+  --font-unbounded:"Bricolage Grotesque", sans-serif;
+  --font-mont:"Google Sans", sans-serif;
+
 }
 
 /* global.css */
@@ -184,15 +187,6 @@
 .animate-marqueeee {
   animation: marqueeee 30s linear infinite;
 }
-
-/* body {
-background-image: radial-gradient(circle, #a89a69, #afab6b, #b2bd6f, #b0cf76, #a8e382);
-} */
-
-/* body{
-  background-image: radial-gradient(circle, #b3cfa6, #b5cba4, #b6c8a3, #b7c4a2, #b8c1a1, #b6c4a6, #b4c7ac, #b2cab2, #afd3c4, #afdbd6, #b4e2e9, #c0e8f9);
-} */
-
 
 @layer utilities {
   .dark-glass-bg {

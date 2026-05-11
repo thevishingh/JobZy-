@@ -115,137 +115,154 @@ export default function UpdateProfileModal({
       toast.error(error.response?.data?.message || "Failed to update profile")
     }
   }
-  
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="max-h-[90vh] overflow-y-auto rounded-3xl border-gray-200 bg-bottom p-0 sm:max-w-3xl">
-        <DialogHeader className="border-b px-6 py-5">
-          <DialogTitle className="font-mont text-2xl font-bold text-gray-900">
-            Update Profile
-          </DialogTitle>
+      <DialogContent className="max-h-[90vh] overflow-y-auto rounded-[2rem] border-slate-200 bg-[#fbf7ef] p-0 text-[#393629] shadow-2xl shadow-orange-500/10 sm:max-w-3xl dark:border-white/10 dark:bg-[#050509] dark:text-white">
+        <DialogHeader className="relative overflow-hidden border-b border-slate-200 px-6 py-6 dark:border-white/10">
+          <div className="absolute right-8 top-4 h-24 w-24 rounded-full bg-orange-500/10 blur-3xl" />
 
-          <p className="font-mont text-sm text-gray-500">
-            Complete your profile to improve your job application strength.
-          </p>
+          <div className="relative">
+            <span className="inline-flex rounded-full bg-orange-500/10 px-3 py-1 font-mont text-xs font-semibold uppercase tracking-[0.18em] text-orange-600 dark:text-orange-300">
+              Profile Setup
+            </span>
+
+            <DialogTitle className="mt-3 font-unbounded text-2xl font-bold">
+              Update Profile
+            </DialogTitle>
+
+            <p className="mt-2 font-mont text-sm leading-6 text-[#6b6658] dark:text-slate-400">
+              Keep your Jobzy profile updated to improve applications and
+              recruiter visibility.
+            </p>
+          </div>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-7 px-6 py-6">
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
             <div className="space-y-2">
-              <Label className="font-mont">Full Name</Label>
+              <Label className="font-mont text-[#393629] dark:text-white">
+                Full Name
+              </Label>
               <Input
                 placeholder="Enter your full name"
-                className="rounded-xl"
+                className="rounded-2xl border-slate-200 bg-white font-mont dark:border-white/10 dark:bg-[#111118]"
                 {...register("fullName")}
               />
             </div>
 
             <div className="space-y-2">
-              <Label className="font-mont">Phone Number</Label>
+              <Label className="font-mont text-[#393629] dark:text-white">
+                Phone Number
+              </Label>
               <Input
                 placeholder="Enter phone number"
-                className="rounded-xl"
+                className="rounded-2xl border-slate-200 bg-white font-mont dark:border-white/10 dark:bg-[#111118]"
                 {...register("phoneNumber")}
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label className="flex items-center gap-2 font-mont">
-              <UserRound className="h-4 w-4 text-red-500" />
+            <Label className="flex items-center gap-2 font-mont text-[#393629] dark:text-white">
+              <UserRound className="h-4 w-4 text-orange-500" />
               Bio
             </Label>
 
             <Textarea
               placeholder="Write a short professional bio..."
-              className="min-h-28 resize-none rounded-xl"
+              className="min-h-28 resize-none rounded-2xl border-slate-200 bg-white font-mont dark:border-white/10 dark:bg-[#111118]"
               {...register("bio")}
             />
           </div>
 
           <div className="space-y-2">
-            <Label className="flex items-center gap-2 font-mont">
-              <Briefcase className="h-4 w-4 text-red-500" />
+            <Label className="flex items-center gap-2 font-mont text-[#393629] dark:text-white">
+              <Briefcase className="h-4 w-4 text-orange-500" />
               Skills
             </Label>
 
             <Input
               placeholder="React, TypeScript, Redux, Node.js"
-              className="rounded-xl"
+              className="rounded-2xl border-slate-200 bg-white font-mont dark:border-white/10 dark:bg-[#111118]"
               {...register("skills")}
             />
 
-            <p className="font-mont text-xs text-gray-500">
+            <p className="font-mont text-xs text-[#6b6658] dark:text-slate-400">
               Add skills separated by comma.
             </p>
           </div>
 
-          <div className="rounded-2xl border border-gray-200 bg-gray-50 p-5">
-            <Label className="mb-4 flex items-center gap-2 font-mont">
-              <GraduationCap className="h-4 w-4 text-red-500" />
+          <div className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-[#111118]">
+            <Label className="mb-4 flex items-center gap-2 font-mont text-[#393629] dark:text-white">
+              <GraduationCap className="h-4 w-4 text-orange-500" />
               Education
             </Label>
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <Input
                 placeholder="Institution name"
-                className="rounded-xl bg-white"
+                className="rounded-2xl border-slate-200 bg-[#fbf7ef] font-mont dark:border-white/10 dark:bg-[#050509]"
                 {...register("institution")}
               />
 
               <Input
                 placeholder="Degree / Course"
-                className="rounded-xl bg-white"
+                className="rounded-2xl border-slate-200 bg-[#fbf7ef] font-mont dark:border-white/10 dark:bg-[#050509]"
                 {...register("degree")}
               />
 
               <Input
                 type="date"
-                className="rounded-xl bg-white"
+                className="rounded-2xl border-slate-200 bg-[#fbf7ef] font-mont dark:border-white/10 dark:bg-[#050509]"
                 {...register("startDate")}
               />
 
               <Input
                 type="date"
-                className="rounded-xl bg-white"
+                className="rounded-2xl border-slate-200 bg-[#fbf7ef] font-mont dark:border-white/10 dark:bg-[#050509]"
                 {...register("endDate")}
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label className="font-mont">Portfolio / Website</Label>
+            <Label className="font-mont text-[#393629] dark:text-white">
+              Portfolio / Website
+            </Label>
 
             <Input
               placeholder="https://your-portfolio.com"
-              className="rounded-xl"
+              className="rounded-2xl border-slate-200 bg-white font-mont dark:border-white/10 dark:bg-[#111118]"
               {...register("website")}
             />
           </div>
 
           <div className="space-y-3">
-            <Label className="font-mont">Resume</Label>
+            <Label className="font-mont text-[#393629] dark:text-white">
+              Resume
+            </Label>
 
-            <label className="flex cursor-pointer items-center justify-between gap-4 rounded-2xl border border-dashed border-gray-300 bg-gray-50 p-5 transition hover:border-red-400 hover:bg-red-50">
+            <label className="flex cursor-pointer flex-col gap-4 rounded-[2rem] border border-dashed border-slate-300 bg-white p-5 transition hover:border-orange-400 hover:bg-orange-50 sm:flex-row sm:items-center sm:justify-between dark:border-white/10 dark:bg-[#111118] dark:hover:bg-orange-500/10">
               <div className="flex items-center gap-3">
-                <div className="rounded-xl bg-white p-3 text-red-500 shadow-sm">
+                <div className="rounded-2xl bg-orange-500/10 p-3 text-orange-500">
                   <Upload className="h-5 w-5" />
                 </div>
 
                 <div>
-                  <p className="font-mont text-sm font-semibold text-gray-800">
+                  <p className="font-mont text-sm font-semibold text-[#393629] dark:text-white">
                     {selectedResume
                       ? selectedResume.name
                       : user?.profile?.resumeFileName || "Upload Resume"}
                   </p>
 
-                  <p className="font-mont text-xs text-gray-500">
+                  <p className="font-mont text-xs text-[#6b6658] dark:text-slate-400">
                     PDF, DOC or DOCX
                   </p>
                 </div>
               </div>
 
-              <span className="rounded-full bg-black px-4 py-2 font-mont text-xs text-white">
+              <span className="w-fit rounded-full bg-[#393629] px-4 py-2 font-mont text-xs text-white dark:bg-white dark:text-[#111118]">
                 {selectedResume ? "Selected" : "Choose File"}
               </span>
 
@@ -258,13 +275,13 @@ export default function UpdateProfileModal({
             </label>
           </div>
 
-          <div className="flex flex-col-reverse gap-3 border-t pt-5 sm:flex-row sm:justify-end">
+          <div className="flex flex-col-reverse gap-3 border-t border-slate-200 pt-5 sm:flex-row sm:justify-end dark:border-white/10">
             <Button
               type="button"
               variant="outline"
               disabled={isSubmitting}
               onClick={() => setOpen(false)}
-              className="rounded-full px-6 font-mont"
+              className="rounded-full border-slate-200 bg-white px-6 font-mont text-[#393629] dark:border-white/10 dark:bg-[#111118] dark:text-white"
             >
               Cancel
             </Button>
@@ -272,7 +289,7 @@ export default function UpdateProfileModal({
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="rounded-full bg-black px-8 font-mont text-white hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-70"
+              className="rounded-full bg-[#c65d3b] px-8 font-mont text-white hover:bg-[#b65335] disabled:cursor-not-allowed disabled:opacity-70"
             >
               {isSubmitting ? (
                 <>

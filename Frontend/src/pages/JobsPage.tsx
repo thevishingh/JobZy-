@@ -1,9 +1,14 @@
 import FilterCards from "@/components/shared/FilterCards"
 import SingleJobs from "@/components/shared/singleJobs"
 import { motion } from "motion/react"
-import { ArrowRight } from "lucide-react"
-import { BriefcaseBusiness, SearchCheck, Zap } from "lucide-react"
-import { SlidersHorizontal, ChevronDown } from "lucide-react"
+import {
+  ArrowRight,
+  BriefcaseBusiness,
+  Building2,
+  Search,
+  ShieldCheck,
+  SlidersHorizontal, ChevronDown, Sparkles, Users
+} from "lucide-react"
 import { useState } from "react"
 import {
   Accordion,
@@ -35,6 +40,21 @@ const faqs = [
     question: "Is Jobzy free for job seekers?",
     answer:
       "Yes, Jobzy is free for job seekers. You can search, filter, save, and apply for jobs without any charges.",
+  },
+  {
+    question: "Can I update my profile after creating an account?",
+    answer:
+      "Yes, you can update your profile details, resume, skills, and preferences anytime from your account dashboard to keep your applications up to date.",
+  },
+  {
+    question: "How do I track the jobs I have applied for?",
+    answer:
+      "You can track your submitted applications directly from your dashboard, where Jobzy shows the jobs you applied to and their latest status whenever updates are available.",
+  },
+  {
+    question: "Can I set job alerts for new opportunities?",
+    answer:
+      "Yes, Jobzy allows you to create personalized job alerts based on keywords, roles, and locations so you can get notified when relevant openings are posted.",
   },
 ]
 
@@ -217,26 +237,33 @@ export default function Jobs() {
         </div>
       </section>
       {/* jobs-section */}
-      <div className="min-h-screen bg-bottom">
-        <section className="mx-auto max-w-7xl px-4 pt-8 sm:px-6 lg:px-8 lg:pt-12">
-          <h1 className="mx-auto max-w-4xl bg-linear-to-r from-red-500 via-orange-700 to-yellow-400 bg-clip-text text-center font-unbounded text-2xl leading-tight font-extrabold tracking-tight text-transparent sm:text-3xl lg:text-5xl">
-            Great careers start with the right opportunity
-          </h1>
+      <div className="min-h-screen overflow-hidden bg-[#fbf7ef] text-[#393629] dark:bg-[#050509] dark:text-white">
+        <section className="relative mx-auto max-w-7xl px-4 pt-10 sm:px-6 lg:px-8 ">
+          <div className="pointer-events-none absolute left-1/2 top-6 h-72 w-72 -translate-x-1/2 rounded-full bg-orange-500/10 blur-3xl" />
 
-          <p className="mx-auto mt-3 max-w-2xl text-center font-mont text-sm leading-6 text-gray-700 sm:text-base">
-            Discover roles that match your skills, goals, and career direction.
-          </p>
+          <div className="relative z-10 mx-auto max-w-4xl text-center">
+            <span className="inline-flex rounded-full border border-orange-500/20 bg-orange-500/10 px-4 py-1.5 font-mont text-xs font-semibold uppercase tracking-[0.18em] text-orange-600 dark:text-orange-300">
+              Explore Opportunities
+            </span>
+
+            <h1 className="mt-5 font-unbounded text-3xl font-extrabold leading-tight tracking-tight text-[#393629] sm:text-4xl lg:text-5xl dark:text-white">
+              Great careers start with the{" "}
+              <span className="bg-linear-to-r from-orange-500 via-rose-500 to-yellow-400 bg-clip-text text-transparent">
+                right role
+              </span>
+            </h1>
+          </div>
         </section>
 
-        <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <section className="mx-auto max-w-9xl px-4 py-8 sm:px-6 lg:px-8">
           {/* Mobile Filter Dropdown */}
           <div className="mb-5 lg:hidden">
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="flex w-full items-center justify-between rounded-2xl border border-black/10 bg-white/60 px-4 py-3 font-mont text-sm font-semibold text-gray-900 shadow-sm backdrop-blur-md"
+              className="flex w-full items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-3 font-mont text-sm font-semibold text-[#393629] shadow-sm transition hover:border-orange-300 dark:border-white/10 dark:bg-[#111118] dark:text-white"
             >
               <span className="flex items-center gap-2">
-                <SlidersHorizontal className="h-4 w-4" />
+                <SlidersHorizontal className="h-4 w-4 text-orange-500" />
                 Filter Jobs
               </span>
 
@@ -247,60 +274,68 @@ export default function Jobs() {
             </button>
 
             {showFilters && (
-              <div className="mt-3 rounded-2xl border border-black/10 bg-white/70 p-4 shadow-sm backdrop-blur-md">
+              <div className="mt-3 rounded-3xl border border-slate-200 bg-white p-4 shadow-xl shadow-orange-500/10 dark:border-white/10 dark:bg-[#111118] dark:shadow-black/40">
                 <FilterCards />
               </div>
             )}
           </div>
 
-          <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
+          <div className="grid gap-4 lg:grid-cols-[280px_1fr]">
             {/* Desktop Filter Sidebar */}
-            <aside className="hidden rounded-3xl border border-black/10 bg-white/40 p-4 shadow-sm backdrop-blur-md lg:sticky lg:top-24 lg:block lg:h-fit">
+            <aside className="hidden rounded-[2rem] border border-slate-200 bg-white p-5 shadow-xl shadow-orange-500/10 lg:sticky lg:top-24 lg:block lg:h-fit dark:border-white/10 dark:bg-[#111118] dark:shadow-black/40">
+              <div className="mb-5 border-b border-slate-200 pb-4 dark:border-white/10">
+                <p className="font-unbounded text-base font-bold text-[#393629] dark:text-white">
+                  Filters
+                </p>
+                <p className="mt-1 font-mont text-xs text-[#6b6658] dark:text-slate-400">
+                  Narrow down your job search
+                </p>
+              </div>
+
               <FilterCards />
             </aside>
 
             {/* Jobs Panel */}
-            <div className="min-w-0 rounded-3xl border border-black/10 bg-white/25 p-4 shadow-sm backdrop-blur-md sm:p-5">
-              <div className="mb-5 flex flex-col gap-3 border-b border-black/10 pb-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="min-w-0 rounded-[2rem] border border-slate-200 bg-white p-4 shadow-xl shadow-orange-500/10 dark:border-white/10 dark:bg-[#111118] dark:shadow-black/40 sm:p-5">
+              <div className="mb-5 flex flex-col gap-3 rounded-3xl border border-slate-200 bg-[#fbf7ef] p-4 sm:flex-row sm:items-center sm:justify-between dark:border-white/10 dark:bg-[#050509]">
                 <div>
-                  <h2 className="font-unbounded text-lg font-bold text-gray-900">
+                  <h2 className="font-mont text-lg font-bold text-[#393629] dark:text-white">
                     Recommended Jobs
                   </h2>
 
-                  <p className="mt-1 font-mont text-sm text-gray-600">
-                    Showing {visibleJobs.length} of {allJobs.length}{" "}
-                    opportunities for you
+                  <p className="mt-1 font-mont text-sm text-[#6b6658] dark:text-slate-400">
+                    Showing {visibleJobs.length} of {allJobs.length} opportunities
+                    for you
                   </p>
                 </div>
 
-                <button className="w-full rounded-full bg-black px-4 py-2 font-mont text-sm font-medium text-white transition hover:bg-gray-800 sm:w-auto">
+                <button className="w-full rounded-full bg-[#393629] px-5 py-2.5 font-mont cursor-pointer text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-[#c65d3b] sm:w-auto dark:bg-white dark:text-[#111118] dark:hover:bg-orange-300">
                   Latest Jobs
                 </button>
               </div>
 
               {allJobs.length <= 0 ? (
-                <div className="flex min-h-[350px] flex-col items-center justify-center rounded-3xl border border-dashed border-gray-300 bg-white/70 text-center">
-                  <p className="font-unbounded text-lg font-bold text-gray-900">
+                <div className="flex min-h-87.5 flex-col items-center justify-center rounded-3xl border border-dashed border-slate-300 bg-[#fbf7ef] p-6 text-center dark:border-white/15 dark:bg-[#050509]">
+                  <p className="font-unbounded text-lg font-bold text-[#393629] dark:text-white">
                     No jobs found
                   </p>
 
-                  <p className="mt-2 max-w-sm font-mont text-sm text-gray-500">
+                  <p className="mt-2 max-w-sm font-mont text-sm text-[#6b6658] dark:text-slate-400">
                     Try changing your filters or search with different keywords.
                   </p>
                 </div>
               ) : (
                 <div className="lg:max-h-[72vh] lg:overflow-y-auto lg:pr-2">
-                  <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
+                  <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
                     {visibleJobs.map((job) => (
                       <SingleJobs key={job._id} job={job} />
                     ))}
                   </div>
-
                   {hasMoreJobs && (
                     <div className="mt-6 flex justify-center pb-2">
                       <button
                         onClick={handleLoadMore}
-                        className="rounded-full bg-black px-6 py-2.5 font-mont text-sm font-medium text-white transition hover:bg-gray-800"
+                        className="rounded-full bg-[#393629] px-7 py-3 font-mont text-sm font-semibold text-white shadow-lg shadow-orange-500/10 transition hover:-translate-y-1 hover:bg-[#c65d3b] dark:bg-white dark:text-[#111118] dark:hover:bg-orange-300"
                       >
                         Load More Jobs
                       </button>
@@ -312,217 +347,334 @@ export default function Jobs() {
           </div>
         </section>
       </div>
-      {/* why choose us */}
-      <section className="bg-top py-20 md:py-32">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="mb-4 font-mont text-sm font-semibold tracking-wide text-red-500 uppercase lg:text-base">
-            Our Values
-          </p>
+      {/* stats */}
+      <section className="relative overflow-hidden bg-[#fbf7ef] py-20 text-[#393629] dark:bg-[#050509] dark:text-white">
+        <div className="pointer-events-none absolute right-2.5 bottom-10 h-72 w-72 -translate-x-1/2 rounded-full bg-orange-500/10 blur-3xl" />
+        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid items-center gap-10 lg:grid-cols-[0.95fr_1.05fr]">
+            {/* Left Image / Visual */}
+            <div className="relative">
+              <div className="absolute inset-0 rounded-[2rem] bg-orange-500/10 blur-3xl" />
 
-          <h2 className="font-unbounded text-3xl font-extrabold text-zinc-900 lg:text-4xl">
-            Why Choose Jobzy?
-          </h2>
+              <div className="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-3 shadow-2xl shadow-orange-500/10 dark:border-white/10 dark:bg-[#111118] dark:shadow-black/40">
+                <img
+                  src="https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=1200&auto=format&fit=crop"
+                  alt="Jobzy job seeker and recruiter platform"
+                  className="h-[320px] w-full rounded-[1.5rem] object-cover sm:h-[420px]"
+                />
 
-          <div className="mt-14 grid gap-6 lg:mt-20 lg:grid-cols-3">
-            <div className="rounded-2xl bg-zinc-100 p-6 transition hover:-translate-y-1 hover:shadow-lg">
-              <span className="mb-8 flex size-12 items-center justify-center rounded-full bg-white text-red-500">
-                <SearchCheck className="size-6" />
-              </span>
-
-              <h3 className="mb-2 font-unbounded text-xl font-semibold text-zinc-900">
-                Smart Job Matching
-              </h3>
-
-              <p className="font-mont leading-7 text-zinc-600">
-                Discover opportunities that match your skills, experience, and
-                career goals without wasting time on irrelevant listings.
-              </p>
+                <div className="absolute bottom-6 left-6 right-6 rounded-3xl bg-[#393629] p-5 text-white shadow-xl dark:bg-white dark:text-[#111118]">
+                  <p className="font-unbounded text-lg font-semibold">
+                    One platform. Two journeys.
+                  </p>
+                  <p className="mt-1 font-mont text-sm text-white/70 dark:text-slate-500">
+                    Helping candidates find jobs and recruiters hire faster.
+                  </p>
+                </div>
+              </div>
             </div>
 
-            <div className="rounded-2xl bg-zinc-100 p-6 transition hover:-translate-y-1 hover:shadow-lg">
-              <span className="mb-8 flex size-12 items-center justify-center rounded-full bg-white text-orange-500">
-                <BriefcaseBusiness className="size-6" />
+            {/* Right Content */}
+            <div>
+              <span className="inline-flex rounded-full border border-orange-500/20 bg-orange-500/10 px-4 py-1.5 font-mont text-xs font-semibold uppercase tracking-[0.18em] text-orange-600 dark:text-orange-300">
+                Jobzy Impact
               </span>
 
-              <h3 className="mb-2 font-unbounded text-xl font-semibold text-zinc-900">
-                Verified Companies
-              </h3>
+              <h2 className="mt-5 max-w-2xl font-unbounded text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl">
+                Built for job seekers and modern hiring teams
+              </h2>
 
-              <p className="font-mont leading-7 text-zinc-600">
-                Apply confidently to trusted companies with clear job details,
-                transparent roles, and a smoother hiring experience.
+              <p className="mt-5 max-w-2xl font-mont text-base leading-8 text-[#6b6658] dark:text-slate-400">
+                Jobzy connects candidates with meaningful opportunities while helping
+                recruiters manage jobs, companies, and applicants through a cleaner
+                hiring experience.
               </p>
-            </div>
 
-            <div className="rounded-2xl bg-zinc-100 p-6 transition hover:-translate-y-1 hover:shadow-lg">
-              <span className="mb-8 flex size-12 items-center justify-center rounded-full bg-white text-yellow-500">
-                <Zap className="size-6" />
-              </span>
+              <div className="mt-8 grid gap-4 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+                {[
+                  {
+                    value: "1M+",
+                    label: "Job seekers exploring career opportunities",
+                    color: "text-red-500",
+                  },
+                  {
+                    value: "50K+",
+                    label: "Verified jobs across growing industries",
+                    color: "text-orange-500",
+                  },
+                  {
+                    value: "95%",
+                    label: "Candidate and recruiter satisfaction rate",
+                    color: "text-yellow-500",
+                  },
+                ].map((stat) => (
+                  <div
+                    key={stat.value}
+                    className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-orange-500/10 dark:border-white/10 dark:bg-[#111118]"
+                  >
+                    <h3 className={`font-unbounded text-4xl font-extrabold ${stat.color}`}>
+                      {stat.value}
+                    </h3>
 
-              <h3 className="mb-2 font-unbounded text-xl font-semibold text-zinc-900">
-                Faster Applications
-              </h3>
-
-              <p className="font-mont leading-7 text-zinc-600">
-                Save time with a clean, simple job search flow designed to help
-                candidates apply faster and move forward with confidence.
-              </p>
+                    <p className="mt-3 font-mont text-sm leading-6 text-[#6b6658] dark:text-slate-400">
+                      {stat.label}
+                    </p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </section>
       {/* faq's */}
-      {/* <section className="py-16 transition-colors duration-300 dark:bg-zinc-950"> */}
-      <section className="py-16 transition-colors duration-300">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-            <div className="relative">
-              <div className="absolute -inset-3 rounded-[2rem] bg-red-100/60 blur-2xl dark:bg-red-500/10" />
-              <div className="relative overflow-hidden rounded-3xl border border-zinc-200 bg-white shadow-[0_20px_60px_rgba(0,0,0,0.08)] dark:border-zinc-800 dark:bg-zinc-900 dark:shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
-                <img
-                  src="https://pagedone.io/asset/uploads/1696230182.png"
-                  alt="Jobzy FAQ support"
-                  className="h-full w-full object-cover"
-                />
+      <section className="relative overflow-hidden bg-[#fbf7ef] py-20 text-[#393629] dark:bg-[#050509] dark:text-white">
+        {/* Purple ripple background */}
+        <div className="pointer-events-none absolute right-[-120px] top-1/2 h-[520px] w-[520px] -translate-y-1/2 rounded-full border border-violet-400/20" />
+        <div className="pointer-events-none absolute right-[-80px] top-1/2 h-[400px] w-[400px] -translate-y-1/2 rounded-full border border-violet-400/20" />
+        <div className="pointer-events-none absolute right-[-40px] top-1/2 h-[280px] w-[280px] -translate-y-1/2 rounded-full border border-violet-400/20" />
+        <div className="pointer-events-none absolute right-[-120px] top-1/2 h-[520px] w-[520px] -translate-y-1/2 animate-pulse rounded-full border border-violet-400/20" />
+        <div className="pointer-events-none absolute right-0 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-violet-500/10 blur-3xl" />
+        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-start lg:gap-16">
+            {/* Left content */}
+            <div className="lg:sticky lg:top-24">
+              <span className="inline-flex rounded-full border border-violet-500/20 bg-violet-500/10 px-4 py-1.5 font-mont text-xs font-semibold uppercase tracking-[0.18em] text-violet-600 dark:text-violet-300">
+                Support
+              </span>
+
+              <h2 className="mt-5 max-w-xl font-unbounded text-3xl font-bold leading-tight sm:text-4xl lg:text-3xl">
+                Questions before you apply?
+              </h2>
+
+              <p className="mt-5 max-w-lg font-mont text-base leading-8 text-[#6b6658] dark:text-slate-400">
+                Find quick answers about job search, applications, recruiter reviews,
+                and how Jobzy helps students move faster.
+              </p>
+
+              <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
+                {[
+                  {
+                    value: "24/7",
+                    label: "Access job opportunities anytime",
+                  },
+                  {
+                    value: "Fast",
+                    label: "Apply and track with a smoother flow",
+                  },
+                ].map((item) => (
+                  <div
+                    key={item.value}
+                    className="rounded-3xl border border-slate-200 bg-white p-5 shadow-xl shadow-violet-500/10 dark:border-white/10 dark:bg-[#111118] dark:shadow-black/40"
+                  >
+                    <p className="font-unbounded text-2xl font-bold text-violet-600 dark:text-violet-300">
+                      {item.value}
+                    </p>
+                    <p className="mt-2 font-mont text-sm leading-6 text-[#6b6658] dark:text-slate-400">
+                      {item.label}
+                    </p>
+                  </div>
+                ))}
               </div>
             </div>
 
-            <div className="w-full">
-              <div className="mx-auto max-w-xl lg:mx-0">
-                <div className="mb-8">
-                  <span className="inline-flex rounded-full bg-red-50 px-4 py-1 text-sm font-semibold tracking-wide text-red-500 dark:bg-red-500/10 dark:text-red-400">
-                    Support
-                  </span>
-
-                  <h2 className="mt-4 text-3xl leading-tight font-extrabold text-gray-900 sm:text-4xl dark:text-white">
-                    Frequently Asked Questions
-                  </h2>
-
-                  <p className="mt-4 text-base leading-7 text-gray-500 dark:text-zinc-400">
-                    Everything you need to know before starting your job search
-                    with Jobzy.
-                  </p>
-                </div>
-
-                <div className="space-y-4">
-                  <Accordion
-                    type="single"
-                    collapsible
-                    defaultValue="item-0"
-                    className="space-y-4"
+            {/* FAQ card */}
+            <div className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-2xl shadow-violet-500/10 dark:border-white/10 dark:bg-[#111118] dark:shadow-black/40 sm:p-6">
+              <Accordion
+                type="single"
+                collapsible
+                defaultValue="item-0"
+                className="space-y-4"
+              >
+                {faqs.map((faq, index) => (
+                  <AccordionItem
+                    key={index}
+                    value={`item-${index}`}
+                    className="overflow-hidden rounded-2xl border border-slate-200 bg-[#fbf7ef] px-5 shadow-sm transition-all duration-300 hover:border-violet-300 hover:shadow-md dark:border-white/10 dark:bg-[#050509]"
                   >
-                    {faqs.map((faq, index) => (
-                      <AccordionItem
-                        key={index}
-                        value={`item-${index}`}
-                        className="overflow-hidden rounded-2xl border border-zinc-200 bg-white px-5 shadow-sm transition-all duration-300 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900"
-                      >
-                        <AccordionTrigger className="cursor-pointer py-5 text-left text-base font-semibold text-gray-800 no-underline transition-colors hover:text-red-500 hover:no-underline dark:text-zinc-100 dark:hover:text-red-400">
-                          {faq.question}
-                        </AccordionTrigger>
+                    <AccordionTrigger className="cursor-pointer py-5 text-left font-mont text-base font-semibold text-[#393629] no-underline transition-colors hover:text-violet-600 hover:no-underline dark:text-white dark:hover:text-violet-300">
+                      {faq.question}
+                    </AccordionTrigger>
 
-                        <AccordionContent className="pb-5 text-sm leading-7 text-gray-500 dark:text-zinc-400">
-                          {faq.answer}
-                        </AccordionContent>
-                      </AccordionItem>
-                    ))}
-                  </Accordion>
-                </div>
-              </div>
+                    <AccordionContent className="pb-5 font-mont text-sm leading-7 text-[#6b6658] dark:text-slate-400">
+                      {faq.answer}
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
             </div>
           </div>
         </div>
       </section>
-      {/* tems */}
-      <section className="bg-top py-20 md:py-24">
-        <div className="mx-auto max-w-[85rem] px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col items-center justify-between lg:flex-row">
+      {/* why us */}
+      <section className="relative overflow-hidden bg-[#fbf7ef] py-20 text-[#393629] dark:bg-[#050509] dark:text-white">
+        <div className="pointer-events-none absolute left-1/2 top-10 h-72 w-72 -translate-x-1/2 rounded-full bg-orange-500/10 blur-3xl" />
+
+        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto mb-12 max-w-3xl text-center">
+            <span className="inline-flex rounded-full border border-orange-500/20 bg-orange-500/10 px-4 py-1.5 font-mont text-xs font-semibold uppercase tracking-[0.18em] text-orange-600 dark:text-orange-300">
+              Why Jobzy
+            </span>
+
+            <h2 className="mt-5 font-unbounded text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl">
+              One platform for job seekers and recruiters
+            </h2>
+
+            <p className="mx-auto mt-5 max-w-2xl font-mont text-base leading-8 text-[#6b6658] dark:text-slate-400">
+              Jobzy helps candidates discover better opportunities and gives
+              recruiters a cleaner way to manage jobs, companies, and applicants.
+            </p>
+          </div>
+
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              {
+                icon: Search,
+                title: "Smart Job Discovery",
+                desc: "Find verified roles that match skills, goals, and career direction.",
+              },
+              {
+                icon: BriefcaseBusiness,
+                title: "Recruiter Workflow",
+                desc: "Post jobs, review applicants, and manage hiring from one dashboard.",
+              },
+              {
+                icon: Building2,
+                title: "Company Profiles",
+                desc: "Help companies build trust and attract the right candidates faster.",
+              },
+              {
+                icon: ShieldCheck,
+                title: "Trusted Experience",
+                desc: "A clean, reliable platform designed for students and hiring teams.",
+              },
+            ].map((item) => (
+              <div
+                key={item.title}
+                className="group rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-orange-300 hover:shadow-2xl hover:shadow-orange-500/10 dark:border-white/10 dark:bg-[#111118] dark:hover:border-orange-400/40 dark:hover:shadow-black/40"
+              >
+                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-500/10 text-orange-500">
+                  <item.icon className="h-6 w-6" />
+                </div>
+
+                <h3 className="font-unbounded text-base font-semibold text-[#393629] dark:text-white">
+                  {item.title}
+                </h3>
+
+                <p className="mt-3 font-mont text-sm leading-6 text-[#6b6658] dark:text-slate-400">
+                  {item.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      {/* teams */}
+      <section className="relative overflow-hidden bg-[#fbf7ef] py-20 text-[#393629] dark:bg-[#050509] dark:text-white md:py-24">
+        <div className="pointer-events-none absolute right-10 top-16 h-72 w-72 rounded-full bg-orange-500/10 blur-3xl" />
+        <div className="pointer-events-none absolute left-10 bottom-10 h-64 w-64 rounded-full bg-rose-500/10 blur-3xl" />
+
+        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr]">
             {/* Left Content */}
-            <div className="w-full lg:w-1/2">
-              <h2 className="text-center font-unbounded text-3xl leading-tight font-extrabold text-gray-900 sm:text-4xl lg:text-left lg:text-5xl">
-                Empowering careers that reach new heights
+            <div className="text-center lg:text-left">
+              <span className="inline-flex rounded-full border border-orange-500/20 bg-orange-500/10 px-4 py-1.5 font-mont text-xs font-semibold uppercase tracking-[0.18em] text-orange-600 dark:text-orange-300">
+                Career Growth
+              </span>
+
+              <h2 className="mt-5 font-unbounded text-3xl font-extrabold leading-tight sm:text-4xl lg:text-5xl">
+                Helping students move closer to{" "}
+                <span className="bg-linear-to-r from-orange-500 via-rose-500 to-yellow-400 bg-clip-text text-transparent">
+                  better careers
+                </span>
               </h2>
 
-              <p className="mt-4 text-center font-mont text-base text-gray-600 lg:text-left lg:text-lg">
-                Thousands of professionals have transformed their careers with
-                Jobzy landing roles at top companies and growing into impactful
-                positions.
+              <p className="mx-auto mt-5 max-w-xl font-mont text-base leading-8 text-[#6b6658] lg:mx-0 dark:text-slate-400">
+                Jobzy connects job seekers with verified opportunities and gives them
+                a smoother way to discover roles, review companies, and apply with
+                confidence.
               </p>
 
-              <button className="mx-auto mt-8 block w-70 rounded-full bg-black px-8 py-3 text-center font-mont text-base font-semibold text-white transition hover:bg-red-600 lg:mx-0">
-                Explore Opportunities
-              </button>
+              <div className="mt-10 grid gap-4 sm:grid-cols-3">
+                {[
+                  { value: "50K+", label: "Jobs explored" },
+                  { value: "12K+", label: "Applications sent" },
+                  { value: "800+", label: "Hiring companies" },
+                ].map((item) => (
+                  <div
+                    key={item.label}
+                    className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm dark:border-white/10 dark:bg-[#111118]"
+                  >
+                    <p className="font-unbounded text-2xl font-bold text-orange-500">
+                      {item.value}
+                    </p>
+                    <p className="mt-1 font-mont text-xs text-[#6b6658] dark:text-slate-400">
+                      {item.label}
+                    </p>
+                  </div>
+                ))}
+              </div>
             </div>
 
             {/* Right Images */}
-            <div className="mt-12 w-full max-w-2xl lg:mt-0 lg:w-1/2">
-              <div className="grid grid-cols-1 gap-6 min-[450px]:grid-cols-2 md:grid-cols-3">
-                <img
-                  src="https://pagedone.io/asset/uploads/1696238644.png"
-                  className="mx-auto h-56 w-44 rounded-2xl object-cover md:mt-20"
-                />
+            <div className="relative">
+              <div className="absolute inset-0 rounded-[3rem] bg-orange-500/10 blur-3xl" />
 
-                <img
-                  src="https://pagedone.io/asset/uploads/1696238665.png"
-                  className="mx-auto h-56 w-44 rounded-2xl object-cover"
-                />
-
-                <img
-                  src="https://pagedone.io/asset/uploads/1696238684.png"
-                  className="mx-auto h-56 w-44 rounded-2xl object-cover md:mt-20"
-                />
-
-                <img
-                  src="https://pagedone.io/asset/uploads/1696238702.png"
-                  className="mx-auto h-56 w-44 rounded-2xl object-cover"
-                />
-
-                <img
-                  src="https://pagedone.io/asset/uploads/1696238720.png"
-                  className="mx-auto h-56 w-44 rounded-2xl object-cover md:-mt-20"
-                />
-
-                <img
-                  src="https://pagedone.io/asset/uploads/1696238737.png"
-                  className="mx-auto h-56 w-44 rounded-2xl object-cover"
-                />
+              <div className="relative grid grid-cols-2 gap-4 sm:grid-cols-3">
+                {[
+                  "https://pagedone.io/asset/uploads/1696238644.png",
+                  "https://pagedone.io/asset/uploads/1696238665.png",
+                  "https://pagedone.io/asset/uploads/1696238684.png",
+                  "https://pagedone.io/asset/uploads/1696238702.png",
+                  "https://pagedone.io/asset/uploads/1696238720.png",
+                  "https://pagedone.io/asset/uploads/1696238737.png",
+                ].map((src, index) => (
+                  <div
+                    key={src}
+                    className={`overflow-hidden rounded-[2rem] border border-white bg-white p-2 shadow-xl shadow-orange-500/10 dark:border-none dark:shadow-none dark:bg-transparent ${index === 0 || index === 2 ? "sm:mt-14" : ""
+                      } ${index === 4 ? "sm:-mt-14" : ""}`}
+                  >
+                    <img
+                      src={src}
+                      alt="Jobzy career growth"
+                      className="h-52 w-full rounded-[1.5rem] object-cover sm:h-56 lg:h-64"
+                    />
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         </div>
       </section>
-      {/* stats */}
-      <section className="bg-bottom py-16 md:py-20">
-        <div className="mx-auto max-w-[85rem] px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col gap-10 lg:flex-row lg:justify-between xl:gap-14">
-            {/* Stat 1 */}
-            <div className="w-full lg:w-1/3">
-              <div className="mb-4 text-center font-unbounded text-4xl font-extrabold text-red-500 sm:text-5xl">
-                1M+
-              </div>
-              <p className="text-center font-mont text-base leading-7 text-gray-600 sm:text-lg">
-                Job seekers actively exploring opportunities on Jobzy
+      {/* CTA */}
+      <section className="relative overflow-hidden bg-[#fbf7ef] px-4 py-14 dark:bg-[#050509]">
+        <div className="mx-auto max-w-7xl overflow-hidden rounded-[2rem] border border-slate-200 bg-[#111118] px-6 py-10 shadow-2xl shadow-orange-500/10 dark:border-white/10 sm:px-10">
+
+          <div className="flex flex-col items-center justify-between gap-8 lg:flex-row">
+
+            {/* Left */}
+            <div className="max-w-2xl text-center lg:text-left">
+              <span className="rounded-full border border-orange-500/20 bg-orange-500/10 px-4 py-1 font-mont text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-300">
+                Jobzy Platform
+              </span>
+
+              <h2 className="mt-4 font-unbounded text-2xl font-bold leading-tight text-white sm:text-3xl">
+                Find better jobs. Hire better talent.
+              </h2>
+
+              <p className="mt-3 font-mont text-sm leading-7 text-slate-400 sm:text-base">
+                Built for students, professionals, and recruiters looking for faster hiring experiences.
               </p>
             </div>
 
-            {/* Stat 2 */}
-            <div className="w-full lg:w-1/3">
-              <div className="mb-4 text-center font-unbounded text-4xl font-extrabold text-orange-500 sm:text-5xl">
-                50K+
-              </div>
-              <p className="text-center font-mont text-base leading-7 text-gray-600 sm:text-lg">
-                Verified job listings from trusted companies across industries
-              </p>
-            </div>
+            {/* Right */}
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <button className="rounded-2xl bg-orange-500 px-6 py-3 font-mont text-sm font-semibold text-white transition hover:bg-orange-600">
+                Explore Jobs
+              </button>
 
-            {/* Stat 3 */}
-            <div className="w-full lg:w-1/3">
-              <div className="mb-4 text-center font-unbounded text-4xl font-extrabold text-yellow-500 sm:text-5xl">
-                95%
-              </div>
-              <p className="text-center font-mont text-base leading-7 text-gray-600 sm:text-lg">
-                User satisfaction rate from candidates finding relevant jobs
-              </p>
+              <button className="rounded-2xl border border-white/10 bg-white/5 px-6 py-3 font-mont text-sm font-semibold text-white transition hover:bg-white/10">
+                  Build Your Career
+              </button>
             </div>
           </div>
         </div>
@@ -530,3 +682,5 @@ export default function Jobs() {
     </>
   )
 }
+
+
