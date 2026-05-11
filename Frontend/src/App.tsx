@@ -1,6 +1,5 @@
 import { Routes, Route, useLocation } from "react-router-dom"
 import Navbar from "./components/shared/Navbar"
-import Home from "./pages/Home"
 import About from "./pages/About"
 import Jobs from "./pages/JobsPage"
 import Pricing from "./pages/Pricing"
@@ -16,18 +15,54 @@ import ProtectedRoute from "./ProtectedRoute"
 import ErrorPage from "./pages/ErrroPage"
 import { useSelector } from "react-redux"
 import type { RootState } from "./redux/store"
+import Company from "./components/admin/Company"
+import AddCompanyPage from "./components/admin/AddCompanyPage"
+import Home from "./pages/Home"
 
 export function App() {
   const { pathname } = useLocation()
   // user
   const { user } = useSelector((store: RootState) => store.auth)
 
-  const hideFooterRoutes = ["/login", "/signup"]
-  const shouldHideFooter = hideFooterRoutes.includes(pathname)
+  const hideFooterOnlyRoutes = ["/login", "/signup"]
+  const hideNavFooterRoutes = ["/unauthorized"]
+
+  const validStaticRoutes = [
+    "/",
+    "/about",
+    "/pricing",
+    "/contact",
+    "/login",
+    "/signup",
+    "/unauthorized",
+    "/jobs",
+    "/browse-jobs",
+    "/profile",
+    "/admin/jobs",
+    "/admin/companies",
+    "/admin/companies/new",
+  ]
+
+  const validDynamicRoutes = [/^\/job-details\/[^/]+$/]
+
+  const isValidStaticRoute = validStaticRoutes.includes(pathname)
+
+  const isValidDynamicRoute = validDynamicRoutes.some((route) =>
+    route.test(pathname)
+  )
+
+  const isError404 = !isValidStaticRoute && !isValidDynamicRoute
+
+  const shouldHideNav = hideNavFooterRoutes.includes(pathname) || isError404
+
+  const shouldHideFooter =
+    hideFooterOnlyRoutes.includes(pathname) ||
+    hideNavFooterRoutes.includes(pathname) ||
+    isError404
 
   return (
     <div className="flex min-h-screen flex-col">
-      <Navbar />
+      {!shouldHideNav && <Navbar />}
 
       <main className="flex-1">
         <Routes>
@@ -92,7 +127,15 @@ export function App() {
             path="/admin/companies"
             element={
               <ProtectedRoute allowedRoles={["recruiter"]}>
-                <RecruiterJobs />
+                <Company />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/companies/new"
+            element={
+              <ProtectedRoute allowedRoles={["recruiter"]}>
+                <AddCompanyPage />
               </ProtectedRoute>
             }
           />

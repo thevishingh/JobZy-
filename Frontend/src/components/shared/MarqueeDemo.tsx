@@ -80,14 +80,24 @@ const ReviewCard = ({
 
 export function MarqueeDemo() {
   return (
-    <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
-      <Marquee pauseOnHover className="[--duration:20s]">
-        {firstRow.map((review) => (
-          <ReviewCard key={review.username} {...review} />
-        ))}
-      </Marquee>
-      {/* <div className="pointer-events-none absolute inset-y-0 left-0 w-1/4 bg-linear-to-r from-background"></div>
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-1/4 bg-linear-to-l from-background"></div> */}
+    <div className="relative overflow-hidden bg-[#fbf7ef] py-16 dark:bg-[#050509]">
+      <div className="pointer-events-none absolute right-10 bottom-0 h-56 w-56 rounded-full bg-rose-500/10 blur-3xl dark:bg-orange-500/10" />
+
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* Marquee Box */}
+        <div className="relative rounded-[2rem] border border-slate-200 bg-white/70 px-2 py-8 shadow-2xl shadow-orange-500/10 dark:border-white/10 dark:bg-[#111118] dark:shadow-black/40 sm:px-4">
+          <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
+            <Marquee pauseOnHover className="[--duration:20s]">
+              {firstRow.map((review) => (
+                <ReviewCard key={review.username} {...review} />
+              ))}
+            </Marquee>
+
+            <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-linear-to-r from-white to-transparent dark:from-[#111118]" />
+            <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-linear-to-l from-white to-transparent dark:from-[#111118]" />
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

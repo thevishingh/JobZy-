@@ -22,64 +22,68 @@ type JobProps = {
 
 export default function LatestJobsCards({ job }: JobProps) {
   return (
-    <Card className="group rounded-3xl border border-gray-200 bg-white/80 shadow-sm backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-      <CardHeader className="space-y-4">
+    <Card className="group relative overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-orange-500/10 dark:border-white/10 dark:bg-[#111118] dark:hover:shadow-black/40">
+      <div className="absolute right-0 top-0 h-28 w-28 rounded-full bg-orange-500/10 blur-3xl dark:bg-orange-500/5" />
+
+      <CardHeader className="relative space-y-5">
         <div className="flex items-start justify-between gap-4">
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-50">
-            <Briefcase className="h-6 w-6 text-red-500" />
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-500/10 text-orange-500">
+            <Briefcase className="h-6 w-6" />
           </div>
 
           <Button
             type="button"
             variant="ghost"
             size="icon"
-            className="rounded-full"
+            className="rounded-full text-muted-foreground transition hover:bg-orange-500/10 hover:text-orange-500"
           >
-            <Bookmark className="h-5 w-5 text-gray-500" />
+            <Bookmark className="h-5 w-5" />
           </Button>
         </div>
 
         <div>
-          <h3 className="font-unbounded text-xl font-semibold text-gray-900">
+          <h3 className="line-clamp-1 font-unbounded text-xl font-semibold text-[#393629] dark:text-white">
             {job.title}
           </h3>
 
-          <p className="mt-1 font-mont text-sm text-gray-500">
+          <p className="mt-1 font-mont text-sm text-[#6b6658] dark:text-slate-400">
             {job.company?.name || "Company"}
           </p>
         </div>
       </CardHeader>
 
-      <CardContent className="space-y-5">
-        <div className="flex items-center gap-2 font-mont text-sm text-gray-600">
-          <MapPin className="h-4 w-4 text-gray-400" />
+      <CardContent className="relative space-y-5">
+        <div className="flex items-center gap-2 font-mont text-sm text-[#6b6658] dark:text-slate-400">
+          <MapPin className="h-4 w-4 text-orange-500" />
           {job.location}
         </div>
 
         <div className="flex flex-wrap gap-2">
-          <Badge className="rounded-full bg-green-50 px-3 py-1 text-green-700 hover:bg-green-50">
+          <Badge className="rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 font-mont text-emerald-700 hover:bg-emerald-500/10 dark:text-emerald-300">
             {job.jobType}
           </Badge>
 
-          <Badge className="rounded-full bg-blue-50 px-3 py-1 text-blue-700 hover:bg-blue-50">
+          <Badge className="rounded-full border border-blue-500/20 bg-blue-500/10 px-3 py-1 font-mont text-blue-700 hover:bg-blue-500/10 dark:text-blue-300">
             {job.positions} Positions
           </Badge>
 
-          <Badge className="rounded-full bg-orange-50 px-3 py-1 text-orange-700 hover:bg-orange-50">
+          <Badge className="rounded-full border border-orange-500/20 bg-orange-500/10 px-3 py-1 font-mont text-orange-700 hover:bg-orange-500/10 dark:text-orange-300">
             <IndianRupee className="mr-1 h-3 w-3" />
             {job.salary}
           </Badge>
         </div>
 
-        <p className="line-clamp-1 font-mont text-sm leading-6 text-gray-600">
+        <p className="line-clamp-2 font-mont text-sm leading-6 text-[#6b6658] dark:text-slate-400">
           {job.description}
         </p>
       </CardContent>
 
-      <CardFooter className="flex items-center justify-between border-t px-6 pt-5">
-        <p className="font-mont text-xs text-gray-500">Posted 2 days ago</p>
+      <CardFooter className="relative flex items-center justify-between border-t border-slate-200 px-6 pt-5 dark:border-white/10">
+        <p className="font-mont text-xs text-[#6b6658] dark:text-slate-500">
+          Posted 2 days ago
+        </p>
 
-        <Button className="rounded-full bg-black px-5 font-mont text-white hover:bg-gray-900">
+        <Button className="rounded-full bg-[#393629] px-5 font-mont text-white transition hover:bg-[#c65d3b] dark:bg-white dark:text-slate-950 dark:hover:bg-orange-400">
           View Details
         </Button>
       </CardFooter>
