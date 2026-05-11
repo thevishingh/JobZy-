@@ -69,6 +69,7 @@ const Home: React.FC = () => {
     <>
       {/* Hero section */}
       <section className="relative min-h-screen overflow-hidden bg-[#fbf7ef] text-foreground dark:bg-[#050509]">
+        
         <div className="absolute inset-0">
           <div className="absolute left-[58%] top-[18%] h-[520px] w-[520px] rounded-full border border-orange-400/20" />
           <div className="absolute left-[62%] top-[24%] h-[400px] w-[400px] rounded-full border border-rose-400/20" />
@@ -238,7 +239,7 @@ const Home: React.FC = () => {
       <section className="relative overflow-hidden py-2">
         <div className="absolute inset-0 bg-[#fbf7ef] dark:bg-[#050509]" />
         <div className="relative z-10 mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-          <h1 className="mx-auto max-w-[1500px] font-unbounded text-3xl font-bold leading-[1.08] tracking-tight text-[#393629] dark:text-white sm:text-4xl md:text-5xl lg:text-[3.6rem] xl:text-[4.2rem]">
+          <h1 className="mx-auto max-w-375 font-unbounded text-3xl font-bold leading-[1.08] tracking-tight text-[#393629] dark:text-white sm:text-4xl md:text-5xl lg:text-[3.6rem] xl:text-[4.2rem]">
             Connecting{" "}
             <span className="inline-block bg-linear-to-r from-orange-500 via-amber-500 to-yellow-400 bg-clip-text text-transparent">
               talent
@@ -274,7 +275,7 @@ const Home: React.FC = () => {
           {/* Marquee */}
           <motion.div
             ref={scope}
-            className="flex w-max gap-4 will-change-transform"
+            className="flex mt-2 w-max gap-4 will-change-transform"
           >
             {[...categories, ...categories].map((cat, idx) => (
               <button

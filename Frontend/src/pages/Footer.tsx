@@ -10,10 +10,10 @@ import { ArrowUpRight, Sparkles } from "lucide-react"
 
 export default function Footer() {
   const linkClass =
-    "text-muted-foreground transition hover:text-foreground hover:translate-x-1 inline-block"
+    "text-muted-foreground transition font-unbounded hover:text-foreground hover:translate-x-1 inline-block"
 
   const headingClass =
-    "mb-5 font-mont text-xs font-extrabold uppercase tracking-[0.18em] text-foreground"
+    "mb-5 font-unbounded text-xs font-bold dark:text-indigo-400 tracking-[0.18em] text-foreground"
 
   return (
     <footer className="relative w-full overflow-hidden border-t border-border bg-background">
@@ -34,15 +34,15 @@ export default function Footer() {
 
               <div>
                 <h2 className="font-unbounded text-2xl font-bold tracking-tight text-foreground">
-                  Job<span className="text-red-500">Zy</span>
+                  Job<span className="text-red-500 font-unbounded">Zy</span>
                 </h2>
-                <p className="font-mont text-[10px] font-semibold tracking-[0.25em] text-muted-foreground uppercase">
+                <p className="font-unbounded text-[10px] font-semibold tracking-[0.25em] text-muted-foreground uppercase">
                   Career Platform
                 </p>
               </div>
             </Link>
 
-            <p className="py-6 font-mont text-sm leading-6 text-muted-foreground lg:max-w-xs">
+            <p className="py-6 font-mont capitalize text-sm leading-6 text-muted-foreground lg:max-w-xs">
               JobZy helps candidates discover better opportunities and
               recruiters manage hiring with a clean, modern, and powerful
               workflow.
@@ -50,7 +50,7 @@ export default function Footer() {
 
             <Link
               to="/contact"
-              className="inline-flex items-center gap-2 rounded-full border border-border bg-foreground px-5 py-2.5 font-mont text-xs font-semibold text-background transition hover:scale-105"
+              className="inline-flex items-center gap-2 rounded-full border border-border bg-foreground px-5 py-2.5 font-unbounded text-xs font-semibold text-background transition hover:scale-105"
             >
               Contact Us
               <ArrowUpRight className="h-3.5 w-3.5" />
@@ -169,7 +169,7 @@ export default function Footer() {
         {/* BOTTOM */}
         <div className="border-t border-border py-6">
           <div className="flex flex-col items-center justify-between gap-4 lg:flex-row">
-            <span className="font-mont text-sm text-muted-foreground">
+            <span className="font-unbounded text-sm text-muted-foreground">
               © 2026 JobZy. All rights reserved.
             </span>
 

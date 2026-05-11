@@ -67,13 +67,13 @@ const ReviewCard = ({
       <div className="flex flex-row items-center gap-2">
         <img className="rounded-full" width="32" height="32" alt="" src={img} />
         <div className="flex flex-col">
-          <figcaption className="text-sm font-medium text-black font-mont ">
+          <figcaption className="text-sm font-medium text-black dark:text-red-400 font-unbounded ">
             {name}
           </figcaption>
-          <p className="text-xs font-medium font-inter text-black ">{username}</p>
+          <p className="text-xs font-medium font-unbounded text-black dark:text-indigo-400 ">{username}</p>
         </div>
       </div>
-      <blockquote className="mt-2 text-sm font-mont">{body}</blockquote>
+      <blockquote className="mt-2 text-xs font-mont">{body}</blockquote>
     </figure>
   )
 }

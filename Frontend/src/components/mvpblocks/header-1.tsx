@@ -257,7 +257,7 @@ export default function Header1() {
                   <div className="group relative">
                     <Link
                       to={item.to || "#"}
-                      className={`flex items-center space-x-1 font-mont font-medium transition-colors duration-200 hover:text-rose-500 dark:text-white dark:hover:text-lime-400 ${
+                      className={`flex font-unbounded items-center space-x-1 font-medium transition-colors duration-200 hover:text-rose-500 dark:text-white dark:hover:text-lime-400 ${
                         isSignupPage ? "text-white" : "text-black"
                       }`}
                     >
@@ -266,7 +266,7 @@ export default function Header1() {
 
                     {item.description && (
                       <div className="pointer-events-none absolute top-full left-1/2 z-50 mt-3 hidden w-max max-w-60 -translate-x-1/2 rounded-xl border border-zinc-200 bg-white/95 px-3 py-2 text-xs leading-relaxed font-medium text-zinc-700 shadow-[0_10px_30px_rgba(0,0,0,0.08)] backdrop-blur-sm group-hover:block dark:border-zinc-700 dark:bg-zinc-900/95 dark:text-zinc-200">
-                        <div className="absolute top-0 left-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rotate-45 border-t border-l border-zinc-200 bg-white/95 dark:border-zinc-700 dark:bg-zinc-900/95" />
+                        <div className="absolute top-0 left-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rotate-45 border-t border-l border-zinc-200 font-unbounded bg-white/95 dark:border-zinc-700 dark:bg-zinc-900/95" />
                         {item.description}
                       </div>
                     )}
@@ -280,7 +280,7 @@ export default function Header1() {
               <ThemeToggleButton />
               <Link
                 to="/login"
-                className={`font-mont font-medium transition-colors duration-200 hover:text-lime-400 dark:text-white dark:hover:text-lime-400 ${
+                className={`font-unbounded font-medium transition-colors duration-200 hover:text-lime-400 dark:text-white dark:hover:text-lime-400 ${
                   isSignupPage ? "text-white" : "text-black"
                 }`}
               >
@@ -293,7 +293,7 @@ export default function Header1() {
               >
                 <Link
                   to="/signup"
-                  className="inline-flex items-center space-x-2 rounded-full bg-linear-to-r from-rose-500 to-rose-700 px-6 py-2.5 font-mont font-medium text-white transition-all duration-200 hover:shadow-lg dark:text-white"
+                  className="inline-flex items-center space-x-2 rounded-full bg-linear-to-r from-rose-500 to-rose-700 px-6 py-2.5 font-unbounded font-medium text-white transition-all duration-200 hover:shadow-lg dark:text-white"
                 >
                   <span>Get Started</span>
                   <ArrowRight className="h-4 w-4" />
