@@ -213,18 +213,18 @@ const Home: React.FC = () => {
             <div className="absolute inset-x-16 bottom-10 top-24 rounded-full bg-rose-100 dark:bg-rose-500/10" />
 
             <img
-              src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=900&auto=format&fit=crop"
+              src="https://cdn.flyonui.com/fy-assets/blocks/marketing-ui/about/about-18.png"
               alt="Jobzy professional hiring platform"
               className="absolute bottom-0 left-1/2 z-10 h-[520px] w-[360px] -translate-x-1/2 rounded-t-[2rem] object-cover object-top"
             />
 
-            <div className="absolute bottom-8 left-1/2 z-30 w-[85%] -translate-x-1/2 rounded-3xl bg-[#393629] p-5 text-white shadow-2xl dark:bg-white dark:text-slate-950">
+            <div className="absolute bottom-8 left-1/2 z-30 w-[85%] -translate-x-1/2 rounded-3xl bg-[#393629] p-5 text-white shadow-2xl dark:bg-black/80 dark:text-slate-950">
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <p className="font-unbounded text-lg font-semibold">
+                  <p className="font-unbounded text-white text-lg font-semibold">
                     Find the right opportunity
                   </p>
-                  <p className="mt-1 font-mont text-sm text-white/60 dark:text-slate-500">
+                  <p className="mt-1 font-mont text-sm text-white/60 dark:text-lime-500">
                     Jobs, companies, and applications in one place.
                   </p>
                 </div>

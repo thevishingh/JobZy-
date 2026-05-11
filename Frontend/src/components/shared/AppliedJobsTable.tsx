@@ -3,34 +3,35 @@ import { Badge } from "../ui/badge"
 
 export default function AppliedJobsTable() {
   return (
-    <section className="bg-bottom py-10">
-      <Card className="mx-auto mt-8 max-w-7xl rounded-3xl border-gray-200 shadow-sm">
-        <CardHeader>
-          <CardTitle className="font-mont text-lg">
-            Your Applications Overview
-          </CardTitle>
+    <section className="bg-[#fbf7ef] px-4 py-10 dark:bg-[#050509] sm:px-6 lg:px-8">
+      <Card className="mx-auto max-w-7xl overflow-hidden rounded-[2rem] border-slate-200 bg-white shadow-xl shadow-orange-500/10 dark:border-white/10 dark:bg-[#111118] dark:shadow-black/40">
+        <CardHeader className="border-b border-slate-200 px-5 py-6 dark:border-white/10 sm:px-6">
+          <div>
+            <CardTitle className="font-unbounded text-xl font-bold text-[#393629] dark:text-white">
+              Your Applications Overview
+            </CardTitle>
+
+            <p className="mt-2 font-mont text-sm text-[#6b6658] dark:text-slate-400">
+              Track the jobs you’ve applied for and monitor your hiring progress.
+            </p>
+          </div>
         </CardHeader>
 
-        <CardContent>
+        <CardContent className="p-0">
           <div className="overflow-x-auto">
-            <table className="w-full min-w-175 border-collapse">
+            <table className="w-full min-w-[760px] border-collapse">
               <thead>
-                <tr className="border-b border-gray-200 text-left">
-                  <th className="px-4 py-3 font-mont text-sm font-semibold text-gray-600">
-                    No.
-                  </th>
-                  <th className="px-4 py-3 font-mont text-sm font-semibold text-gray-600">
-                    Company
-                  </th>
-                  <th className="px-4 py-3 font-mont text-sm font-semibold text-gray-600">
-                    Job Role
-                  </th>
-                  <th className="px-4 py-3 font-mont text-sm font-semibold text-gray-600">
-                    Applied On
-                  </th>
-                  <th className="px-4 py-3 font-mont text-sm font-semibold text-gray-600">
-                    Status
-                  </th>
+                <tr className="border-b border-slate-200 bg-[#fbf7ef] text-left dark:border-white/10 dark:bg-[#050509]">
+                  {["No.", "Company", "Job Role", "Applied On", "Status"].map(
+                    (head) => (
+                      <th
+                        key={head}
+                        className="px-5 py-4 font-unbounded text-xs font-bold uppercase tracking-[0.16em] text-[#6b6658] dark:text-slate-400"
+                      >
+                        {head}
+                      </th>
+                    )
+                  )}
                 </tr>
               </thead>
 
@@ -57,21 +58,28 @@ export default function AppliedJobsTable() {
                 ].map((job, index) => (
                   <tr
                     key={index}
-                    className="border-b border-gray-100 transition hover:bg-gray-50"
+                    className="border-b border-slate-100 transition hover:bg-orange-50/60 dark:border-white/10 dark:hover:bg-white/4"
                   >
-                    <td className="px-4 py-4 font-mont text-sm text-gray-700">
-                      {index + 1}
+                    <td className="px-5 py-5 font-mont text-sm font-semibold text-[#393629] dark:text-white">
+                      #{index + 1}
                     </td>
 
-                    <td className="px-4 py-4 font-mont text-sm font-medium text-gray-900">
-                      {job.company}
+                    <td className="px-5 py-5">
+                      <div>
+                        <p className="font-unbounded text-sm font-semibold text-[#393629] dark:text-white">
+                          {job.company}
+                        </p>
+                        <p className="mt-1 font-mont text-xs text-[#6b6658] dark:text-slate-500">
+                          Hiring partner
+                        </p>
+                      </div>
                     </td>
 
-                    <td className="px-4 py-4 font-mont text-sm text-gray-600">
+                    <td className="px-5 py-5 font-mont text-sm text-[#6b6658] dark:text-slate-400">
                       {job.role}
                     </td>
 
-                    <td className="px-4 py-4 font-mont text-sm text-gray-500">
+                    <td className="px-5 py-5 font-unbounded text-sm text-[#6b6658] dark:text-slate-400">
                       {new Date(job.date).toLocaleDateString("en-IN", {
                         day: "numeric",
                         month: "short",
@@ -79,15 +87,14 @@ export default function AppliedJobsTable() {
                       })}
                     </td>
 
-                    <td className="px-4 py-4">
+                    <td className="px-5 py-5">
                       <Badge
-                        className={`rounded-full px-3 py-1 font-mont text-xs ${
-                          job.status === "Pending"
-                            ? "bg-yellow-100 text-yellow-700"
+                        className={`rounded-full font-unbounded px-3 py-1 text-xs ${job.status === "Pending"
+                            ? "bg-yellow-500/10 text-yellow-700 dark:text-yellow-300"
                             : job.status === "Reviewed"
-                              ? "bg-green-100 text-green-700"
-                              : "bg-red-100 text-red-700"
-                        }`}
+                              ? "bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"
+                              : "bg-rose-500/10 text-rose-700 dark:text-rose-300"
+                          }`}
                       >
                         {job.status}
                       </Badge>

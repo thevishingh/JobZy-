@@ -197,50 +197,56 @@ function formatDate(date: string) {
 
 export default function CompanyTable() {
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm sm:p-5">
-      <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+    <div className="rounded-2xl border border-slate-200 bg-white dark:border-white/10 dark:bg-[#111118]">
+    
+      
+      <div className="mb-5 flex flex-col gap-2 border-b border-slate-200 px-4 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-5 dark:border-white/10">
         <div>
-          <h2 className="text-lg font-semibold text-gray-900">
+          <h2 className="font-unbounded text-lg font-semibold text-[#393629] dark:text-white">
             Registered Companies
           </h2>
-          <p className="text-sm text-gray-500">
-            Manage companies created by recruiters on Jobzy
+
+          <p className="font-mont text-sm text-[#6b6658] dark:text-slate-400">
+            Manage recruiter-created company profiles on Jobzy
           </p>
         </div>
       </div>
 
-      <div className="overflow-hidden rounded-xl border border-gray-200">
+      <div className="overflow-hidden rounded-b-2xl">
+        {/* Desktop Table */}
         <div className="hidden overflow-x-auto md:block">
           <table className="w-full min-w-[900px] text-left">
-            <thead className="border-b border-gray-200 bg-gray-50">
+            <thead className="border-b border-slate-200 bg-[#f8f5ef] dark:border-white/10 dark:bg-[#0b0b10]">
               <tr>
-                <th className="px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase">
-                  Company
-                </th>
-                <th className="px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase">
-                  Website
-                </th>
-                <th className="px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase">
-                  Location
-                </th>
-                <th className="px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase">
-                  Recruiter ID
-                </th>
-                <th className="px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase">
-                  Created
-                </th>
-                <th className="px-4 py-3 text-right text-xs font-semibold tracking-wide text-gray-500 uppercase">
-                  Actions
-                </th>
+                {[
+                  "Company",
+                  "Website",
+                  "Location",
+                  "Recruiter ID",
+                  "Created",
+                  "Actions",
+                ].map((head) => (
+                  <th
+                    key={head}
+                    className={`px-4 py-4 font-mont text-xs font-bold tracking-[0.15em] text-[#6b6658] uppercase dark:text-slate-400 ${
+                      head === "Actions" ? "text-right" : ""
+                    }`}
+                  >
+                    {head}
+                  </th>
+                ))}
               </tr>
             </thead>
 
-            <tbody className="divide-y divide-gray-100 bg-white">
+            <tbody className="divide-y divide-slate-100 dark:divide-white/10">
               {companies.map((company) => (
-                <tr key={company._id} className="transition hover:bg-gray-50">
+                <tr
+                  key={company._id}
+                  className="transition hover:bg-[#f8f5ef] dark:hover:bg-white/[0.03]"
+                >
                   <td className="px-4 py-4">
                     <div className="flex items-center gap-3">
-                      <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gray-100">
+                      <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-slate-200 bg-[#f8f5ef] dark:border-white/10 dark:bg-[#050509]">
                         {company.logo ? (
                           <img
                             src={company.logo}
@@ -248,15 +254,16 @@ export default function CompanyTable() {
                             className="h-full w-full object-cover"
                           />
                         ) : (
-                          <Building2 className="h-5 w-5 text-gray-400" />
+                          <Building2 className="h-5 w-5 text-orange-500" />
                         )}
                       </div>
 
                       <div>
-                        <h3 className="text-sm font-semibold text-gray-900">
+                        <h3 className="font-unbounded text-sm font-semibold text-[#393629] dark:text-white">
                           {company.name}
                         </h3>
-                        <p className="max-w-xs truncate text-sm text-gray-500">
+
+                        <p className="max-w-xs truncate font-mont text-sm text-[#6b6658] dark:text-slate-400">
                           {company.description || "No description provided"}
                         </p>
                       </div>
@@ -269,46 +276,49 @@ export default function CompanyTable() {
                         href={company.website}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700"
+                        className="inline-flex items-center gap-2 font-mont text-sm font-medium text-orange-600 dark:text-orange-300"
                       >
                         <Globe className="h-4 w-4" />
                         Website
                       </a>
                     ) : (
-                      <span className="text-sm text-gray-400">Not added</span>
+                      <span className="font-mont text-sm text-slate-400">
+                        Not added
+                      </span>
                     )}
                   </td>
 
                   <td className="px-4 py-4">
-                    <span className="inline-flex items-center gap-2 text-sm text-gray-600">
-                      <MapPin className="h-4 w-4 text-gray-400" />
+                    <span className="inline-flex items-center gap-2 font-mont text-sm text-[#6b6658] dark:text-slate-400">
+                      <MapPin className="h-4 w-4 text-orange-500" />
                       {company.location || "Not added"}
                     </span>
                   </td>
 
                   <td className="px-4 py-4">
-                    <span className="block max-w-[150px] truncate rounded-lg bg-gray-100 px-2 py-1 text-xs text-gray-600">
+                    <span className="block max-w-[150px] truncate rounded-lg bg-[#f8f5ef] px-2 py-1 font-mono text-xs text-[#6b6658] dark:bg-[#050509] dark:text-slate-400">
                       {company.userId}
                     </span>
                   </td>
 
-                  <td className="px-4 py-4 text-sm text-gray-600">
+                  <td className="px-4 py-4 font-mont text-sm text-[#6b6658] dark:text-slate-400">
                     {formatDate(company.createdAt)}
                   </td>
 
                   <td className="px-4 py-4">
                     <div className="flex justify-end">
                       <div className="group relative">
-                        <button className="cursor-pointer rounded-lg p-2 hover:bg-gray-200">
-                          <MoreHorizontal className="h-5 w-5 text-gray-600" />
+                        <button className="cursor-pointer rounded-lg p-2 transition hover:bg-[#f8f5ef] dark:hover:bg-white/5">
+                          <MoreHorizontal className="h-5 w-5 text-[#6b6658] dark:text-slate-300" />
                         </button>
 
-                        <div className="invisible absolute top-10 right-0 z-20 w-40 rounded-xl border border-gray-200 bg-gray-300 p-1 opacity-0 shadow-lg transition-all group-hover:visible group-hover:opacity-100">
-                          <button className="flex w-full cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                        <div className="invisible absolute top-10 right-0 z-20 w-40 rounded-xl border border-slate-200 bg-white p-1 opacity-0 transition-all group-hover:visible group-hover:opacity-100 dark:border-white/10 dark:bg-[#181820]">
+                          <button className="flex w-full cursor-pointer items-center gap-2 rounded-lg px-3 py-2 font-mont text-sm text-[#393629] hover:bg-[#f8f5ef] dark:text-white dark:hover:bg-white/5">
                             <Pencil className="h-4 w-4" />
                             Edit
                           </button>
-                          <button className="flex w-full cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-sm text-red-600 hover:bg-red-50">
+
+                          <button className="flex w-full cursor-pointer items-center gap-2 rounded-lg px-3 py-2 font-mont text-sm text-red-600 hover:bg-red-50 dark:text-red-300 dark:hover:bg-red-500/10">
                             <Trash2 className="h-4 w-4" />
                             Delete
                           </button>
@@ -322,12 +332,13 @@ export default function CompanyTable() {
           </table>
         </div>
 
-        <div className="divide-y divide-gray-100 bg-white md:hidden">
+        {/* Mobile Cards */}
+        <div className="divide-y divide-slate-100 md:hidden dark:divide-white/10">
           {companies.map((company) => (
             <div key={company._id} className="p-4">
               <div className="mb-3 flex items-start justify-between gap-3">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gray-100">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-slate-200 bg-[#f8f5ef] dark:border-white/10 dark:bg-[#050509]">
                     {company.logo ? (
                       <img
                         src={company.logo}
@@ -335,72 +346,70 @@ export default function CompanyTable() {
                         className="h-full w-full object-cover"
                       />
                     ) : (
-                      <Building2 className="h-5 w-5 text-gray-400" />
+                      <Building2 className="h-5 w-5 text-orange-500" />
                     )}
                   </div>
 
                   <div>
-                    <h3 className="text-sm font-semibold text-gray-900">
+                    <h3 className="font-mont text-sm font-semibold text-[#393629] dark:text-white">
                       {company.name}
                     </h3>
-                    <p className="line-clamp-2 text-sm text-gray-500">
+
+                    <p className="line-clamp-2 font-mont text-sm text-[#6b6658] dark:text-slate-400">
                       {company.description || "No description provided"}
                     </p>
                   </div>
                 </div>
-
-                <div className="group relative">
-                  <button className="rounded-lg p-2 hover:bg-gray-100">
-                    <MoreHorizontal className="h-5 w-5 text-gray-600" />
-                  </button>
-
-                  <div className="invisible absolute top-10 right-0 z-20 w-36 rounded-xl border border-gray-200 bg-white p-1 opacity-0 shadow-lg transition-all group-hover:visible group-hover:opacity-100">
-                    <button className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-50">
-                      <Pencil className="h-4 w-4" />
-                      Edit
-                    </button>
-                    <button className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-red-600 hover:bg-red-50">
-                      <Trash2 className="h-4 w-4" />
-                      Delete
-                    </button>
-                  </div>
-                </div>
               </div>
 
-              <div className="space-y-2 rounded-xl bg-gray-50 p-3 text-sm">
+              <div className="space-y-2 rounded-xl bg-[#f8f5ef] p-3 dark:bg-[#050509]">
                 <div className="flex items-center justify-between gap-3">
-                  <span className="text-gray-500">Website</span>
+                  <span className="font-mont text-sm text-[#6b6658] dark:text-slate-400">
+                    Website
+                  </span>
+
                   {company.website ? (
                     <a
                       href={company.website}
                       target="_blank"
                       rel="noreferrer"
-                      className="font-medium text-blue-600"
+                      className="font-mont text-sm font-medium text-orange-600 dark:text-orange-300"
                     >
                       Visit
                     </a>
                   ) : (
-                    <span className="text-gray-400">Not added</span>
+                    <span className="font-mont text-sm text-slate-400">
+                      Not added
+                    </span>
                   )}
                 </div>
 
                 <div className="flex items-center justify-between gap-3">
-                  <span className="text-gray-500">Location</span>
-                  <span className="max-w-[160px] truncate font-medium text-gray-700">
+                  <span className="font-mont text-sm text-[#6b6658] dark:text-slate-400">
+                    Location
+                  </span>
+
+                  <span className="max-w-[160px] truncate font-mont text-sm font-medium text-[#393629] dark:text-white">
                     {company.location || "Not added"}
                   </span>
                 </div>
 
                 <div className="flex items-center justify-between gap-3">
-                  <span className="text-gray-500">Created</span>
-                  <span className="font-medium text-gray-700">
+                  <span className="font-mont text-sm text-[#6b6658] dark:text-slate-400">
+                    Created
+                  </span>
+
+                  <span className="font-mont text-sm font-medium text-[#393629] dark:text-white">
                     {formatDate(company.createdAt)}
                   </span>
                 </div>
 
                 <div className="flex items-center justify-between gap-3">
-                  <span className="text-gray-500">Recruiter ID</span>
-                  <span className="max-w-[150px] truncate font-mono text-xs text-gray-600">
+                  <span className="font-mont text-sm text-[#6b6658] dark:text-slate-400">
+                    Recruiter ID
+                  </span>
+
+                  <span className="max-w-[150px] truncate font-mono text-xs text-[#6b6658] dark:text-slate-400">
                     {company.userId}
                   </span>
                 </div>

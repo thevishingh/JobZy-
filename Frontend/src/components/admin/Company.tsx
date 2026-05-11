@@ -10,6 +10,7 @@ import {
 } from "lucide-react"
 import CompanyTable from "./CompanyTable"
 import { useNavigate } from "react-router-dom"
+import { Highlighter } from "../ui/highlighter"
 
 const brandLogos = [
   {
@@ -34,132 +35,142 @@ export default function Company() {
   // navigate
   const navigate = useNavigate()
   return (
-    <section className="mx-auto my-10 w-full px-4 sm:px-6 md:my-16 lg:my-24 lg:px-8">
-      {/* Hero Section */}
-      <div className="relative mb-10 overflow-hidden rounded-[2rem] p-5 shadow-sm sm:p-8 lg:p-10">
-        <div className="absolute -top-16 -right-16 h-52 w-52 rounded-full bg-orange-200/50 blur-3xl" />
-        <div className="absolute -bottom-20 -left-20 h-60 w-60 rounded-full bg-red-200/40 blur-3xl" />
+    <section className="min-h-screen bg-[#fbf7ef] px-4 py-20 text-[#393629] sm:px-6 md:py-16 lg:px-8 lg:py-24 dark:bg-[#050509] dark:text-white">
+      
+        {/* Hero */}
+      <div className="mx-auto max-w-7xl">
+        
+        <div className="relative mb-10 overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-5 shadow-2xl shadow-orange-500/10 sm:p-8 lg:p-10 dark:border-white/10 dark:bg-[#111118]">
+          <div className="pointer-events-none absolute top-0 right-0 h-72 w-72 rounded-full bg-orange-500/10 blur-3xl" />
 
-        <div className="relative grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
-          <div>
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-orange-200 bg-white/70 px-4 py-2 font-mont text-sm font-medium text-gray-700 backdrop-blur">
-              <Sparkles className="h-4 w-4 text-orange-500" />
-              Company Management
-            </div>
-
-            <h1 className="font-unbounded text-3xl leading-tight font-bold text-gray-950 sm:text-4xl lg:text-5xl">
-              Manage Recruiter Companies With Confidence
-            </h1>
-
-            <p className="mt-5 max-w-2xl font-mont text-sm leading-7 text-gray-600 sm:text-base">
-              Create, organize, and monitor companies registered on Jobzy. Keep
-              company profiles, websites, locations, and recruiter data
-              structured in one clean dashboard.
-            </p>
-
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-              <button className="inline-flex items-center justify-center gap-2 rounded-full bg-gray-950 px-5 py-3 font-mont text-sm font-semibold text-white transition hover:bg-gray-800">
-                <FilePlus2 className="h-4 w-4" />
-                Add New Company
-                <ArrowRight className="h-4 w-4" />
-              </button>
-
-              <button className="inline-flex items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-5 py-3 font-mont text-sm font-semibold text-gray-800 transition hover:bg-gray-50">
-                <Search className="h-4 w-4" />
-                Explore Companies
-              </button>
-            </div>
-
-            <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
-              <div className="rounded-2xl border border-white/70 bg-white/70 p-4 backdrop-blur">
-                <Building2 className="mb-3 h-5 w-5 text-orange-500" />
-                <h3 className="font-unbounded text-lg font-semibold text-gray-950">
-                  120+
-                </h3>
-                <p className="font-mont text-sm text-gray-500">
-                  Registered companies
-                </p>
+          <div className="relative grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
+            <div>
+              <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-orange-500/10 px-4 py-2 font-mont text-xs font-semibold tracking-[0.18em] text-orange-600 uppercase dark:text-orange-300">
+                <Sparkles className="h-4 w-4" />
+                Recruiter Workspace
               </div>
 
-              <div className="rounded-2xl border border-white/70 bg-white/70 p-4 backdrop-blur">
-                <ShieldCheck className="mb-3 h-5 w-5 text-orange-500" />
-                <h3 className="font-unbounded text-lg font-semibold text-gray-950">
-                  Verified
-                </h3>
-                <p className="font-mont text-sm text-gray-500">
-                  Recruiter-created profiles
-                </p>
-              </div>
+              <h1 className="font-unbounded text-3xl leading-tight font-bold sm:text-4xl lg:text-5xl">
+                Manage companies and build your
+                <Highlighter action="highlight" color="orange">
+                  <span className="mx-2 text-black">trusted network</span>
+                </Highlighter>
+                for job posting
+              </h1>
 
-              <div className="rounded-2xl border border-white/70 bg-white/70 p-4 backdrop-blur">
-                <Sparkles className="mb-3 h-5 w-5 text-orange-500" />
-                <h3 className="font-unbounded text-lg font-semibold text-gray-950">
-                  Smart
-                </h3>
-                <p className="font-mont text-sm text-gray-500">
-                  Jobzy company records
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Hero Image/Card */}
-          <div className="rounded-[1.7rem] border border-white/70 bg-white/80 p-4 shadow-xl backdrop-blur">
-            <img
-              src="https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=1200&auto=format&fit=crop"
-              alt="Professional team managing companies"
-              className="h-56 w-full rounded-2xl object-cover sm:h-72 lg:h-80"
-            />
-
-            <div className="mt-5">
-              <h2 className="font-unbounded text-xl font-semibold text-gray-950">
-                Trusted Company Network
-              </h2>
-              <p className="mt-2 font-mont text-sm leading-6 text-gray-600">
-                Manage brands, company details, and recruiter ownership from one
-                powerful admin experience.
+              <p className="mt-5 max-w-2xl font-mont text-sm leading-7 text-[#6b6658] sm:text-base dark:text-slate-400">
+                Create company profiles, organize recruiter-owned businesses,
+                and keep hiring brands ready for job posting on Jobzy.
               </p>
 
-              <div className="mt-5 flex flex-wrap gap-3">
-                {brandLogos.map((brand) => (
+              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+                <button
+                  onClick={() => navigate("/admin/companies/new")}
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[#c65d3b] px-5 py-3 font-mont text-sm font-semibold text-white transition hover:-translate-y-1 hover:bg-[#b65335]"
+                >
+                  <FilePlus2 className="h-4 w-4" />
+                  Add New Company
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+
+                <button className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-[#fbf7ef] px-5 py-3 font-mont text-sm font-semibold text-[#393629] transition hover:-translate-y-1 hover:border-orange-300 dark:border-white/10 dark:bg-[#050509] dark:text-white">
+                  <Search className="h-4 w-4" />
+                  Explore Companies
+                </button>
+              </div>
+
+              <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
+                {[
+                  {
+                    icon: Building2,
+                    value: "120+",
+                    label: "Company profiles",
+                  },
+                  {
+                    icon: ShieldCheck,
+                    value: "Verified",
+                    label: "Recruiter-owned data",
+                  },
+                  {
+                    icon: Sparkles,
+                    value: "Ready",
+                    label: "For job publishing",
+                  },
+                ].map((item) => (
                   <div
-                    key={brand.name}
-                    className="flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3 py-2"
+                    key={item.label}
+                    className="rounded-2xl border border-slate-200 bg-[#fbf7ef] p-4 dark:border-white/10 dark:bg-[#050509]"
                   >
-                    <img
-                      src={brand.logo}
-                      alt={brand.name}
-                      className="h-5 w-5 rounded-full object-cover"
-                    />
-                    <span className="font-mont text-xs font-medium text-gray-700">
-                      {brand.name}
-                    </span>
+                    <item.icon className="mb-3 h-5 w-5 text-orange-500" />
+                    <h3 className="font-unbounded text-lg font-semibold">
+                      {item.value}
+                    </h3>
+                    <p className="font-mont text-sm text-[#6b6658] dark:text-slate-400">
+                      {item.label}
+                    </p>
                   </div>
                 ))}
+              </div>
+            </div>
+
+            <div className="rounded-[1.7rem] border border-slate-200 bg-[#fbf7ef] p-4 shadow-xl dark:border-white/10 dark:bg-[#050509]">
+              <img
+                src="https://images.unsplash.com/photo-1556761175-b413da4baf72?q=80&w=1200&auto=format&fit=crop"
+                alt="Recruiter company management"
+                className="h-56 w-full rounded-2xl object-cover sm:h-72 lg:h-80"
+              />
+
+              <div className="mt-5">
+                <h2 className="font-unbounded text-xl font-semibold">
+                  Trusted company network
+                </h2>
+                <p className="mt-2 font-mont text-sm leading-6 text-[#6b6658] dark:text-slate-400">
+                  Keep brand details, locations, websites, and recruiter
+                  ownership organized in one place.
+                </p>
+
+                <div className="mt-5 flex flex-wrap gap-3">
+                  {brandLogos.map((brand) => (
+                    <div
+                      key={brand.name}
+                      className="flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 dark:border-white/10 dark:bg-[#111118]"
+                    >
+                      <img
+                        src={brand.logo}
+                        alt={brand.name}
+                        className="h-5 w-5 rounded-full object-cover"
+                      />
+                      <span className="font-mont text-xs font-medium text-[#393629] dark:text-white">
+                        {brand.name}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Filter + Table Section */}
-      <div className="max-w-9xl mx-auto rounded-[2rem] border border-gray-200 bg-white p-4 shadow-sm sm:p-6 lg:p-8">
+      {/* Filter + Table */}
+      <div className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-xl shadow-orange-500/10 sm:p-6 lg:p-8 dark:border-white/10 dark:bg-[#111118]">
         <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h2 className="font-unbounded text-xl font-semibold text-gray-950 sm:text-2xl">
+            <h2 className="font-unbounded text-xl font-semibold sm:text-2xl">
               Listed Companies
             </h2>
-            <p className="mt-1 font-mont text-sm text-gray-500">
-              View, filter, and manage companies available on Jobzy.
+            <p className="mt-1 font-mont text-sm text-[#6b6658] dark:text-slate-400">
+              View, filter, and manage recruiter company profiles on Jobzy.
             </p>
           </div>
 
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-            <div className="flex items-center gap-2 rounded-full border border-gray-200 bg-gray-50 px-4 py-2.5">
-              <SlidersHorizontal className="h-4 w-4 text-gray-500" />
+            <div className="flex items-center gap-2 rounded-full border border-slate-200 bg-[#fbf7ef] px-4 py-2.5 dark:border-white/10 dark:bg-[#111118]">
+              <SlidersHorizontal className="h-4 w-4 text-orange-500" />
+
               <select
                 id="companyFilter"
-                className="w-full bg-transparent font-mont text-sm text-gray-700 outline-none sm:w-44"
+                className="w-full bg-transparent font-unbounded text-xs font-medium text-[#393629] outline-none sm:w-44 dark:text-white [&>option]:bg-white [&>option]:text-[#393629] dark:[&>option]:bg-[#111118] dark:[&>option]:text-white"
               >
                 <option value="">All Companies</option>
                 <option value="recent">Recently Added</option>
@@ -170,7 +181,7 @@ export default function Company() {
             </div>
 
             <button
-              className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gray-950 px-5 py-2.5 font-mont text-sm font-semibold text-white transition hover:bg-gray-800 cursor-pointer sm:w-auto"
+              className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-[#c65d3b] px-5 py-2.5 font-mont text-sm font-semibold text-white transition hover:-translate-y-1 hover:bg-[#b65335] sm:w-auto"
               onClick={() => navigate("/admin/companies/new")}
             >
               <FilePlus2 className="h-4 w-4" />
