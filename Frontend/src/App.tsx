@@ -16,8 +16,8 @@ import ErrorPage from "./pages/ErrroPage"
 import { useSelector } from "react-redux"
 import type { RootState } from "./redux/store"
 import Company from "./components/admin/Company"
-import AddCompanyPage from "./components/admin/AddCompanyPage"
 import Home from "./pages/Home"
+import UpdateCompanyPage from "./components/admin/UpdateCompanyPage"
 
 export function App() {
   const { pathname } = useLocation()
@@ -43,7 +43,10 @@ export function App() {
     "/admin/companies/new",
   ]
 
-  const validDynamicRoutes = [/^\/job-details\/[^/]+$/]
+  const validDynamicRoutes = [
+    /^\/job-details\/[^/]+$/,
+    /^\/admin\/companies\/details-update\/[^/]+$/,
+  ]
 
   const isValidStaticRoute = validStaticRoutes.includes(pathname)
 
@@ -132,10 +135,10 @@ export function App() {
             }
           />
           <Route
-            path="/admin/companies/new"
+            path="/admin/companies/details-update/:id"
             element={
               <ProtectedRoute allowedRoles={["recruiter"]}>
-                <AddCompanyPage />
+                <UpdateCompanyPage />
               </ProtectedRoute>
             }
           />

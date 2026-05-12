@@ -26,7 +26,7 @@ createRoot(document.getElementById("root")!).render(
           position="top-right"
           richColors
           toastOptions={{
-            className: "font-mont text-sm capitalize",
+            className: "font-unbounded text-sm capitalize",
           }}
         />
       </ThemeProvider>

@@ -1,4 +1,4 @@
-import React from "react"
+import { useForm } from "react-hook-form"
 import {
   ArrowRight,
   Building2,
@@ -7,10 +7,32 @@ import {
   ShieldCheck,
   SlidersHorizontal,
   Sparkles,
+  Plus,
+  Loader2,
 } from "lucide-react"
 import CompanyTable from "./CompanyTable"
 import { useNavigate } from "react-router-dom"
 import { Highlighter } from "../ui/highlighter"
+import { useState } from "react"
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import axios from "axios"
+import { COMPANY_API_END_POINT } from "@/utils/constant"
+import { toast } from "sonner"
+import { useDispatch } from "react-redux"
+
+// interface for form data
+type CompanyFormData = {
+  companyName: string
+}
 
 const brandLogos = [
   {
@@ -34,12 +56,61 @@ const brandLogos = [
 export default function Company() {
   // navigate
   const navigate = useNavigate()
+  const [open, setOpen] = useState(false)
+  const dispatch = useDispatch()
+
+  // form state
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<CompanyFormData>({
+    defaultValues: {
+      companyName: "",
+    },
+  })
+
+  // form submission handler
+  const onSubmit = async (data: CompanyFormData) => {
+    try {
+      const response = await axios.post(
+        `${COMPANY_API_END_POINT}/register`,
+        {
+          name: data.companyName,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      )
+
+      if (response?.data?.success) {
+        dispatch({ type: "company/add", payload: response.data.company })
+
+        toast.success(response.data.message || "Company created successfully!")
+
+        const companyId = response?.data?.company?._id
+
+        reset()
+        setOpen(false)
+
+        if (companyId) {
+          navigate(`/admin/companies/details-update/${companyId}`)
+        }
+      }
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Failed to create company")
+    }
+  }
+
+  // main render
   return (
     <section className="min-h-screen bg-[#fbf7ef] px-4 py-20 text-[#393629] sm:px-6 md:py-16 lg:px-8 lg:py-24 dark:bg-[#050509] dark:text-white">
-      
-        {/* Hero */}
+      {/* Hero */}
       <div className="mx-auto max-w-7xl">
-        
         <div className="relative mb-10 overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-5 shadow-2xl shadow-orange-500/10 sm:p-8 lg:p-10 dark:border-white/10 dark:bg-[#111118]">
           <div className="pointer-events-none absolute top-0 right-0 h-72 w-72 rounded-full bg-orange-500/10 blur-3xl" />
 
@@ -182,14 +253,129 @@ export default function Company() {
 
             <button
               className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-[#c65d3b] px-5 py-2.5 font-mont text-sm font-semibold text-white transition hover:-translate-y-1 hover:bg-[#b65335] sm:w-auto"
-              onClick={() => navigate("/admin/companies/new")}
+              onClick={() => setOpen(true)}
             >
               <FilePlus2 className="h-4 w-4" />
               Add Company
             </button>
+            <Dialog open={open} onOpenChange={setOpen}>
+              <DialogContent className="overflow-hidden rounded-[28px] border border-border bg-background p-0 text-foreground shadow-[0_24px_80px_rgba(15,23,42,0.16)] sm:max-w-lg dark:bg-[#050509] dark:shadow-[0_24px_80px_rgba(0,0,0,0.55)]">
+                <form onSubmit={handleSubmit(onSubmit)}>
+                  <div className="relative">
+                    <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-orange-500/10 via-rose-500/5 to-transparent dark:from-orange-500/12 dark:via-rose-500/8 dark:to-transparent" />
+
+                    <DialogHeader className="relative border-b border-border px-6 pt-6 pb-5">
+                      <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#c65d3b]/10 text-[#c65d3b] dark:bg-[#c65d3b]/15 dark:text-orange-300">
+                        <Building2 className="h-5 w-5" />
+                      </div>
+
+                      <DialogTitle className="font-unbounded text-xl leading-tight text-slate-900 dark:text-white">
+                        <Highlighter action="underline" color="orange">
+                          Create Company Profile
+                        </Highlighter>
+                      </DialogTitle>
+
+                      <DialogDescription className="mt-2 max-w-sm font-mont text-sm leading-6 text-muted-foreground dark:text-slate-400">
+                        Create a company profile so you can manage openings,
+                        hiring details, and recruiter activity in one place.
+                      </DialogDescription>
+                    </DialogHeader>
+
+                    <div className="space-y-6 px-6 py-6">
+                      <div className="space-y-2.5">
+                        <Label
+                          htmlFor="companyName"
+                          className="font-mont text-sm font-semibold text-slate-800 dark:text-slate-200"
+                        >
+                          Company Name
+                        </Label>
+
+                        <div className="relative">
+                          <Building2 className="pointer-events-none absolute top-1/2 left-4 h-4 w-4 -translate-y-1/2 text-slate-400 dark:text-slate-500" />
+
+                          <Input
+                            id="companyName"
+                            placeholder="Enter company name"
+                            className={`h-12 rounded-2xl border-border bg-background pl-11 font-mont shadow-sm transition focus-visible:ring-2 focus-visible:ring-[#c65d3b]/30 dark:bg-[#0b0b10] dark:text-white dark:placeholder:text-slate-500 ${
+                              errors.companyName
+                                ? "border-red-500 focus-visible:ring-red-200"
+                                : ""
+                            }`}
+                            {...register("companyName", {
+                              required: "Company name is required",
+                              minLength: {
+                                value: 2,
+                                message:
+                                  "Company name must be at least 2 characters",
+                              },
+                              maxLength: {
+                                value: 60,
+                                message:
+                                  "Company name must be under 60 characters",
+                              },
+                            })}
+                          />
+                        </div>
+
+                        {errors.companyName ? (
+                          <p className="font-mont text-xs text-red-500">
+                            {errors.companyName.message}
+                          </p>
+                        ) : (
+                          <p className="font-mont text-xs leading-5 text-muted-foreground dark:text-slate-500">
+                            Use the official company or brand name to keep your
+                            listings professional and searchable.
+                          </p>
+                        )}
+                      </div>
+
+                      <div className="rounded-2xl border border-border bg-muted/40 px-4 py-3 dark:bg-white/5">
+                        <p className="font-mont text-xs leading-5 text-muted-foreground dark:text-slate-400">
+                          You can update branding, location, and hiring details
+                          after creating the company.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col-reverse gap-3 border-t border-border px-6 py-5 sm:flex-row sm:items-center sm:justify-end">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        disabled={isSubmitting}
+                        onClick={() => {
+                          reset()
+                          setOpen(false)
+                        }}
+                        className="h-11 cursor-pointer rounded-full border-border px-5 font-unbounded text-sm"
+                      >
+                        Cancel
+                      </Button>
+
+                      <Button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="h-11 cursor-pointer rounded-full bg-[#c65d3b] px-5 font-unbounded text-sm font-semibold text-white shadow-lg shadow-[#c65d3b]/20 transition hover:bg-[#b65335] disabled:cursor-not-allowed disabled:opacity-70"
+                      >
+                        {isSubmitting ? (
+                          <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Saving...
+                          </>
+                        ) : (
+                          <>
+                            <Plus className="mr-2 h-4 w-4" />
+                            Save Company
+                          </>
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                </form>
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
-
+        {/* company table */}
         <CompanyTable />
       </div>
     </section>

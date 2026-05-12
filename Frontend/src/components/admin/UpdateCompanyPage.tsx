@@ -1,4 +1,10 @@
-import React from "react"
+import { useEffect } from "react"
+import { Highlighter } from "../ui/highlighter"
+import { useForm } from "react-hook-form"
+import { useNavigate, useParams } from "react-router-dom"
+import axios from "axios"
+import { toast } from "sonner"
+import { COMPANY_API_END_POINT } from "@/utils/constant"
 import {
   Building2,
   Globe,
@@ -6,10 +12,90 @@ import {
   FileText,
   ImageIcon,
   PlusCircle,
+  Loader2,
 } from "lucide-react"
-import { Highlighter } from "../ui/highlighter"
 
-export default function AddCompanyPage() {
+type CompanyFormData = {
+  name: string
+  website: string
+  location: string
+  description: string
+  logo: FileList
+}
+
+export default function UpdateCompanyPage() {
+  // navigate and params
+  const { id } = useParams()
+  const navigate = useNavigate()
+
+  // form state
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<CompanyFormData>()
+
+  // fetch company details on mount
+  useEffect(() => {
+    const fetchCompany = async () => {
+      try {
+        const response = await axios.get(`${COMPANY_API_END_POINT}/get/${id}`, {
+          withCredentials: true,
+        })
+
+        if (response.data.success) {
+          const company = response.data.company
+
+          reset({
+            name: company?.name || "",
+            website: company?.website || "",
+            location: company?.location || "",
+            description: company?.description || "",
+          })
+        }
+      } catch (error: any) {
+        toast.error(error.response?.data?.message || "Failed to fetch company")
+      }
+    }
+
+    if (id) fetchCompany()
+  }, [id, reset])
+
+  // form submit handler
+  const onSubmit = async (data: CompanyFormData) => {
+    const formData = new FormData()
+
+    formData.append("name", data.name)
+    formData.append("website", data.website)
+    formData.append("location", data.location)
+    formData.append("description", data.description)
+
+    if (data.logo?.[0]) {
+      formData.append("file", data.logo[0])
+    }
+
+    try {
+      const response = await axios.put(
+        `${COMPANY_API_END_POINT}/update/${id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          withCredentials: true,
+        }
+      )
+
+      if (response.data.success) {
+        toast.success(response.data.message || "Company updated successfully")
+        navigate("/admin/companies")
+      }
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Failed to update company")
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 pt-22 text-gray-900 transition-colors duration-300 dark:bg-[#050509] dark:text-white">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 py-6 sm:px-6 lg:px-8 lg:py-10">
@@ -117,12 +203,15 @@ export default function AddCompanyPage() {
               Company details
             </h2>
             <p className="mt-2 font-mont text-sm text-gray-500 dark:text-gray-400">
-              Fill in the details below to create a new company profile.
+              Update your company profile details below.
             </p>
           </div>
 
-          <form className="grid grid-cols-1 gap-5 md:grid-cols-2">
-            <div className="md:col-span-1">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="grid grid-cols-1 gap-5 md:grid-cols-2"
+          >
+            <div>
               <label className="mb-2 block font-unbounded text-sm font-medium text-gray-700 dark:text-gray-300">
                 Company Name
               </label>
@@ -131,12 +220,20 @@ export default function AddCompanyPage() {
                 <input
                   type="text"
                   placeholder="Enter company name"
-                  className="w-full rounded-2xl border border-gray-200 bg-gray-50 py-3 pr-4 pl-10 font-mont text-sm transition outline-none focus:border-blue-500 focus:bg-white dark:border-white/10 dark:bg-white/5 dark:text-white dark:focus:border-blue-400"
+                  className="w-full rounded-2xl border border-gray-200 bg-gray-50 py-3 pr-4 pl-10 font-mont text-sm outline-none focus:border-blue-500 focus:bg-white dark:border-white/10 dark:bg-white/5 dark:text-white"
+                  {...register("name", {
+                    required: "Company name is required",
+                  })}
                 />
               </div>
+              {errors.name && (
+                <p className="mt-1 text-sm text-red-500">
+                  {errors.name.message}
+                </p>
+              )}
             </div>
 
-            <div className="md:col-span-1">
+            <div>
               <label className="mb-2 block font-unbounded text-sm font-medium text-gray-700 dark:text-gray-300">
                 Website
               </label>
@@ -145,12 +242,13 @@ export default function AddCompanyPage() {
                 <input
                   type="url"
                   placeholder="https://company.com"
-                  className="w-full rounded-2xl border border-gray-200 bg-gray-50 py-3 pr-4 pl-10 font-mont text-sm transition outline-none focus:border-blue-500 focus:bg-white dark:border-white/10 dark:bg-white/5 dark:text-white dark:focus:border-blue-400"
+                  className="w-full rounded-2xl border border-gray-200 bg-gray-50 py-3 pr-4 pl-10 font-mont text-sm outline-none focus:border-blue-500 focus:bg-white dark:border-white/10 dark:bg-white/5 dark:text-white"
+                  {...register("website")}
                 />
               </div>
             </div>
 
-            <div className="md:col-span-1">
+            <div>
               <label className="mb-2 block font-unbounded text-sm font-medium text-gray-700 dark:text-gray-300">
                 Location
               </label>
@@ -159,21 +257,23 @@ export default function AddCompanyPage() {
                 <input
                   type="text"
                   placeholder="e.g. Pune, India"
-                  className="w-full rounded-2xl border border-gray-200 bg-gray-50 py-3 pr-4 pl-10 font-mont text-sm transition outline-none focus:border-blue-500 focus:bg-white dark:border-white/10 dark:bg-white/5 dark:text-white dark:focus:border-blue-400"
+                  className="w-full rounded-2xl border border-gray-200 bg-gray-50 py-3 pr-4 pl-10 font-mont text-sm outline-none focus:border-blue-500 focus:bg-white dark:border-white/10 dark:bg-white/5 dark:text-white"
+                  {...register("location")}
                 />
               </div>
             </div>
 
-            <div className="md:col-span-1">
+            <div>
               <label className="mb-2 block font-unbounded text-sm font-medium text-gray-700 dark:text-gray-300">
-                Logo URL
+                Company Logo
               </label>
               <div className="relative">
                 <ImageIcon className="absolute top-3.5 left-3 h-4 w-4 text-gray-400" />
                 <input
                   type="file"
-                  placeholder="Paste logo URL"
-                  className="w-full rounded-2xl border border-gray-200 bg-gray-50 py-3 pr-4 pl-10 font-mont text-sm transition outline-none focus:border-blue-500 focus:bg-white dark:border-white/10 dark:bg-white/5 dark:text-white dark:focus:border-blue-400"
+                  accept="image/*"
+                  className="w-full rounded-2xl border border-gray-200 bg-gray-50 py-3 pr-4 pl-10 font-mont text-sm outline-none focus:border-blue-500 focus:bg-white dark:border-white/10 dark:bg-white/5 dark:text-white"
+                  {...register("logo")}
                 />
               </div>
             </div>
@@ -187,7 +287,8 @@ export default function AddCompanyPage() {
                 <textarea
                   rows={5}
                   placeholder="Write a short description about the company..."
-                  className="w-full rounded-2xl border border-gray-200 bg-gray-50 py-3 pr-4 pl-10 font-mont text-sm transition outline-none focus:border-blue-500 focus:bg-white dark:border-white/10 dark:bg-white/5 dark:text-white dark:focus:border-blue-400"
+                  className="w-full rounded-2xl border border-gray-200 bg-gray-50 py-3 pr-4 pl-10 font-mont text-sm outline-none focus:border-blue-500 focus:bg-white dark:border-white/10 dark:bg-white/5 dark:text-white"
+                  {...register("description")}
                 />
               </div>
             </div>
@@ -195,6 +296,7 @@ export default function AddCompanyPage() {
             <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:justify-end md:col-span-2">
               <button
                 type="button"
+                onClick={() => navigate("/admin/companies")}
                 className="cursor-pointer rounded-2xl border border-gray-200 px-5 py-3 font-unbounded text-sm font-medium text-gray-700 transition hover:bg-gray-50 dark:border-white/10 dark:text-gray-300 dark:hover:bg-white/5"
               >
                 Cancel
@@ -202,9 +304,17 @@ export default function AddCompanyPage() {
 
               <button
                 type="submit"
-                className="cursor-pointer rounded-2xl bg-gray-900 px-5 py-3 font-unbounded text-sm font-medium text-white transition hover:bg-black dark:bg-white dark:text-black dark:hover:bg-gray-200"
+                disabled={isSubmitting}
+                className="inline-flex cursor-pointer items-center justify-center rounded-2xl bg-gray-900 px-5 py-3 font-unbounded text-sm font-medium text-white transition hover:bg-black disabled:cursor-not-allowed disabled:opacity-70 dark:bg-white dark:text-black dark:hover:bg-gray-200"
               >
-                Save Company
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Saving...
+                  </>
+                ) : (
+                  "Save Company"
+                )}
               </button>
             </div>
           </form>

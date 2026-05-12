@@ -1,7 +1,5 @@
-import React from 'react'
+import React from "react"
 
 export default function RecruiterJobs() {
-  return (
-    <div>RecruiterJobs</div>
-  )
+  return <div>RecruiterJobs</div>
 }
