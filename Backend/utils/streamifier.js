@@ -1,23 +1,28 @@
-import streamifier from "streamifier";
-import cloudinary from "../utils/cloudinary.js";
+// utils/uploadFromBuffer.js
+import streamifier from "streamifier"
+import cloudinary from "./cloudinary.js"
 
-const uploadFromBuffer = (buffer) => {
+const uploadFromBuffer = (
+  buffer,
+  folder = "jobzy/uploads",
+  resourceType = "auto"
+) => {
   return new Promise((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
       {
-        folder: "jobzy/resumes",
-        resource_type: "image",
+        folder,
+        resource_type: resourceType,
         type: "upload",
         access_mode: "public",
       },
       (error, result) => {
-        if (error) return reject(error);
-        resolve(result);
+        if (error) return reject(error)
+        resolve(result)
       }
-    );
+    )
 
-    streamifier.createReadStream(buffer).pipe(uploadStream);
-  });
-};
+    streamifier.createReadStream(buffer).pipe(uploadStream)
+  })
+}
 
-export default uploadFromBuffer;
+export default uploadFromBuffer
