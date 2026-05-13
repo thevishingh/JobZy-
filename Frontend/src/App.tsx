@@ -18,6 +18,7 @@ import type { RootState } from "./redux/store"
 import Company from "./components/admin/Company"
 import Home from "./pages/Home"
 import UpdateCompanyPage from "./components/admin/UpdateCompanyPage"
+import UpdateJobPage from "./components/admin/UpdateJobPage"
 
 export function App() {
   const { pathname } = useLocation()
@@ -46,6 +47,7 @@ export function App() {
   const validDynamicRoutes = [
     /^\/job-details\/[^/]+$/,
     /^\/admin\/companies\/details-update\/[^/]+$/,
+    /^\/admin\/jobs\/details-update\/[^/]+$/,
   ]
 
   const isValidStaticRoute = validStaticRoutes.includes(pathname)
@@ -125,7 +127,14 @@ export function App() {
               </ProtectedRoute>
             }
           />
-
+          <Route
+            path="/admin/jobs/details-update/:id"
+            element={
+              <ProtectedRoute allowedRoles={["recruiter"]}>
+                <UpdateJobPage />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/admin/companies"
             element={
