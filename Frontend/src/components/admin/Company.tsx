@@ -28,6 +28,7 @@ import axios from "axios"
 import { COMPANY_API_END_POINT } from "@/utils/constant"
 import { toast } from "sonner"
 import { useDispatch } from "react-redux"
+import useGetAllCompany from "@/hooks/useGetAllCompany"
 
 // interface for form data
 type CompanyFormData = {
@@ -57,6 +58,9 @@ export default function Company() {
   // navigate
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
+  // filter state
+  const [searchQuery, setSearchQuery] = useState("")
+  const [filterOption, setFilterOption] = useState("")
   const dispatch = useDispatch()
 
   // form state
@@ -105,6 +109,9 @@ export default function Company() {
       toast.error(error.response?.data?.message || "Failed to create company")
     }
   }
+
+  // fetching all company data using custom hook
+  useGetAllCompany()
 
   // main render
   return (
@@ -236,11 +243,14 @@ export default function Company() {
           </div>
 
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+            {/* Filter Dropdown */}
             <div className="flex items-center gap-2 rounded-full border border-slate-200 bg-[#fbf7ef] px-4 py-2.5 dark:border-white/10 dark:bg-[#111118]">
               <SlidersHorizontal className="h-4 w-4 text-orange-500" />
 
               <select
                 id="companyFilter"
+                value={filterOption}
+                onChange={(e) => setFilterOption(e.target.value)}
                 className="w-full bg-transparent font-unbounded text-xs font-medium text-[#393629] outline-none sm:w-44 dark:text-white [&>option]:bg-white [&>option]:text-[#393629] dark:[&>option]:bg-[#111118] dark:[&>option]:text-white"
               >
                 <option value="">All Companies</option>
@@ -251,6 +261,21 @@ export default function Company() {
               </select>
             </div>
 
+            {/* Search Input */}
+            <div className="flex items-center gap-2 rounded-full border border-slate-200 bg-[#fbf7ef] px-4 py-2.5 dark:border-white/10 dark:bg-[#111118]">
+              <Search className="h-4 w-4 text-orange-500" />
+
+              <input
+                type="text"
+                placeholder="Search company..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full bg-transparent font-mont text-sm text-[#393629] outline-none placeholder:text-[#8b8575] sm:w-56 dark:text-white dark:placeholder:text-gray-400"
+                // value={searchQuery}
+                // onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+
             <button
               className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-[#c65d3b] px-5 py-2.5 font-mont text-sm font-semibold text-white transition hover:-translate-y-1 hover:bg-[#b65335] sm:w-auto"
               onClick={() => setOpen(true)}
@@ -258,6 +283,7 @@ export default function Company() {
               <FilePlus2 className="h-4 w-4" />
               Add Company
             </button>
+
             <Dialog open={open} onOpenChange={setOpen}>
               <DialogContent className="overflow-hidden rounded-[28px] border border-border bg-background p-0 text-foreground shadow-[0_24px_80px_rgba(15,23,42,0.16)] sm:max-w-lg dark:bg-[#050509] dark:shadow-[0_24px_80px_rgba(0,0,0,0.55)]">
                 <form onSubmit={handleSubmit(onSubmit)}>
@@ -376,7 +402,7 @@ export default function Company() {
           </div>
         </div>
         {/* company table */}
-        <CompanyTable />
+        <CompanyTable searchQuery={searchQuery} filterOption={filterOption} />
       </div>
     </section>
   )
