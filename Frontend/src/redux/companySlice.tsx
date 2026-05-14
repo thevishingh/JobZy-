@@ -1,6 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit"
 
-const initialState = {
+interface Company {
+  _id: string
+  name: string
+}
+
+interface CompanyState {
+  allCompanies: Company[]
+}
+
+const initialState: CompanyState = {
   allCompanies: [],
 }
 

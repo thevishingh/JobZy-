@@ -7,13 +7,15 @@ import {
   MapPin,
   Sparkles,
 } from "lucide-react"
-import { useEffect } from "react"
 import { useForm } from "react-hook-form"
-import { useNavigate, useParams } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import { toast } from "sonner"
 import { JOB_API_END_POINT } from "@/utils/constant"
 import { Highlighter } from "../ui/highlighter"
+import useGetAllCompany from "@/hooks/useGetAllCompany"
+import { useSelector } from "react-redux"
+import type { RootState } from "@/redux/store"
 
 type JobFormData = {
   title: string
@@ -22,13 +24,13 @@ type JobFormData = {
   salary: string
   location: string
   jobType: string
-  experience: string
+  experienceLevel: string
   position: string
   companyId: string
+  responsibilities: string
 }
 
 export default function UpdateJobPage() {
-  const { id } = useParams()
   const navigate = useNavigate()
 
   const {
@@ -44,45 +46,36 @@ export default function UpdateJobPage() {
       salary: "",
       location: "",
       jobType: "",
-      experience: "",
+      experienceLevel: "",
       position: "",
       companyId: "",
+      responsibilities: "",
     },
   })
 
-  useEffect(() => {
-    const fetchJobDetails = async () => {
-      try {
-        const res = await axios.get(`${JOB_API_END_POINT}/get/${id}`, {
-          withCredentials: true,
-        })
+  // geting listed companie
+  useGetAllCompany()
 
-        if (res.data.success) {
-          const job = res.data.job
-
-          reset({
-            title: job.title || "",
-            description: job.description || "",
-            requirements: job.requirements || "",
-            salary: job.salary || "",
-            location: job.location || "",
-            jobType: job.jobType || "",
-            experience: job.experience || "",
-            position: job.position || "",
-            companyId: job.company?._id || job.company || "",
-          })
-        }
-      } catch (error: any) {
-        toast.error(error.response?.data?.message || "Failed to load job")
-      }
-    }
-
-    if (id) fetchJobDetails()
-  }, [id, reset])
+  const companies = useSelector(
+    (store: RootState) => store.company.allCompanies
+  )
 
   const onSubmit = async (data: JobFormData) => {
     try {
-      const res = await axios.put(`${JOB_API_END_POINT}/update/${id}`, data, {
+      const payload = {
+        title: data.title,
+        description: data.description,
+        requirements: data.requirements,
+        salary: Number(data.salary),
+        experienceLevel: Number(data.experienceLevel),
+        location: data.location,
+        jobType: data.jobType,
+        position: Number(data.position),
+        companyId: data.companyId,
+        responsibilities: data.responsibilities,
+      }
+
+      const res = await axios.post(`${JOB_API_END_POINT}/post`, payload, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -90,11 +83,14 @@ export default function UpdateJobPage() {
       })
 
       if (res.data.success) {
-        toast.success(res.data.message || "Job updated successfully")
+        toast.success(res.data.message || "Job created successfully")
+
+        reset()
+
         navigate("/admin/jobs")
       }
     } catch (error: any) {
-      toast.error(error.response?.data?.message || "Failed to update job")
+      toast.error(error.response?.data?.message || "Failed to create job")
     }
   }
 
@@ -205,15 +201,24 @@ export default function UpdateJobPage() {
 
             <div>
               <label className="font-mont text-sm font-semibold">
-                Company ID
+                Select Company
               </label>
-              <input
+
+              <select
                 {...register("companyId", {
-                  required: "Company ID is required",
+                  required: "Please select a company",
                 })}
                 className="mt-2 w-full rounded-2xl border border-white/10 bg-[#050509] px-4 py-3 font-mont text-sm outline-none focus:border-orange-500"
-                placeholder="Company ID"
-              />
+              >
+                <option value="">Choose company</option>
+
+                {companies.map((company) => (
+                  <option key={company._id} value={company._id}>
+                    {company.name}
+                  </option>
+                ))}
+              </select>
+
               {errors.companyId && (
                 <p className="mt-1 text-xs text-red-400">
                   {errors.companyId.message}
@@ -249,11 +254,10 @@ export default function UpdateJobPage() {
                 })}
                 className="mt-2 w-full rounded-2xl border border-white/10 bg-[#050509] px-4 py-3 font-mont text-sm outline-none focus:border-orange-500"
               >
-                <option value="">Select job type</option>
-                <option value="Full Time">Full Time</option>
-                <option value="Part Time">Part Time</option>
-                <option value="Internship">Internship</option>
-                <option value="Remote">Remote</option>
+                <option value="full-time">Full Time</option>
+                <option value="part-time">Part Time</option>
+                <option value="contract">Contract</option>
+                <option value="internship">Internship</option>
               </select>
               {errors.jobType && (
                 <p className="mt-1 text-xs text-red-400">
@@ -286,15 +290,16 @@ export default function UpdateJobPage() {
                 Experience
               </label>
               <input
-                {...register("experience", {
+                type="number"
+                {...register("experienceLevel", {
                   required: "Experience is required",
                 })}
                 className="mt-2 w-full rounded-2xl border border-white/10 bg-[#050509] px-4 py-3 font-mont text-sm outline-none focus:border-orange-500"
                 placeholder="1-3 years"
               />
-              {errors.experience && (
+              {errors.experienceLevel && (
                 <p className="mt-1 text-xs text-red-400">
-                  {errors.experience.message}
+                  {errors.experienceLevel.message}
                 </p>
               )}
             </div>
@@ -334,7 +339,26 @@ export default function UpdateJobPage() {
                 </p>
               )}
             </div>
+            <div>
+              <label className="font-mont text-sm font-semibold">
+                Responsibilities
+              </label>
 
+              <textarea
+                {...register("responsibilities", {
+                  required: "Responsibilities are required",
+                })}
+                rows={4}
+                placeholder="Build responsive UI, Integrate APIs, Improve performance"
+                className="mt-2 w-full resize-none rounded-2xl border border-white/10 bg-[#050509] px-4 py-3 font-mont text-sm outline-none focus:border-orange-500"
+              />
+
+              {errors.responsibilities && (
+                <p className="mt-1 text-xs text-red-400">
+                  {errors.responsibilities.message}
+                </p>
+              )}
+            </div>
             <div className="md:col-span-2">
               <label className="font-mont text-sm font-semibold">
                 Description
@@ -364,7 +388,7 @@ export default function UpdateJobPage() {
               type="button"
               onClick={() => navigate(-1)}
               disabled={isSubmitting}
-              className="rounded-full border border-white/10 px-6 py-3 font-mont text-sm font-semibold text-white transition hover:bg-white/10 cursor-pointer disabled:opacity-60"
+              className="cursor-pointer rounded-full border border-white/10 px-6 py-3 font-mont text-sm font-semibold text-white transition hover:bg-white/10 disabled:opacity-60"
             >
               Cancel
             </button>
@@ -372,7 +396,7 @@ export default function UpdateJobPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-[#c65d3b] px-6 py-3 font-mont text-sm font-semibold text-white transition hover:-translate-y-1 hover:bg-[#b65335] disabled:cursor-not-allowed disabled:opacity-70"
+              className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-[#c65d3b] px-6 py-3 font-unbounded text-sm font-semibold text-white transition hover:-translate-y-1 hover:bg-[#b65335] disabled:cursor-not-allowed disabled:opacity-70"
             >
               {isSubmitting ? (
                 <>
@@ -381,7 +405,7 @@ export default function UpdateJobPage() {
                 </>
               ) : (
                 <>
-                  Update Job
+                  Post Job
                   <Sparkles className="h-4 w-4" />
                 </>
               )}

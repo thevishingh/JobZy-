@@ -8,10 +8,17 @@ import useGetAllJobs from "@/hooks/useGetAllJobs"
 import { useAnimate } from "framer-motion"
 import { motion } from "motion/react"
 import {
-  Bell, ArrowRight, Sparkles, CheckCircle2, Star, BadgeCheck, BriefcaseBusiness, Building2, Users, Apple,
-  Download,
+  Bell,
+  ArrowRight,
+  Sparkles,
+  CheckCircle2,
+  Star,
+  BadgeCheck,
+  BriefcaseBusiness,
+  Building2,
+  Users,
+  Apple,
   Play,
-  Smartphone,
 } from "lucide-react"
 import React, { useEffect } from "react"
 import { Link } from "react-router-dom"
@@ -46,10 +53,6 @@ const categories = [
 ]
 
 const Home: React.FC = () => {
-
-  // get All jobs
-  useGetAllJobs()
-
   // category animation
   const [scope, animate] = useAnimate()
 
@@ -65,29 +68,32 @@ const Home: React.FC = () => {
     )
   }, [animate, scope])
 
+  // get All jobs
+  useGetAllJobs()
+  console.log(useGetAllJobs())
+
   return (
     <>
       {/* Hero section */}
       <section className="relative min-h-screen overflow-hidden bg-[#fbf7ef] text-foreground dark:bg-[#050509]">
-        
         <div className="absolute inset-0">
-          <div className="absolute left-[58%] top-[18%] h-[520px] w-[520px] rounded-full border border-orange-400/20" />
-          <div className="absolute left-[62%] top-[24%] h-[400px] w-[400px] rounded-full border border-rose-400/20" />
-          <div className="absolute left-[66%] top-[31%] h-[280px] w-[280px] rounded-full border border-violet-400/20" />
+          <div className="absolute top-[18%] left-[58%] h-[520px] w-[520px] rounded-full border border-orange-400/20" />
+          <div className="absolute top-[24%] left-[62%] h-[400px] w-[400px] rounded-full border border-rose-400/20" />
+          <div className="absolute top-[31%] left-[66%] h-[280px] w-[280px] rounded-full border border-violet-400/20" />
 
-          <div className="absolute left-[58%] top-[18%] h-[520px] w-[520px] animate-ping rounded-full border border-orange-400/10" />
+          <div className="absolute top-[18%] left-[58%] h-[520px] w-[520px] animate-ping rounded-full border border-orange-400/10" />
 
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_35%,rgba(249,115,22,0.16),transparent_28%)] dark:bg-[radial-gradient(circle_at_75%_35%,rgba(249,115,22,0.18),transparent_30%)]" />
         </div>
 
         <div className="relative z-10 mx-auto grid min-h-screen max-w-7xl items-center gap-12 px-4 py-24 sm:px-6 lg:grid-cols-2 lg:px-8">
           <div>
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-orange-100 px-4 py-2 font-mont text-xs font-bold uppercase tracking-[0.18em] text-orange-700 dark:bg-orange-500/10 dark:text-orange-300">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-orange-100 px-4 py-2 font-mont text-xs font-bold tracking-[0.18em] text-orange-700 uppercase dark:bg-orange-500/10 dark:text-orange-300">
               <Sparkles className="h-4 w-4" />
               Modern Job Portal
             </div>
 
-            <h1 className="font-unbounded text-4xl font-bold leading-tight tracking-tight text-[#393629] sm:text-5xl lg:text-5xl dark:text-white">
+            <h1 className="font-unbounded text-4xl leading-tight font-bold tracking-tight text-[#393629] sm:text-5xl lg:text-5xl dark:text-white">
               Connecting talent
               <span className="bg-linear-to-r from-rose-500 via-orange-500 to-yellow-400 bg-clip-text text-transparent">
                 &nbsp;with opportunity
@@ -160,7 +166,7 @@ const Home: React.FC = () => {
             <motion.div
               animate={{ y: [0, -14, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute left-2 top-10 z-20 rounded-2xl border border-orange-200 bg-white px-5 py-4 shadow-xl dark:border-white/10 dark:bg-[#111118]"
+              className="absolute top-10 left-2 z-20 rounded-2xl border border-orange-200 bg-white px-5 py-4 shadow-xl dark:border-white/10 dark:bg-[#111118]"
             >
               <p className="font-unbounded text-xl font-bold text-orange-600">
                 200+
@@ -172,8 +178,12 @@ const Home: React.FC = () => {
 
             <motion.div
               animate={{ y: [0, 16, 0] }}
-              transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute right-4 top-20 z-20 rounded-2xl border border-yellow-200 bg-white px-5 py-4 shadow-xl dark:border-white/10 dark:bg-[#111118]"
+              transition={{
+                duration: 4.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+              className="absolute top-20 right-4 z-20 rounded-2xl border border-yellow-200 bg-white px-5 py-4 shadow-xl dark:border-white/10 dark:bg-[#111118]"
             >
               <p className="font-unbounded text-xl font-bold text-yellow-600">
                 8+
@@ -186,20 +196,22 @@ const Home: React.FC = () => {
             <motion.div
               animate={{ y: [0, -12, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute left-0 top-60 z-20 rounded-2xl border border-rose-200 bg-white px-5 py-4 shadow-xl dark:border-white/10 dark:bg-[#111118]"
+              className="absolute top-60 left-0 z-20 rounded-2xl border border-rose-200 bg-white px-5 py-4 shadow-xl dark:border-white/10 dark:bg-[#111118]"
             >
               <p className="font-unbounded text-xl font-bold text-rose-500">
                 1K+
               </p>
-              <p className="font-mont text-xs text-muted-foreground">
-                Reviews
-              </p>
+              <p className="font-mont text-xs text-muted-foreground">Reviews</p>
             </motion.div>
 
             <motion.div
               animate={{ y: [0, 14, 0] }}
-              transition={{ duration: 4.2, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute bottom-28 right-0 z-20 rounded-2xl border border-orange-200 bg-white px-5 py-4 shadow-xl dark:border-white/10 dark:bg-[#111118]"
+              transition={{
+                duration: 4.2,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+              className="absolute right-0 bottom-28 z-20 rounded-2xl border border-orange-200 bg-white px-5 py-4 shadow-xl dark:border-white/10 dark:bg-[#111118]"
             >
               <p className="font-unbounded text-xl font-bold text-orange-600">
                 800+
@@ -209,8 +221,8 @@ const Home: React.FC = () => {
               </p>
             </motion.div>
 
-            <div className="absolute inset-x-6 bottom-0 top-10 rounded-full bg-orange-100 dark:bg-orange-500/10" />
-            <div className="absolute inset-x-16 bottom-10 top-24 rounded-full bg-rose-100 dark:bg-rose-500/10" />
+            <div className="absolute inset-x-6 top-10 bottom-0 rounded-full bg-orange-100 dark:bg-orange-500/10" />
+            <div className="absolute inset-x-16 top-24 bottom-10 rounded-full bg-rose-100 dark:bg-rose-500/10" />
 
             <img
               src="https://cdn.flyonui.com/fy-assets/blocks/marketing-ui/about/about-18.png"
@@ -221,7 +233,7 @@ const Home: React.FC = () => {
             <div className="absolute bottom-8 left-1/2 z-30 w-[85%] -translate-x-1/2 rounded-3xl bg-[#393629] p-5 text-white shadow-2xl dark:bg-black/80 dark:text-slate-950">
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <p className="font-unbounded text-white text-lg font-semibold">
+                  <p className="font-unbounded text-lg font-semibold text-white">
                     Find the right opportunity
                   </p>
                   <p className="mt-1 font-mont text-sm text-white/60 dark:text-lime-500">
@@ -239,7 +251,7 @@ const Home: React.FC = () => {
       <section className="relative overflow-hidden py-2">
         <div className="absolute inset-0 bg-[#fbf7ef] dark:bg-[#050509]" />
         <div className="relative z-10 mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-          <h1 className="mx-auto max-w-375 font-unbounded text-3xl font-bold leading-[1.08] tracking-tight text-[#393629] dark:text-white sm:text-4xl md:text-5xl lg:text-[3.6rem] xl:text-[4.2rem]">
+          <h1 className="mx-auto max-w-375 font-unbounded text-3xl leading-[1.08] font-bold tracking-tight text-[#393629] sm:text-4xl md:text-5xl lg:text-[3.6rem] xl:text-[4.2rem] dark:text-white">
             Connecting{" "}
             <span className="inline-block bg-linear-to-r from-orange-500 via-amber-500 to-yellow-400 bg-clip-text text-transparent">
               talent
@@ -250,15 +262,16 @@ const Home: React.FC = () => {
             </span>
           </h1>
 
-          <p className="mx-auto mt-6 max-w-3xl font-mont text-base leading-8 text-[#6b6658] dark:text-slate-400 sm:text-lg">
-            Smarter hiring experiences for recruiters, startups, and modern teams.
+          <p className="mx-auto mt-6 max-w-3xl font-mont text-base leading-8 text-[#6b6658] sm:text-lg dark:text-slate-400">
+            Smarter hiring experiences for recruiters, startups, and modern
+            teams.
           </p>
         </div>
       </section>
       {/* Animated chategories */}
       <section className="relative overflow-hidden bg-background py-12 text-foreground dark:bg-[#050509]">
         {/* Top Glow */}
-        <div className="pointer-events-none absolute left-1/2 top-0 h-52 w-52 -translate-x-1/2 rounded-full bg-orange-500/10 blur-3xl" />
+        <div className="pointer-events-none absolute top-0 left-1/2 h-52 w-52 -translate-x-1/2 rounded-full bg-orange-500/10 blur-3xl" />
 
         <div className="relative mx-auto w-full max-w-7xl overflow-hidden px-4 sm:px-6 lg:px-8">
           {/* Fade Sides */}
@@ -275,36 +288,13 @@ const Home: React.FC = () => {
           {/* Marquee */}
           <motion.div
             ref={scope}
-            className="flex mt-2 w-max gap-4 will-change-transform"
+            className="mt-2 flex w-max gap-4 will-change-transform"
           >
             {[...categories, ...categories].map((cat, idx) => (
               <button
                 key={`${cat}-${idx}`}
                 type="button"
-                className="
-            group shrink-0 rounded-2xl
-            border border-slate-200/80
-            bg-white/70
-            px-6 py-3.5
-            font-mont text-sm font-semibold
-            text-slate-700
-            shadow-sm
-            backdrop-blur-xl
-            transition-all duration-300
-
-            hover:-translate-y-1
-            hover:border-orange-300
-            hover:bg-orange-50
-            hover:shadow-xl
-            hover:shadow-orange-500/10
-
-            dark:border-white/10
-            dark:bg-white/[0.04]
-            dark:text-slate-200
-            dark:hover:border-orange-400/40
-            dark:hover:bg-orange-500/10
-            dark:hover:shadow-orange-500/10
-          "
+                className="group shrink-0 rounded-2xl border border-slate-200/80 bg-white/70 px-6 py-3.5 font-mont text-sm font-semibold text-slate-700 shadow-sm backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-orange-300 hover:bg-orange-50 hover:shadow-xl hover:shadow-orange-500/10 dark:border-white/10 dark:bg-white/[0.04] dark:text-slate-200 dark:hover:border-orange-400/40 dark:hover:bg-orange-500/10 dark:hover:shadow-orange-500/10"
               >
                 <span className="transition-all duration-300 group-hover:bg-linear-to-r group-hover:from-orange-400 group-hover:to-yellow-300 group-hover:bg-clip-text group-hover:text-transparent">
                   {cat}
@@ -317,16 +307,16 @@ const Home: React.FC = () => {
       {/* Jobs opening */}
       <section className="relative overflow-hidden bg-[#fbf7ef] py-20 text-foreground dark:bg-[#050509]">
         {/* Background glow */}
-        <div className="pointer-events-none absolute left-1/2 top-10 h-72 w-72 -translate-x-1/2 rounded-full bg-orange-500/10 blur-3xl" />
+        <div className="pointer-events-none absolute top-10 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-orange-500/10 blur-3xl" />
 
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-12 flex flex-col gap-5 text-center lg:flex-row lg:items-end lg:justify-between lg:text-left">
             <div>
-              <span className="inline-flex rounded-full border border-orange-200 bg-orange-50 px-4 py-1.5 font-mont text-xs font-semibold uppercase tracking-[0.18em] text-orange-600 dark:border-orange-500/20 dark:bg-orange-500/10 dark:text-orange-300">
+              <span className="inline-flex rounded-full border border-orange-200 bg-orange-50 px-4 py-1.5 font-mont text-xs font-semibold tracking-[0.18em] text-orange-600 uppercase dark:border-orange-500/20 dark:bg-orange-500/10 dark:text-orange-300">
                 Featured Jobs
               </span>
 
-              <h2 className="mt-5 font-unbounded text-3xl font-bold leading-tight text-[#393629] sm:text-4xl lg:text-5xl dark:text-white">
+              <h2 className="mt-5 font-unbounded text-3xl leading-tight font-bold text-[#393629] sm:text-4xl lg:text-5xl dark:text-white">
                 Explore Latest & Top{" "}
                 <span className="text-orange-500 dark:text-orange-400">
                   Opportunities
@@ -334,18 +324,17 @@ const Home: React.FC = () => {
               </h2>
 
               <p className="mt-4 max-w-2xl font-mont text-sm leading-7 text-[#6b6658] sm:text-base dark:text-slate-400">
-                Discover handpicked roles from trusted companies and apply faster with
-                Jobzy’s modern hiring experience.
+                Discover handpicked roles from trusted companies and apply
+                faster with Jobzy’s modern hiring experience.
               </p>
             </div>
 
-            <button className="mx-auto rounded-2xl border border-[#c65d3b]/30 bg-white px-6 py-3 font-mont text-sm font-semibold text-[#393629] cursor-pointer shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#c65d3b] hover:shadow-xl lg:mx-0 dark:border-white/10 dark:bg-[#111118] dark:text-white dark:hover:border-orange-400">
+            <button className="mx-auto cursor-pointer rounded-2xl border border-[#c65d3b]/30 bg-white px-6 py-3 font-mont text-sm font-semibold text-[#393629] shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#c65d3b] hover:shadow-xl lg:mx-0 dark:border-white/10 dark:bg-[#111118] dark:text-white dark:hover:border-orange-400">
               More Jobs
             </button>
           </div>
 
-          <div className="rounded-[2rem] border border-slate-200 bg-white/70 p-4 shadow-2xl shadow-orange-500/10 dark:border-none dark:bg-transparent dark:shadow-none sm:p-6">
-
+          <div className="rounded-[2rem] border border-slate-200 bg-white/70 p-4 shadow-2xl shadow-orange-500/10 sm:p-6 dark:border-none dark:bg-transparent dark:shadow-none">
             <div className="mt-8">
               <LatestJobs />
             </div>
@@ -368,7 +357,7 @@ const Home: React.FC = () => {
           </div>
 
           <h1 className="mb-6 font-unbounded text-4xl leading-none font-bold tracking-tighter md:text-[7vw] lg:text-8xl">
-            <span className="mr-4 inline-block mr-3">Real</span>
+            <span className="mr-3 mr-4 inline-block">Real</span>
 
             <Highlighter
               action="highlight"
@@ -398,16 +387,16 @@ const Home: React.FC = () => {
           </h1>
 
           <p className="max-w-2xl font-mont text-zinc-600 md:text-[2vw] lg:text-xl">
-            Thousands of candidates found better career opportunities through JobZy,
-            while recruiters hired skilled talent faster with a smoother hiring
-            experience.
+            Thousands of candidates found better career opportunities through
+            JobZy, while recruiters hired skilled talent faster with a smoother
+            hiring experience.
           </p>
         </div>
         <MarqueeDemo />
       </section>
       {/* Why us */}
       <section className="relative overflow-hidden bg-[#fbf7ef] py-20 text-foreground dark:bg-[#050509]">
-        <div className="pointer-events-none absolute left-1/2 top-10 h-72 w-72 -translate-x-1/2 rounded-full bg-orange-500/10 blur-3xl" />
+        <div className="pointer-events-none absolute top-10 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-orange-500/10 blur-3xl" />
 
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto mb-14 max-w-3xl text-center">
@@ -420,8 +409,9 @@ const Home: React.FC = () => {
             </h2>
 
             <p className="mt-4 font-mont text-base leading-7 text-[#6b6658] dark:text-slate-400">
-              Jobzy helps candidates find better opportunities and gives recruiters
-              a cleaner way to manage companies, jobs, and applicants.
+              Jobzy helps candidates find better opportunities and gives
+              recruiters a cleaner way to manage companies, jobs, and
+              applicants.
             </p>
           </div>
 
@@ -439,27 +429,29 @@ const Home: React.FC = () => {
                   </h3>
 
                   <p className="mt-4 font-mont text-sm leading-6 text-[#6b6658] dark:text-slate-400">
-                    Recruiters can post jobs, manage applicants, and track hiring
-                    workflows from one focused dashboard.
+                    Recruiters can post jobs, manage applicants, and track
+                    hiring workflows from one focused dashboard.
                   </p>
                 </div>
 
                 <div className="rounded-2xl border border-white/70 bg-white p-4 shadow-xl dark:border-white/10 dark:bg-black/30">
                   <div className="mb-3 h-3 w-20 rounded-full bg-orange-400/30" />
                   <div className="space-y-3">
-                    {["Frontend Developer", "UI Designer", "Backend Engineer"].map(
-                      (item) => (
-                        <div
-                          key={item}
-                          className="flex items-center justify-between rounded-xl bg-[#fbf7ef] px-3 py-3 dark:bg-white/5"
-                        >
-                          <span className="font-mont text-xs font-medium text-[#393629] dark:text-white">
-                            {item}
-                          </span>
-                          <BadgeCheck className="h-4 w-4 text-emerald-500" />
-                        </div>
-                      )
-                    )}
+                    {[
+                      "Frontend Developer",
+                      "UI Designer",
+                      "Backend Engineer",
+                    ].map((item) => (
+                      <div
+                        key={item}
+                        className="flex items-center justify-between rounded-xl bg-[#fbf7ef] px-3 py-3 dark:bg-white/5"
+                      >
+                        <span className="font-mont text-xs font-medium text-[#393629] dark:text-white">
+                          {item}
+                        </span>
+                        <BadgeCheck className="h-4 w-4 text-emerald-500" />
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -523,8 +515,9 @@ const Home: React.FC = () => {
               </h3>
 
               <p className="mt-4 font-mont text-sm leading-6 text-[#6b6658] dark:text-slate-400">
-                Students and professionals can explore roles, save opportunities,
-                and apply with confidence through a simple experience.
+                Students and professionals can explore roles, save
+                opportunities, and apply with confidence through a simple
+                experience.
               </p>
             </div>
 
@@ -541,8 +534,8 @@ const Home: React.FC = () => {
                   </h3>
 
                   <p className="mt-4 font-mont text-sm leading-6 text-[#6b6658] dark:text-slate-400">
-                    Companies can showcase their brand, publish roles, and create
-                    a professional hiring presence on Jobzy.
+                    Companies can showcase their brand, publish roles, and
+                    create a professional hiring presence on Jobzy.
                   </p>
                 </div>
 
@@ -558,24 +551,24 @@ const Home: React.FC = () => {
       </section>
       {/* CTA */}
       <section className="relative overflow-hidden bg-[#fbf7ef] py-20 text-foreground dark:bg-[#050509]">
-        <div className="pointer-events-none absolute left-1/2 top-20 h-72 w-72 -translate-x-1/2 rounded-full bg-orange-500/10 blur-3xl" />
+        <div className="pointer-events-none absolute top-20 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-orange-500/10 blur-3xl" />
 
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* Details Section */}
           <div className="grid items-center gap-10 lg:grid-cols-2">
             <div>
-              <span className="inline-flex rounded-full border border-orange-500/20 bg-orange-500/10 px-4 py-1.5 font-mont text-xs font-semibold uppercase tracking-[0.18em] text-orange-600 dark:text-orange-300">
+              <span className="inline-flex rounded-full border border-orange-500/20 bg-orange-500/10 px-4 py-1.5 font-mont text-xs font-semibold tracking-[0.18em] text-orange-600 uppercase dark:text-orange-300">
                 Built for growth
               </span>
 
-              <h2 className="mt-5 max-w-2xl font-unbounded text-3xl font-bold leading-tight text-[#393629] sm:text-4xl lg:text-5xl dark:text-white">
+              <h2 className="mt-5 max-w-2xl font-unbounded text-3xl leading-tight font-bold text-[#393629] sm:text-4xl lg:text-5xl dark:text-white">
                 A better way to discover jobs and manage hiring
               </h2>
 
               <p className="mt-5 max-w-2xl font-mont text-base leading-8 text-[#6b6658] dark:text-slate-400">
                 Jobzy brings candidates, recruiters, and companies into one
-                modern platform with faster job discovery, cleaner workflows, and
-                smarter hiring experiences.
+                modern platform with faster job discovery, cleaner workflows,
+                and smarter hiring experiences.
               </p>
 
               <div className="mt-8 grid gap-4 sm:grid-cols-2">
@@ -621,7 +614,7 @@ const Home: React.FC = () => {
                   alt="Jobzy hiring experience"
                 />
 
-                <div className="absolute bottom-6 left-6 right-6 rounded-3xl bg-[#393629] p-5 text-white shadow-xl dark:bg-white dark:text-slate-950">
+                <div className="absolute right-6 bottom-6 left-6 rounded-3xl bg-[#393629] p-5 text-white shadow-xl dark:bg-white dark:text-slate-950">
                   <p className="font-unbounded text-lg font-semibold">
                     Hire smarter. Apply faster.
                   </p>
@@ -634,14 +627,14 @@ const Home: React.FC = () => {
           </div>
 
           {/* CTA Section */}
-          <div className="mt-20 overflow-hidden rounded-[2.5rem] border border-slate-200 bg-[#393629] p-6 shadow-2xl shadow-orange-500/20 dark:shadow-none dark:border-white/10 dark:bg-[#111118] sm:p-8 lg:p-10">
+          <div className="mt-20 overflow-hidden rounded-[2.5rem] border border-slate-200 bg-[#393629] p-6 shadow-2xl shadow-orange-500/20 sm:p-8 lg:p-10 dark:border-white/10 dark:bg-[#111118] dark:shadow-none">
             <div className="grid items-center gap-10 lg:grid-cols-[1fr_0.85fr]">
               <div>
-                <span className="inline-flex rounded-full bg-white/10 px-4 py-1.5 font-mont text-xs font-semibold uppercase tracking-[0.18em] text-orange-300">
+                <span className="inline-flex rounded-full bg-white/10 px-4 py-1.5 font-mont text-xs font-semibold tracking-[0.18em] text-orange-300 uppercase">
                   Jobzy mobile app
                 </span>
 
-                <h2 className="mt-5 max-w-2xl font-unbounded text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
+                <h2 className="mt-5 max-w-2xl font-unbounded text-3xl leading-tight font-bold text-white sm:text-4xl lg:text-5xl">
                   Take your hiring journey anywhere
                 </h2>
 
@@ -668,7 +661,7 @@ const Home: React.FC = () => {
 
                 <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 p-5">
                   {/* Glow */}
-                  <div className="absolute right-0 top-0 h-40 w-40 rounded-full bg-orange-500/10 blur-3xl" />
+                  <div className="absolute top-0 right-0 h-40 w-40 rounded-full bg-orange-500/10 blur-3xl" />
 
                   <div className="relative rounded-[1.5rem] bg-[#fbf7ef] p-6 text-[#393629] shadow-xl">
                     {/* Top */}

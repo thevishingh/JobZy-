@@ -1,8 +1,8 @@
-import { useParams } from "react-router-dom";
-import { Badge } from "../ui/badge";
-import { Button } from "../ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { Separator } from "../ui/separator";
+import { useParams } from "react-router-dom"
+import { Badge } from "../ui/badge"
+import { Button } from "../ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card"
+import { Separator } from "../ui/separator"
 import {
   Briefcase,
   Building2,
@@ -15,44 +15,41 @@ import {
   ArrowUpRight,
   Sparkles,
   Layers3,
-} from "lucide-react";
-import React, { useEffect } from "react";
-import axios from "axios";
-import { APPLICATION_API_END_POINT, JOB_API_END_POINT } from "@/utils/constant";
-import { setSingleJobs } from "@/redux/jobSlice";
-import { useDispatch, useSelector } from "react-redux";
-import type { RootState } from "@/redux/store";
-import { toast } from "sonner";
+} from "lucide-react"
+import React, { useEffect } from "react"
+import axios from "axios"
+import { APPLICATION_API_END_POINT, JOB_API_END_POINT } from "@/utils/constant"
+import { setSingleJobs } from "@/redux/jobSlice"
+import { useDispatch, useSelector } from "react-redux"
+import type { RootState } from "@/redux/store"
+import { toast } from "sonner"
 
 export default function JobsDetails() {
+  const { id } = useParams()
+  const dispatch = useDispatch()
 
-  const { id } = useParams();
-  const dispatch = useDispatch();
-
-  const { singleJob } = useSelector((store: RootState) => store.job);
-  const { user } = useSelector((store: RootState) => store.auth);
-
-  // const isApplied =
-  //   singleJob?.applications?.some((application: any) => {
-  //     const applicantId =
-  //       typeof application.applicant === "object"
-  //         ? application.applicant?._id
-  //         : application.applicant;
-
-  //     return applicantId?.toString() === user?._id;
-  //   }) || false;
+  const { singleJob } = useSelector((store: RootState) => store.job)
+  const { user } = useSelector((store: RootState) => store.auth)
 
   // is user already applied for the job
+  type ApplicationType = {
+    applicant:
+      | {
+          _id: string
+        }
+      | string
+  }
+
   const isInitialApplied =
-    singleJob?.applications?.some((application) => {
+    singleJob?.applications?.some((application: ApplicationType) => {
       const applicantId =
         typeof application.applicant === "object"
           ? application.applicant?._id
-          : application.applicant;
+          : application.applicant
 
-      return applicantId?.toString() === user?._id?.toString();
-    }) || false;
-  const [isApplied, setisApplied] = React.useState(isInitialApplied);
+      return applicantId?.toString() === user?._id?.toString()
+    }) || false
+  const [isApplied, setisApplied] = React.useState(isInitialApplied)
 
   // get single job details
   useEffect(() => {
@@ -60,30 +57,30 @@ export default function JobsDetails() {
       try {
         const response = await axios.get(`${JOB_API_END_POINT}/get/${id}`, {
           withCredentials: true,
-        });
+        })
 
         if (response.data.success) {
-          dispatch(setSingleJobs(response.data.job));
+          dispatch(setSingleJobs(response.data.job))
           setisApplied(
             response.data.job.applications?.some((application) => {
               const applicantId =
                 typeof application.applicant === "object"
                   ? application.applicant?._id
-                  : application.applicant;
-              return applicantId?.toString() === user?._id?.toString();
+                  : application.applicant
+              return applicantId?.toString() === user?._id?.toString()
             }) || false
-          ); // set initial application status
+          ) // set initial application status
         }
 
-        console.log("applications:", response.data.job.applications);
-        console.log("user id:", user?._id);
+        console.log("applications:", response.data.job.applications)
+        console.log("user id:", user?._id)
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
-    };
+    }
 
-    fetchSingleJobs();
-  }, [id, dispatch, user?._id]);
+    fetchSingleJobs()
+  }, [id, dispatch, user?._id])
 
   if (!singleJob) {
     return (
@@ -97,53 +94,46 @@ export default function JobsDetails() {
           </div>
         </div>
       </section>
-    );
+    )
   }
 
-  const totalOpenings = singleJob?.position || "N/A";
-  const totalApplications = singleJob?.applications?.length || 0;
+  const totalOpenings = singleJob?.position || "N/A"
+  const totalApplications = singleJob?.applications?.length || 0
 
   // handling Apply jobs
   const applyJobhandler = async () => {
     try {
-
       const response = await axios.get(
         `${APPLICATION_API_END_POINT}/apply/${id}`,
         {
           withCredentials: true,
         }
-      );
+      )
 
       if (response.data.success) {
-        setisApplied(true); // update local state to reflect the application status
+        setisApplied(true) // update local state to reflect the application status
         const updatedSingleJob = {
           ...singleJob,
           applications: [...singleJob.applications, { applicant: user._id }],
-        };
-        toast.success("Applied successfully!");
-        dispatch(setSingleJobs(updatedSingleJob)); // real time update ui 
+        }
+        toast.success("Applied successfully!")
+        dispatch(setSingleJobs(updatedSingleJob)) // real time update ui
       }
-
     } catch (error) {
-
-      toast.error(
-        "Failed to apply for the job. Please try again."
-      );
-
+      toast.error("Failed to apply for the job. Please try again.")
     }
-  };
+  }
 
   return (
     <>
-    {/* hero */}
-      
-      {/* job details */}
-      <section className="relative min-h-screen overflow-hidden bg-transparent px-4 py-22 sm:px-6 lg:px-8 lg:p-28">
+      {/* hero */}
 
+      {/* job details */}
+      <section className="relative min-h-screen overflow-hidden bg-transparent px-4 py-22 sm:px-6 lg:p-28 lg:px-8">
         {/* Ambient blur orbs */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="absolute left-[-80px] top-10 h-72 w-72 rounded-full bg-fuchsia-500/20 blur-3xl" />
-          <div className="absolute right-[-60px] top-24 h-80 w-80 rounded-full bg-cyan-500/20 blur-3xl" />
+          <div className="absolute top-10 left-[-80px] h-72 w-72 rounded-full bg-fuchsia-500/20 blur-3xl" />
+          <div className="absolute top-24 right-[-60px] h-80 w-80 rounded-full bg-cyan-500/20 blur-3xl" />
           <div className="absolute bottom-10 left-1/3 h-72 w-72 rounded-full bg-violet-500/10 blur-3xl" />
         </div>
 
@@ -166,7 +156,7 @@ export default function JobsDetails() {
                   </div>
 
                   <div className="space-y-4">
-                    <h1 className="max-w-3xl font-unbounded text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
+                    <h1 className="max-w-3xl font-unbounded text-3xl leading-tight font-bold text-white sm:text-4xl lg:text-5xl">
                       {singleJob?.title}
                     </h1>
 
@@ -189,11 +179,12 @@ export default function JobsDetails() {
 
                     <p className="max-w-2xl font-mont text-sm leading-7 text-white/60 sm:text-[15px]">
                       A refined opportunity page with clear role expectations,
-                      structured highlights, and a focused application experience.
+                      structured highlights, and a focused application
+                      experience.
                     </p>
                   </div>
 
-                  <div className="mt-8 grid grid-cols-2 font-mont gap-3 sm:grid-cols-3 xl:grid-cols-5">
+                  <div className="mt-8 grid grid-cols-2 gap-3 font-mont sm:grid-cols-3 xl:grid-cols-5">
                     <StatCard
                       icon={IndianRupee}
                       label="Salary"
@@ -224,13 +215,13 @@ export default function JobsDetails() {
                       value={
                         singleJob?.createdAt
                           ? new Date(singleJob.createdAt).toLocaleDateString(
-                            "en-GB",
-                            {
-                              day: "numeric",
-                              month: "short",
-                              year: "numeric",
-                            }
-                          )
+                              "en-GB",
+                              {
+                                day: "numeric",
+                                month: "short",
+                                year: "numeric",
+                              }
+                            )
                           : "N/A"
                       }
                       iconClass="text-amber-300"
@@ -239,29 +230,32 @@ export default function JobsDetails() {
                 </div>
 
                 {/* Right apply panel */}
-                <div className="border-t border-white/10 bg-white/5 p-6 sm:p-8 lg:border-l lg:border-t-0">
+                <div className="border-t border-white/10 bg-white/5 p-6 sm:p-8 lg:border-t-0 lg:border-l">
                   <div className="space-y-5 lg:sticky lg:top-24">
                     <div className="rounded-[28px] border border-white/10 bg-[#141822]/80 p-5 shadow-[0_12px_40px_rgba(0,0,0,0.35)] backdrop-blur-xl">
-                      <p className="font-unbounded text-xs uppercase tracking-[0.2em] text-white/40">
+                      <p className="font-unbounded text-xs tracking-[0.2em] text-white/40 uppercase">
                         Application Panel
                       </p>
 
                       <h2 className="mt-3 font-unbounded text-2xl font-bold text-white">
-                        {isApplied ? "Already Applied" : "Apply for this position"}
+                        {isApplied
+                          ? "Already Applied"
+                          : "Apply for this position"}
                       </h2>
 
                       <p className="mt-2 font-mont text-sm leading-6 text-white/60">
-                        Review the job details and submit your application to move
-                        forward in the hiring process.
+                        Review the job details and submit your application to
+                        move forward in the hiring process.
                       </p>
 
                       <Button
                         disabled={isApplied}
                         onClick={applyJobhandler}
-                        className={`mt-5 h-12 w-full rounded-full border-0 font-unbounded text-sm font-medium transition ${isApplied
-                          ? "cursor-not-allowed bg-emerald-300 text-black hover:bg-emerald-300"
-                          : "bg-linear-to-r from-fuchsia-500 to-cyan-500 text-white hover:opacity-90"
-                          }`}
+                        className={`mt-5 h-12 w-full rounded-full border-0 font-unbounded text-sm font-medium transition ${
+                          isApplied
+                            ? "cursor-not-allowed bg-emerald-300 text-black hover:bg-emerald-300"
+                            : "bg-linear-to-r from-fuchsia-500 to-cyan-500 text-white hover:opacity-90"
+                        }`}
                       >
                         {isApplied ? "Already Applied" : "Apply Now"}
 
@@ -313,13 +307,14 @@ export default function JobsDetails() {
 
               <GlassSection title="Responsibilities">
                 <ul className="space-y-3">
-                  {(
-                    singleJob?.responsibilities || [
-                      "Build responsive user interfaces using React and Tailwind CSS.",
-                      "Convert designs into reusable components.",
-                      "Integrate REST APIs efficiently.",
-                      "Improve performance and accessibility.",
-                    ]
+                  {(singleJob?.responsibilities?.length > 0
+                    ? singleJob.responsibilities
+                    : [
+                        "Collaborate effectively with team members and stakeholders.",
+                        "Maintain clean, scalable, and high-quality work standards.",
+                        "Meet project deadlines and contribute to overall team goals.",
+                        "Continuously improve performance, usability, and reliability.",
+                      ]
                   ).map((item: string, index: number) => (
                     <li
                       key={index}
@@ -328,6 +323,7 @@ export default function JobsDetails() {
                       <div className="mt-0.5 rounded-full bg-emerald-500/15 p-1.5">
                         <CheckCircle className="h-4 w-4 shrink-0 text-emerald-300" />
                       </div>
+
                       <span className="font-unbounded text-sm leading-6 text-white/75">
                         {item}
                       </span>
@@ -381,7 +377,13 @@ export default function JobsDetails() {
                   <OverviewItem
                     icon={Clock}
                     label="Experience"
-                    value={singleJob?.experience || "N/A"}
+                    value={
+                      singleJob?.experienceLevel
+                        ? `${singleJob.experienceLevel} ${
+                            singleJob.experienceLevel > 1 ? "Years" : "Year"
+                          }`
+                        : "N/A"
+                    }
                     color="text-amber-300"
                   />
                   <OverviewItem
@@ -390,13 +392,13 @@ export default function JobsDetails() {
                     value={
                       singleJob?.createdAt
                         ? new Date(singleJob.createdAt).toLocaleDateString(
-                          "en-GB",
-                          {
-                            day: "numeric",
-                            month: "long",
-                            year: "numeric",
-                          }
-                        )
+                            "en-GB",
+                            {
+                              day: "numeric",
+                              month: "long",
+                              year: "numeric",
+                            }
+                          )
                         : "N/A"
                     }
                     color="text-rose-300"
@@ -406,7 +408,7 @@ export default function JobsDetails() {
 
               <GlassSidebarCard title="Company Info">
                 <div className="flex items-center gap-4">
-                  <div className="flex h-14 w-14 font-unbounded items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-cyan-300 backdrop-blur-lg">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/5 font-unbounded text-cyan-300 backdrop-blur-lg">
                     <Building2 className="h-7 w-7" />
                   </div>
 
@@ -423,8 +425,7 @@ export default function JobsDetails() {
                 <Separator className="my-5 bg-white/10" />
 
                 <p className="font-mont text-sm leading-7 text-white/65">
-                  A modern hiring platform helping candidates find better
-                  opportunities and companies hire the right talent faster.
+                  {singleJob?.company?.description}
                 </p>
 
                 <Button
@@ -441,17 +442,18 @@ export default function JobsDetails() {
 
                   <div className="relative">
                     <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1">
-                      <p className="font-unbounded text-[11px] uppercase tracking-[0.2em] text-white/55">
+                      <p className="font-unbounded text-[11px] tracking-[0.2em] text-white/55 uppercase">
                         Career Move
                       </p>
                     </div>
 
-                    <h3 className="mt-4 font-unbounded text-2xl font-semibold leading-tight text-white">
+                    <h3 className="mt-4 font-unbounded text-2xl leading-tight font-semibold text-white">
                       Ready to apply?
                     </h3>
 
                     <p className="mt-3 max-w-xs font-mont text-sm leading-6 text-white/65">
-                      Submit your application and take the next step toward your next role.
+                      Submit your application and take the next step toward your
+                      next role.
                     </p>
 
                     <div className="mt-6 flex items-center gap-3">
@@ -461,7 +463,7 @@ export default function JobsDetails() {
 
                       <Button
                         variant="outline"
-                        className="h-11 font-unbounded rounded-full border-white/15 bg-white/5 px-5 text-sm text-white hover:bg-white/10 hover:text-white"
+                        className="h-11 rounded-full border-white/15 bg-white/5 px-5 font-unbounded text-sm text-white hover:bg-white/10 hover:text-white"
                       >
                         Save Job
                       </Button>
@@ -474,7 +476,7 @@ export default function JobsDetails() {
         </div>
       </section>
     </>
-  );
+  )
 }
 
 function StatCard({
@@ -483,10 +485,10 @@ function StatCard({
   value,
   iconClass,
 }: {
-  icon: any;
-  label: string;
-  value: string;
-  iconClass?: string;
+  icon: any
+  label: string
+  value: string
+  iconClass?: string
 }) {
   return (
     <div className="rounded-[24px] border border-white/10 bg-white/5 p-4 shadow-[0_6px_30px_rgba(0,0,0,0.2)] backdrop-blur-xl">
@@ -495,54 +497,50 @@ function StatCard({
       >
         <Icon className="h-4 w-4" />
       </div>
-      <p className="font-mont text-xs uppercase tracking-[0.14em] text-white/40">
+      <p className="font-mont text-xs tracking-[0.14em] text-white/40 uppercase">
         {label}
       </p>
       <p className="mt-1 font-unbounded text-sm font-semibold text-white">
         {value}
       </p>
     </div>
-  );
+  )
 }
 
-function MiniInfo({
-  label,
-  value,
-}: {
-  label: string;
-  value: string;
-}) {
+function MiniInfo({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-[#161a24]/70 px-4 py-3">
       <p className="font-unbounded text-sm text-lime-500/50">{label}</p>
       <p className="font-unbounded text-sm font-semibold text-white">{value}</p>
     </div>
-  );
+  )
 }
 
 function GlassSection({
   title,
   children,
 }: {
-  title: string;
-  children: React.ReactNode;
+  title: string
+  children: React.ReactNode
 }) {
   return (
     <Card className="rounded-[30px] border border-white/10 bg-[#0f1117]/70 text-white shadow-[0_20px_60px_rgba(0,0,0,0.35)] backdrop-blur-2xl">
       <CardHeader className="pb-3">
-        <CardTitle className="font-unbounded text-xl text-white">{title}</CardTitle>
+        <CardTitle className="font-unbounded text-xl text-white">
+          {title}
+        </CardTitle>
       </CardHeader>
       <CardContent className="font-mont">{children}</CardContent>
     </Card>
-  );
+  )
 }
 
 function GlassSidebarCard({
   title,
   children,
 }: {
-  title: string;
-  children: React.ReactNode;
+  title: string
+  children: React.ReactNode
 }) {
   return (
     <Card className="rounded-[30px] border border-white/10 bg-[#0f1117]/70 text-white shadow-[0_20px_60px_rgba(0,0,0,0.35)] backdrop-blur-2xl">
@@ -551,7 +549,7 @@ function GlassSidebarCard({
       </CardHeader>
       <CardContent>{children}</CardContent>
     </Card>
-  );
+  )
 }
 
 function OverviewItem({
@@ -560,10 +558,10 @@ function OverviewItem({
   value,
   color,
 }: {
-  icon: any;
-  label: string;
-  value: string;
-  color?: string;
+  icon: any
+  label: string
+  value: string
+  color?: string
 }) {
   return (
     <div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-lg">
@@ -574,11 +572,11 @@ function OverviewItem({
       </div>
 
       <div>
-        <p className="font-mont text-xs uppercase tracking-[0.14em] text-white/40">
+        <p className="font-mont text-xs tracking-[0.14em] text-white/40 uppercase">
           {label}
         </p>
         <h4 className="font-mont text-sm font-semibold text-white">{value}</h4>
       </div>
     </div>
-  );
+  )
 }

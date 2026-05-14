@@ -1,30 +1,20 @@
+import type { RootState } from "@/redux/store"
 import {
   BriefcaseBusiness,
   FilePlus2,
   Search,
   SlidersHorizontal,
   Eye,
-  Pencil,
   Building2,
   MapPin,
   IndianRupee,
   UsersRound,
   X,
 } from "lucide-react"
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Button } from "@/components/ui/button"
 import { useState } from "react"
+import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import { Highlighter } from "../ui/highlighter"
+import useGetAllAdminJobs from "@/hooks/useGetAllAdminJobs"
 
 type Job = {
   _id: string
@@ -36,6 +26,7 @@ type Job = {
   location: string
   jobType: "full-time" | "part-time" | "contract" | "internship"
   position: number
+  responsibilities?: string[]
   company?: {
     _id: string
     name: string
@@ -48,82 +39,22 @@ type Job = {
   updatedAt: string
 }
 
-const jobs: Job[] = [
-  {
-    _id: "1",
-    title: "Frontend Developer",
-    description:
-      "We are looking for a skilled Frontend Developer who can build modern, responsive, and scalable user interfaces using React and Tailwind CSS.",
-    requirements: ["React.js", "TypeScript", "Tailwind CSS", "Redux Toolkit"],
-    salary: 800000,
-    experienceLevel: 2,
-    location: "Pune, India",
-    jobType: "full-time",
-    position: 3,
-    company: {
-      _id: "c1",
-      name: "Jobzy Technologies",
-      location: "Pune",
-    },
-    created_by: "recruiter_id",
-    applications: ["a1", "a2", "a3", "a4"],
-    createdAt: "2026-05-10",
-    updatedAt: "2026-05-12",
-  },
-  {
-    _id: "2",
-    title: "Backend Engineer",
-    description:
-      "Join our backend team to build secure REST APIs, database models, authentication flows, and production-ready server-side features.",
-    requirements: ["Node.js", "Express.js", "MongoDB", "JWT"],
-    salary: 1000000,
-    experienceLevel: 3,
-    location: "Bengaluru, India",
-    jobType: "contract",
-    position: 2,
-    company: {
-      _id: "c2",
-      name: "Nexora Labs",
-      location: "Bengaluru",
-    },
-    created_by: "recruiter_id",
-    applications: ["a1", "a2"],
-    createdAt: "2026-05-08",
-    updatedAt: "2026-05-11",
-  },
-  {
-    _id: "3",
-    title: "MERN Stack Developer",
-    description:
-      "Build full-stack web applications using MongoDB, Express, React, and Node.js with clean architecture and responsive UI.",
-    requirements: ["MongoDB", "Express.js", "React.js", "Node.js"],
-    salary: 900000,
-    experienceLevel: 2,
-    location: "Hyderabad, India",
-    jobType: "full-time",
-    position: 4,
-    company: {
-      _id: "c3",
-      name: "CodeNest Systems",
-      location: "Hyderabad",
-    },
-    created_by: "recruiter_id",
-    applications: ["a1", "a2", "a3"],
-    createdAt: "2026-05-13",
-    updatedAt: "2026-05-13",
-  },
-]
-
 export default function PostJobPage() {
   const navigate = useNavigate()
-  const [companyName, setCompanyName] = useState("")
+
+  useGetAllAdminJobs()
+
   const [searchQuery, setSearchQuery] = useState("")
   const [filterOption, setFilterOption] = useState("")
   const [selectedJob, setSelectedJob] = useState<Job | null>(null)
 
+  const { allAdminJobs } = useSelector((store: RootState) => store.job)
+
+  const jobs: Job[] = Array.isArray(allAdminJobs) ? (allAdminJobs as Job[]) : []
+
   const filteredJobs = [...jobs]
     .filter((job) =>
-      job.title.toLowerCase().includes(searchQuery.toLowerCase())
+      job.title?.toLowerCase().includes(searchQuery.toLowerCase())
     )
     .sort((a, b) => {
       if (filterOption === "recent") {
@@ -165,74 +96,13 @@ export default function PostJobPage() {
               </p>
             </div>
 
-            <Dialog>
-              <DialogTrigger asChild>
-                <button className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-[#c65d3b] px-5 py-2.5 font-mont text-sm font-semibold text-white transition hover:-translate-y-1 hover:bg-[#b65335] sm:w-auto">
-                  <FilePlus2 className="h-4 w-4" />
-                  Post New Job
-                </button>
-              </DialogTrigger>
-
-              <DialogContent className="overflow-hidden rounded-[28px] border border-slate-200 bg-white p-0 text-[#393629] shadow-2xl sm:max-w-lg dark:border-white/10 dark:bg-[#111118] dark:text-white">
-                <div className="relative">
-                  <div className="pointer-events-none absolute -top-20 -right-20 h-52 w-52 rounded-full bg-orange-500/20 blur-3xl" />
-
-                  <DialogHeader className="relative border-b border-slate-200 px-6 pt-6 pb-5 dark:border-white/10">
-                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-500/10 text-orange-500">
-                      <FilePlus2 className="h-5 w-5" />
-                    </div>
-
-                    <DialogTitle className="font-unbounded text-xl">
-                      Create New Job
-                    </DialogTitle>
-
-                    <DialogDescription className="mt-2 font-mont text-sm leading-6 text-[#6b6658] dark:text-slate-400">
-                      Enter the company name before creating a job post.
-                    </DialogDescription>
-                  </DialogHeader>
-
-                  <div className="space-y-3 px-6 py-6">
-                    <Label className="font-unbounded text-sm font-semibold capitalize">
-                      <Highlighter action="underline" color="yellow">
-                        Job Title
-                      </Highlighter>
-                    </Label>
-
-                    <Input
-                      value={companyName}
-                      onChange={(e) => setCompanyName(e.target.value)}
-                      placeholder="Enter Job Title (e.g. Frontend Developer)"
-                      className="h-12 rounded-2xl border-slate-200 bg-[#fbf7ef] font-mont dark:border-white/10 dark:bg-[#050509]"
-                    />
-                  </div>
-
-                  <div className="flex flex-col-reverse gap-3 border-t border-slate-200 px-6 py-5 sm:flex-row sm:justify-end dark:border-white/10">
-                    <DialogTrigger asChild>
-                      <Button
-                        variant="outline"
-                        className="h-11 cursor-pointer rounded-full px-5 font-unbounded text-sm"
-                      >
-                        Cancel
-                      </Button>
-                    </DialogTrigger>
-
-                    <Button
-                      onClick={() => {
-                        if (!companyName.trim()) return
-
-                        navigate(
-                          `/admin/jobs/details-update?company=${companyName}`
-                        )
-                      }}
-                      className="h-11 cursor-pointer rounded-full bg-[#c65d3b] px-5 font-unbounded text-sm font-semibold text-white hover:bg-[#b65335]"
-                    >
-                      <FilePlus2 className="mr-2 h-4 w-4" />
-                      Post New Job
-                    </Button>
-                  </div>
-                </div>
-              </DialogContent>
-            </Dialog>
+            <button
+              onClick={() => navigate("/admin/jobs/new-jobs")}
+              className="inline-flex w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-[#c65d3b] px-5 py-2.5 font-mont text-sm font-semibold text-white transition hover:-translate-y-1 hover:bg-[#b65335] sm:w-auto"
+            >
+              <FilePlus2 className="h-4 w-4" />
+              Post New Job
+            </button>
           </div>
 
           <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -265,104 +135,118 @@ export default function PostJobPage() {
             </div>
           </div>
 
-          <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-            {filteredJobs.map((job) => (
-              <div
-                key={job._id}
-                className="group relative overflow-hidden rounded-[1.7rem] border border-slate-200 bg-white p-5 shadow-lg shadow-orange-500/5 transition hover:-translate-y-1 hover:shadow-2xl hover:shadow-orange-500/10 dark:border-white/10 dark:bg-[#111118]"
-              >
-                <div className="pointer-events-none absolute -top-10 -right-10 h-32 w-32 rounded-full bg-orange-500/10 blur-3xl transition group-hover:bg-orange-500/20" />
+          {filteredJobs.length === 0 ? (
+            <div className="rounded-2xl border border-dashed border-slate-300 bg-[#fbf7ef] p-10 text-center dark:border-white/10 dark:bg-[#050509]">
+              <BriefcaseBusiness className="mx-auto mb-4 h-10 w-10 text-orange-500" />
 
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-orange-500/10">
-                      <BriefcaseBusiness className="h-6 w-6 text-orange-500" />
+              <h2 className="font-unbounded text-lg font-semibold">
+                You haven't created any jobs yet
+              </h2>
+
+              <p className="mt-2 font-mont text-sm text-[#6b6658] dark:text-slate-400">
+                Start by posting your first job and manage all applications from
+                here.
+              </p>
+
+              <button
+                onClick={() => navigate("/admin/jobs/new-jobs")}
+                className="mt-6 inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-[#c65d3b] px-5 py-2.5 font-mont text-sm font-semibold text-white transition hover:-translate-y-1 hover:bg-[#b65335]"
+              >
+                <FilePlus2 className="h-4 w-4" />
+                Post New Job
+              </button>
+            </div>
+          ) : (
+            <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+              {filteredJobs.map((job) => (
+                <div
+                  key={job._id}
+                  className="group relative overflow-hidden rounded-[1.7rem] border border-slate-200 bg-white p-5 shadow-lg shadow-orange-500/5 transition hover:-translate-y-1 hover:shadow-2xl hover:shadow-orange-500/10 dark:border-white/10 dark:bg-[#111118]"
+                >
+                  <div className="pointer-events-none absolute -top-10 -right-10 h-32 w-32 rounded-full bg-orange-500/10 blur-3xl transition group-hover:bg-orange-500/20" />
+
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-orange-500/10">
+                        <BriefcaseBusiness className="h-6 w-6 text-orange-500" />
+                      </div>
+
+                      <div>
+                        <h2 className="line-clamp-1 font-unbounded text-lg font-semibold text-[#393629] dark:text-white">
+                          {job.title}
+                        </h2>
+
+                        <p className="mt-1 line-clamp-1 font-mont text-sm text-[#6b6658] dark:text-slate-400">
+                          {job.company?.name || "Company not added"}
+                        </p>
+                      </div>
                     </div>
 
-                    <div>
-                      <h2 className="line-clamp-1 font-unbounded text-lg font-semibold text-[#393629] dark:text-white">
-                        {job.title}
-                      </h2>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => setSelectedJob(job)}
+                        className="cursor-pointer rounded-xl p-2 transition hover:bg-[#f8f5ef] dark:hover:bg-white/5"
+                      >
+                        <Eye className="h-5 w-5 text-[#6b6658] dark:text-slate-400" />
+                      </button>
+                    </div>
+                  </div>
 
-                      <p className="mt-1 line-clamp-1 font-mont text-sm text-[#6b6658] dark:text-slate-400">
-                        {job.company?.name || "Company not added"}
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    <span className="rounded-full bg-orange-500/10 px-3 py-1 font-mont text-xs font-semibold text-orange-600 dark:text-orange-300">
+                      {job.jobType}
+                    </span>
+
+                    <span className="rounded-full bg-slate-100 px-3 py-1 font-mont text-xs font-semibold text-[#393629] dark:bg-white/5 dark:text-slate-300">
+                      {job.experienceLevel}+ Years
+                    </span>
+
+                    <span className="rounded-full bg-slate-100 px-3 py-1 font-mont text-xs font-semibold text-[#393629] dark:bg-white/5 dark:text-slate-300">
+                      {job.position} Openings
+                    </span>
+                  </div>
+
+                  <p className="mt-5 line-clamp-3 font-mont text-sm leading-7 text-[#6b6658] dark:text-slate-400">
+                    {job.description}
+                  </p>
+
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {(job.requirements || []).slice(0, 3).map((skill) => (
+                      <span
+                        key={skill}
+                        className="rounded-full border border-slate-200 px-3 py-1 font-mont text-xs text-[#6b6658] dark:border-white/10 dark:text-slate-400"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="mt-6 flex items-center justify-between border-t border-slate-200 pt-5 dark:border-white/10">
+                    <div>
+                      <p className="font-mont text-xs text-[#8b8575] dark:text-slate-500">
+                        Location
+                      </p>
+
+                      <p className="mt-1 flex items-center gap-1 font-mont text-sm font-semibold text-[#393629] dark:text-white">
+                        <MapPin className="h-4 w-4 text-orange-500" />
+                        {job.location}
+                      </p>
+                    </div>
+
+                    <div className="text-right">
+                      <p className="font-mont text-xs text-[#8b8575] dark:text-slate-500">
+                        Applied
+                      </p>
+
+                      <p className="mt-1 font-unbounded text-lg font-semibold text-orange-500">
+                        {job.applications?.length || 0}
                       </p>
                     </div>
                   </div>
-
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => setSelectedJob(job)}
-                      className="rounded-xl p-2 transition hover:bg-[#f8f5ef] dark:hover:bg-white/5"
-                    >
-                      <Eye className="h-5 w-5 text-[#6b6658] dark:text-slate-400" />
-                    </button>
-
-                    <button
-                      onClick={() =>
-                        navigate(`/admin/jobs/details-update/${job._id}`)
-                      }
-                      className="rounded-xl p-2 transition hover:bg-[#f8f5ef] dark:hover:bg-white/5"
-                    >
-                      <Pencil className="h-5 w-5 text-[#6b6658] dark:text-slate-400" />
-                    </button>
-                  </div>
                 </div>
-
-                <div className="mt-5 flex flex-wrap gap-2">
-                  <span className="rounded-full bg-orange-500/10 px-3 py-1 font-mont text-xs font-semibold text-orange-600 dark:text-orange-300">
-                    {job.jobType}
-                  </span>
-
-                  <span className="rounded-full bg-slate-100 px-3 py-1 font-mont text-xs font-semibold text-[#393629] dark:bg-white/5 dark:text-slate-300">
-                    {job.experienceLevel}+ Years
-                  </span>
-
-                  <span className="rounded-full bg-slate-100 px-3 py-1 font-mont text-xs font-semibold text-[#393629] dark:bg-white/5 dark:text-slate-300">
-                    {job.position} Openings
-                  </span>
-                </div>
-
-                <p className="mt-5 line-clamp-3 font-mont text-sm leading-7 text-[#6b6658] dark:text-slate-400">
-                  {job.description}
-                </p>
-
-                <div className="mt-5 flex flex-wrap gap-2">
-                  {job.requirements.slice(0, 3).map((skill) => (
-                    <span
-                      key={skill}
-                      className="rounded-full border border-slate-200 px-3 py-1 font-mont text-xs text-[#6b6658] dark:border-white/10 dark:text-slate-400"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="mt-6 flex items-center justify-between border-t border-slate-200 pt-5 dark:border-white/10">
-                  <div>
-                    <p className="font-mont text-xs text-[#8b8575] dark:text-slate-500">
-                      Location
-                    </p>
-
-                    <p className="mt-1 flex items-center gap-1 font-mont text-sm font-semibold text-[#393629] dark:text-white">
-                      <MapPin className="h-4 w-4 text-orange-500" />
-                      {job.location}
-                    </p>
-                  </div>
-
-                  <div className="text-right">
-                    <p className="font-mont text-xs text-[#8b8575] dark:text-slate-500">
-                      Applied
-                    </p>
-
-                    <p className="mt-1 font-unbounded text-lg font-semibold text-orange-500">
-                      {job.applications.length}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
           {selectedJob && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 backdrop-blur-sm">
@@ -428,7 +312,7 @@ export default function PostJobPage() {
                       Applications
                     </p>
                     <p className="mt-1 font-mont text-sm font-semibold">
-                      {selectedJob.applications.length} people applied
+                      {selectedJob.applications?.length || 0} people applied
                     </p>
                   </div>
 
@@ -468,7 +352,7 @@ export default function PostJobPage() {
                   </h3>
 
                   <div className="mt-3 flex flex-wrap gap-2">
-                    {selectedJob.requirements.map((skill) => (
+                    {(selectedJob.requirements || []).map((skill) => (
                       <span
                         key={skill}
                         className="rounded-full bg-orange-500/10 px-3 py-1 font-mont text-xs font-semibold text-orange-600 dark:text-orange-300"
@@ -479,21 +363,43 @@ export default function PostJobPage() {
                   </div>
                 </div>
 
+                <div className="mt-6 rounded-2xl bg-[#fbf7ef] p-4 dark:bg-[#050509]">
+                  <h3 className="font-unbounded text-sm font-semibold">
+                    Responsibilities
+                  </h3>
+
+                  <div className="mt-4 space-y-3">
+                    {(selectedJob?.responsibilities?.length
+                      ? selectedJob.responsibilities
+                      : [
+                          "Collaborate effectively with team members and stakeholders.",
+                          "Maintain clean, scalable, and high-quality work standards.",
+                          "Meet project deadlines and contribute to overall team goals.",
+                          "Continuously improve performance, usability, and reliability.",
+                        ]
+                    ).map((item: string, index: number) => (
+                      <div
+                        key={index}
+                        className="flex items-start gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 dark:border-white/10 dark:bg-[#111118]"
+                      >
+                        <div className="flex pt-2">
+                          <div className="h-2.5 w-2.5 shrink-0 rounded-full bg-lime-900" />
+                        </div>
+
+                        <p className="font-unbounded text-sm leading-6 text-[#6b6658] dark:text-slate-300">
+                          {item}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
                 <div className="mt-7 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
                   <button
                     onClick={() => setSelectedJob(null)}
-                    className="rounded-full border border-slate-200 px-6 py-3 font-mont text-sm font-semibold transition hover:bg-[#f8f5ef] dark:border-white/10 dark:hover:bg-white/5"
+                    className="cursor-pointer rounded-full border border-slate-200 px-6 py-3 font-mont text-sm font-semibold transition hover:bg-[#f8f5ef] dark:border-white/10 dark:hover:bg-white/5"
                   >
                     Close
-                  </button>
-
-                  <button
-                    onClick={() =>
-                      navigate(`/admin/jobs/details-update/${selectedJob._id}`)
-                    }
-                    className="rounded-full bg-[#c65d3b] px-6 py-3 font-mont text-sm font-semibold text-white transition hover:-translate-y-1 hover:bg-[#b65335]"
-                  >
-                    Update Job
                   </button>
                 </div>
               </div>

@@ -1,13 +1,6 @@
-import { Separator } from "@base-ui/react"
-import {
-  ArrowRight,
-  Building2,
-  BriefcaseBusiness,
-  CirclePlay,
-  Sparkles,
-  UsersRound,
-} from "lucide-react"
+import { ArrowRight, Building2, CirclePlay, Sparkles } from "lucide-react"
 import PostJobPage from "./PostJobPage"
+import useGetAllAdminJobs from "@/hooks/useGetAllAdminJobs"
 
 const stats = [
   {
@@ -32,13 +25,15 @@ const avatars = [
 ]
 
 export default function RecruiterJobs() {
+  // All jobs posted by recruiters
+  useGetAllAdminJobs()
+  console.log(useGetAllAdminJobs())
   return (
     <>
-      <Separator />
       {/* hero section  */}
-      <section className="relative overflow-hidden bg-[#fbf7ef] px-4 pt-20 text-[#393629] sm:px-6 lg:py-32 lg:px-8 dark:bg-[#050509] dark:text-white">
+      <section className="relative overflow-hidden bg-[#fbf7ef] px-4 pt-20 text-[#393629] sm:px-6 lg:px-8 lg:py-32 dark:bg-[#050509] dark:text-white">
         <div className="pointer-events-none absolute -top-28 -left-24 h-80 w-80 rounded-full bg-orange-500/20 blur-3xl" />
-        <div className="pointer-events-none absolute right-0 top-[50%] h-80 w-80 rounded-full bg-purple-500/20 blur-3xl" />
+        <div className="pointer-events-none absolute top-[50%] right-0 h-80 w-80 rounded-full bg-purple-500/20 blur-3xl" />
 
         <div className="relative mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
           {/* Left */}

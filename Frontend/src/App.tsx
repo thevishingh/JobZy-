@@ -41,13 +41,12 @@ export function App() {
     "/profile",
     "/admin/jobs",
     "/admin/companies",
-    "/admin/companies/new",
+    "/admin/jobs/new-jobs",
   ]
 
   const validDynamicRoutes = [
     /^\/job-details\/[^/]+$/,
     /^\/admin\/companies\/details-update\/[^/]+$/,
-    /^\/admin\/jobs\/details-update\/[^/]+$/,
   ]
 
   const isValidStaticRoute = validStaticRoutes.includes(pathname)
@@ -127,8 +126,16 @@ export function App() {
               </ProtectedRoute>
             }
           />
-          <Route
+          {/* <Route
             path="/admin/jobs/details-update/:id"
+            element={
+              <ProtectedRoute allowedRoles={["recruiter"]}>
+                <UpdateJobPage />
+              </ProtectedRoute>
+            }
+          /> */}
+          <Route
+            path="/admin/jobs/new-jobs"
             element={
               <ProtectedRoute allowedRoles={["recruiter"]}>
                 <UpdateJobPage />

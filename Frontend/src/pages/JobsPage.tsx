@@ -1,5 +1,5 @@
 import FilterCards from "@/components/shared/FilterCards"
-import SingleJobs from "@/components/shared/singleJobs"
+import SingleJobs from "@/components/shared/SingleJobs"
 import { motion } from "motion/react"
 import {
   ArrowRight,
@@ -7,7 +7,8 @@ import {
   Building2,
   Search,
   ShieldCheck,
-  SlidersHorizontal, ChevronDown, Sparkles, Users
+  SlidersHorizontal,
+  ChevronDown,
 } from "lucide-react"
 import { useState } from "react"
 import {
@@ -18,6 +19,7 @@ import {
 } from "@/components/ui/accordion"
 import { useSelector } from "react-redux"
 import type { RootState } from "@/redux/store"
+import useGetAllJobs from "@/hooks/useGetAllJobs"
 
 // Faq's data
 const faqs = [
@@ -59,6 +61,9 @@ const faqs = [
 ]
 
 export default function Jobs() {
+  // get All jobs hooks
+  useGetAllJobs()
+
   // Accessing jobs from Redux store
   const { allJobs } = useSelector((store: RootState) => store.job)
 
@@ -67,6 +72,10 @@ export default function Jobs() {
 
   const visibleJobs = allJobs.slice(0, visibleCount)
   const hasMoreJobs = visibleCount < allJobs.length
+
+  console.log("Redux allJobs:", allJobs)
+  console.log("allJobs length:", allJobs.length)
+  console.log("visibleJobs length:", visibleJobs.length)
 
   const handleLoadMore = () => {
     setVisibleCount((prev) => prev + 12)
@@ -83,11 +92,11 @@ export default function Jobs() {
             transition={{ duration: 0.7, ease: "easeOut" }}
             className="mx-auto max-w-xl text-center lg:mx-0 lg:text-left"
           >
-            <span className="inline-flex rounded-full bg-[#c65d3b] px-3 py-1 font-mont text-xs font-semibold uppercase tracking-[0.18em] text-white">
+            <span className="inline-flex rounded-full bg-[#c65d3b] px-3 py-1 font-mont text-xs font-semibold tracking-[0.18em] text-white uppercase">
               Student Job Portal
             </span>
 
-            <h1 className="mt-6 font-unbounded text-4xl font-bold leading-[1.05] tracking-tight text-[#393629] sm:text-5xl lg:text-6xl dark:text-white">
+            <h1 className="mt-6 font-unbounded text-4xl leading-[1.05] font-bold tracking-tight text-[#393629] sm:text-5xl lg:text-6xl dark:text-white">
               Find your next{" "}
               <span className="bg-linear-to-r from-orange-500 via-rose-500 to-red-500 bg-clip-text text-transparent">
                 great role
@@ -95,8 +104,8 @@ export default function Jobs() {
             </h1>
 
             <p className="mx-auto mt-6 max-w-lg font-mont text-base leading-8 text-[#6b6658] lg:mx-0 dark:text-slate-400">
-              Explore verified jobs, compare company details, and apply faster with a
-              simple experience built for students.
+              Explore verified jobs, compare company details, and apply faster
+              with a simple experience built for students.
             </p>
 
             <div className="mt-8 flex justify-center lg:justify-start">
@@ -142,12 +151,16 @@ export default function Jobs() {
 
               <div className="relative min-h-[520px] sm:min-h-[620px]">
                 {/* Yellow Ripple Behind Image */}
-                <div className="pointer-events-none absolute left-1/2 top-[48%] h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-yellow-400/10 blur-3xl dark:bg-yellow-400/10" />
+                <div className="pointer-events-none absolute top-[48%] left-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-yellow-400/10 blur-3xl dark:bg-yellow-400/10" />
 
                 <motion.div
                   animate={{ scale: [1, 1.08, 1], opacity: [0.35, 0.7, 0.35] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  className="pointer-events-none absolute left-1/2 top-[48%] h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-yellow-400/30"
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                  className="pointer-events-none absolute top-[48%] left-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-yellow-400/30"
                 />
 
                 <motion.div
@@ -158,7 +171,7 @@ export default function Jobs() {
                     ease: "easeInOut",
                     delay: 0.4,
                   }}
-                  className="pointer-events-none absolute left-1/2 top-[48%] h-[410px] w-[410px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-orange-300/30"
+                  className="pointer-events-none absolute top-[48%] left-1/2 h-[410px] w-[410px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-orange-300/30"
                 />
 
                 <motion.div
@@ -169,7 +182,7 @@ export default function Jobs() {
                     ease: "easeInOut",
                     delay: 0.8,
                   }}
-                  className="pointer-events-none absolute left-1/2 top-[48%] h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-yellow-300/35"
+                  className="pointer-events-none absolute top-[48%] left-1/2 h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-yellow-300/35"
                 />
 
                 {/* Main Image */}
@@ -182,8 +195,12 @@ export default function Jobs() {
                 {/* Floating Cards */}
                 <motion.div
                   animate={{ y: [0, -10, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute left-2 top-8 z-20 rounded-2xl border border-[#9aa66c]/40 bg-white px-4 py-3 shadow-xl dark:border-white/10 dark:bg-[#181820]"
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                  className="absolute top-8 left-2 z-20 rounded-2xl border border-[#9aa66c]/40 bg-white px-4 py-3 shadow-xl dark:border-white/10 dark:bg-[#181820]"
                 >
                   <p className="font-unbounded text-xl font-bold text-[#7c8b46] dark:text-orange-300">
                     200+
@@ -195,8 +212,12 @@ export default function Jobs() {
 
                 <motion.div
                   animate={{ y: [0, 10, 0] }}
-                  transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute right-6 top-10 z-20 rounded-2xl border border-orange-300/50 bg-white px-4 py-3 shadow-xl dark:border-white/10 dark:bg-[#181820]"
+                  transition={{
+                    duration: 4.5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                  className="absolute top-10 right-6 z-20 rounded-2xl border border-orange-300/50 bg-white px-4 py-3 shadow-xl dark:border-white/10 dark:bg-[#181820]"
                 >
                   <p className="font-unbounded text-xl font-bold text-orange-500">
                     8+
@@ -208,8 +229,12 @@ export default function Jobs() {
 
                 <motion.div
                   animate={{ y: [0, -8, 0] }}
-                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute left-0 top-[36%] z-20 rounded-2xl border border-rose-300/60 bg-white px-4 py-3 shadow-xl dark:border-white/10 dark:bg-[#181820]"
+                  transition={{
+                    duration: 5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                  className="absolute top-[36%] left-0 z-20 rounded-2xl border border-rose-300/60 bg-white px-4 py-3 shadow-xl dark:border-white/10 dark:bg-[#181820]"
                 >
                   <p className="font-unbounded text-xl font-bold text-rose-500">
                     1K+
@@ -221,8 +246,12 @@ export default function Jobs() {
 
                 <motion.div
                   animate={{ y: [0, 12, 0] }}
-                  transition={{ duration: 4.2, repeat: Infinity, ease: "easeInOut" }}
-                  className="absolute right-4 top-[42%] z-20 rounded-2xl border border-[#c65d3b]/40 bg-white px-4 py-3 shadow-xl dark:border-white/10 dark:bg-[#181820]"
+                  transition={{
+                    duration: 4.2,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                  className="absolute top-[42%] right-4 z-20 rounded-2xl border border-[#c65d3b]/40 bg-white px-4 py-3 shadow-xl dark:border-white/10 dark:bg-[#181820]"
                 >
                   <p className="font-unbounded text-xl font-bold text-[#c65d3b]">
                     800+
@@ -238,15 +267,15 @@ export default function Jobs() {
       </section>
       {/* jobs-section */}
       <div className="min-h-screen overflow-hidden bg-[#fbf7ef] text-[#393629] dark:bg-[#050509] dark:text-white">
-        <section className="relative mx-auto max-w-7xl px-4 pt-10 sm:px-6 lg:px-8 ">
-          <div className="pointer-events-none absolute left-1/2 top-6 h-72 w-72 -translate-x-1/2 rounded-full bg-orange-500/10 blur-3xl" />
+        <section className="relative mx-auto max-w-7xl px-4 pt-10 sm:px-6 lg:px-8">
+          <div className="pointer-events-none absolute top-6 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-orange-500/10 blur-3xl" />
 
           <div className="relative z-10 mx-auto max-w-4xl text-center">
-            <span className="inline-flex rounded-full border border-orange-500/20 bg-orange-500/10 px-4 py-1.5 font-mont text-xs font-semibold uppercase tracking-[0.18em] text-orange-600 dark:text-orange-300">
+            <span className="inline-flex rounded-full border border-orange-500/20 bg-orange-500/10 px-4 py-1.5 font-mont text-xs font-semibold tracking-[0.18em] text-orange-600 uppercase dark:text-orange-300">
               Explore Opportunities
             </span>
 
-            <h1 className="mt-5 font-unbounded text-3xl font-extrabold leading-tight tracking-tight text-[#393629] sm:text-4xl lg:text-5xl dark:text-white">
+            <h1 className="mt-5 font-unbounded text-3xl leading-tight font-extrabold tracking-tight text-[#393629] sm:text-4xl lg:text-5xl dark:text-white">
               Great careers start with the{" "}
               <span className="bg-linear-to-r from-orange-500 via-rose-500 to-yellow-400 bg-clip-text text-transparent">
                 right role
@@ -255,7 +284,7 @@ export default function Jobs() {
           </div>
         </section>
 
-        <section className="mx-auto max-w-9xl px-4 py-8 sm:px-6 lg:px-8">
+        <section className="max-w-9xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
           {/* Mobile Filter Dropdown */}
           <div className="mb-5 lg:hidden">
             <button
@@ -268,8 +297,9 @@ export default function Jobs() {
               </span>
 
               <ChevronDown
-                className={`h-4 w-4 transition-transform ${showFilters ? "rotate-180" : ""
-                  }`}
+                className={`h-4 w-4 transition-transform ${
+                  showFilters ? "rotate-180" : ""
+                }`}
               />
             </button>
 
@@ -296,7 +326,7 @@ export default function Jobs() {
             </aside>
 
             {/* Jobs Panel */}
-            <div className="min-w-0 rounded-[2rem] border border-slate-200 bg-white p-4 shadow-xl shadow-orange-500/10 dark:border-white/10 dark:bg-[#111118] dark:shadow-black/40 sm:p-5">
+            <div className="min-w-0 rounded-[2rem] border border-slate-200 bg-white p-4 shadow-xl shadow-orange-500/10 sm:p-5 dark:border-white/10 dark:bg-[#111118] dark:shadow-black/40">
               <div className="mb-5 flex flex-col gap-3 rounded-3xl border border-slate-200 bg-[#fbf7ef] p-4 sm:flex-row sm:items-center sm:justify-between dark:border-white/10 dark:bg-[#050509]">
                 <div>
                   <h2 className="font-mont text-lg font-bold text-[#393629] dark:text-white">
@@ -304,12 +334,12 @@ export default function Jobs() {
                   </h2>
 
                   <p className="mt-1 font-mont text-sm text-[#6b6658] dark:text-slate-400">
-                    Showing {visibleJobs.length} of {allJobs.length} opportunities
-                    for you
+                    Showing {visibleJobs.length} of {allJobs.length}{" "}
+                    opportunities for you
                   </p>
                 </div>
 
-                <button className="w-full rounded-full bg-[#393629] px-5 py-2.5 font-mont cursor-pointer text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-[#c65d3b] sm:w-auto dark:bg-white dark:text-[#111118] dark:hover:bg-orange-300">
+                <button className="w-full cursor-pointer rounded-full bg-[#393629] px-5 py-2.5 font-mont text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-[#c65d3b] sm:w-auto dark:bg-white dark:text-[#111118] dark:hover:bg-orange-300">
                   Latest Jobs
                 </button>
               </div>
@@ -363,7 +393,7 @@ export default function Jobs() {
                   className="h-[320px] w-full rounded-[1.5rem] object-cover sm:h-[420px]"
                 />
 
-                <div className="absolute bottom-6 left-6 right-6 rounded-3xl bg-[#393629] p-5 text-white shadow-xl dark:bg-white dark:text-[#111118]">
+                <div className="absolute right-6 bottom-6 left-6 rounded-3xl bg-[#393629] p-5 text-white shadow-xl dark:bg-white dark:text-[#111118]">
                   <p className="font-unbounded text-lg font-semibold">
                     One platform. Two journeys.
                   </p>
@@ -376,18 +406,18 @@ export default function Jobs() {
 
             {/* Right Content */}
             <div>
-              <span className="inline-flex rounded-full border border-orange-500/20 bg-orange-500/10 px-4 py-1.5 font-mont text-xs font-semibold uppercase tracking-[0.18em] text-orange-600 dark:text-orange-300">
+              <span className="inline-flex rounded-full border border-orange-500/20 bg-orange-500/10 px-4 py-1.5 font-mont text-xs font-semibold tracking-[0.18em] text-orange-600 uppercase dark:text-orange-300">
                 Jobzy Impact
               </span>
 
-              <h2 className="mt-5 max-w-2xl font-unbounded text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl">
+              <h2 className="mt-5 max-w-2xl font-unbounded text-3xl leading-tight font-bold sm:text-4xl lg:text-5xl">
                 Built for job seekers and modern hiring teams
               </h2>
 
               <p className="mt-5 max-w-2xl font-mont text-base leading-8 text-[#6b6658] dark:text-slate-400">
-                Jobzy connects candidates with meaningful opportunities while helping
-                recruiters manage jobs, companies, and applicants through a cleaner
-                hiring experience.
+                Jobzy connects candidates with meaningful opportunities while
+                helping recruiters manage jobs, companies, and applicants
+                through a cleaner hiring experience.
               </p>
 
               <div className="mt-8 grid gap-4 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
@@ -412,7 +442,9 @@ export default function Jobs() {
                     key={stat.value}
                     className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-orange-500/10 dark:border-white/10 dark:bg-[#111118]"
                   >
-                    <h3 className={`font-unbounded text-4xl font-extrabold ${stat.color}`}>
+                    <h3
+                      className={`font-unbounded text-4xl font-extrabold ${stat.color}`}
+                    >
                       {stat.value}
                     </h3>
 
@@ -429,26 +461,26 @@ export default function Jobs() {
       {/* faq's */}
       <section className="relative overflow-hidden bg-[#fbf7ef] py-20 text-[#393629] dark:bg-[#050509] dark:text-white">
         {/* Purple ripple background */}
-        <div className="pointer-events-none absolute right-[-120px] top-1/2 h-[520px] w-[520px] -translate-y-1/2 rounded-full border border-violet-400/20" />
-        <div className="pointer-events-none absolute right-[-80px] top-1/2 h-[400px] w-[400px] -translate-y-1/2 rounded-full border border-violet-400/20" />
-        <div className="pointer-events-none absolute right-[-40px] top-1/2 h-[280px] w-[280px] -translate-y-1/2 rounded-full border border-violet-400/20" />
-        <div className="pointer-events-none absolute right-[-120px] top-1/2 h-[520px] w-[520px] -translate-y-1/2 animate-pulse rounded-full border border-violet-400/20" />
-        <div className="pointer-events-none absolute right-0 top-1/2 h-72 w-72 -translate-y-1/2 rounded-full bg-violet-500/10 blur-3xl" />
+        <div className="pointer-events-none absolute top-1/2 right-[-120px] h-[520px] w-[520px] -translate-y-1/2 rounded-full border border-violet-400/20" />
+        <div className="pointer-events-none absolute top-1/2 right-[-80px] h-[400px] w-[400px] -translate-y-1/2 rounded-full border border-violet-400/20" />
+        <div className="pointer-events-none absolute top-1/2 right-[-40px] h-[280px] w-[280px] -translate-y-1/2 rounded-full border border-violet-400/20" />
+        <div className="pointer-events-none absolute top-1/2 right-[-120px] h-[520px] w-[520px] -translate-y-1/2 animate-pulse rounded-full border border-violet-400/20" />
+        <div className="pointer-events-none absolute top-1/2 right-0 h-72 w-72 -translate-y-1/2 rounded-full bg-violet-500/10 blur-3xl" />
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-start lg:gap-16">
             {/* Left content */}
             <div className="lg:sticky lg:top-24">
-              <span className="inline-flex rounded-full border border-violet-500/20 bg-violet-500/10 px-4 py-1.5 font-mont text-xs font-semibold uppercase tracking-[0.18em] text-violet-600 dark:text-violet-300">
+              <span className="inline-flex rounded-full border border-violet-500/20 bg-violet-500/10 px-4 py-1.5 font-mont text-xs font-semibold tracking-[0.18em] text-violet-600 uppercase dark:text-violet-300">
                 Support
               </span>
 
-              <h2 className="mt-5 max-w-xl font-unbounded text-3xl font-bold leading-tight sm:text-4xl lg:text-3xl">
+              <h2 className="mt-5 max-w-xl font-unbounded text-3xl leading-tight font-bold sm:text-4xl lg:text-3xl">
                 Questions before you apply?
               </h2>
 
               <p className="mt-5 max-w-lg font-mont text-base leading-8 text-[#6b6658] dark:text-slate-400">
-                Find quick answers about job search, applications, recruiter reviews,
-                and how Jobzy helps students move faster.
+                Find quick answers about job search, applications, recruiter
+                reviews, and how Jobzy helps students move faster.
               </p>
 
               <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
@@ -478,7 +510,7 @@ export default function Jobs() {
             </div>
 
             {/* FAQ card */}
-            <div className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-2xl shadow-violet-500/10 dark:border-white/10 dark:bg-[#111118] dark:shadow-black/40 sm:p-6">
+            <div className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-2xl shadow-violet-500/10 sm:p-6 dark:border-white/10 dark:bg-[#111118] dark:shadow-black/40">
               <Accordion
                 type="single"
                 collapsible
@@ -507,21 +539,22 @@ export default function Jobs() {
       </section>
       {/* why us */}
       <section className="relative overflow-hidden bg-[#fbf7ef] py-20 text-[#393629] dark:bg-[#050509] dark:text-white">
-        <div className="pointer-events-none absolute left-1/2 top-10 h-72 w-72 -translate-x-1/2 rounded-full bg-orange-500/10 blur-3xl" />
+        <div className="pointer-events-none absolute top-10 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-orange-500/10 blur-3xl" />
 
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto mb-12 max-w-3xl text-center">
-            <span className="inline-flex rounded-full border border-orange-500/20 bg-orange-500/10 px-4 py-1.5 font-mont text-xs font-semibold uppercase tracking-[0.18em] text-orange-600 dark:text-orange-300">
+            <span className="inline-flex rounded-full border border-orange-500/20 bg-orange-500/10 px-4 py-1.5 font-mont text-xs font-semibold tracking-[0.18em] text-orange-600 uppercase dark:text-orange-300">
               Why Jobzy
             </span>
 
-            <h2 className="mt-5 font-unbounded text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl">
+            <h2 className="mt-5 font-unbounded text-3xl leading-tight font-bold sm:text-4xl lg:text-5xl">
               One platform for job seekers and recruiters
             </h2>
 
             <p className="mx-auto mt-5 max-w-2xl font-mont text-base leading-8 text-[#6b6658] dark:text-slate-400">
               Jobzy helps candidates discover better opportunities and gives
-              recruiters a cleaner way to manage jobs, companies, and applicants.
+              recruiters a cleaner way to manage jobs, companies, and
+              applicants.
             </p>
           </div>
 
@@ -569,19 +602,19 @@ export default function Jobs() {
         </div>
       </section>
       {/* teams */}
-      <section className="relative overflow-hidden bg-[#fbf7ef] py-20 text-[#393629] dark:bg-[#050509] dark:text-white md:py-24">
-        <div className="pointer-events-none absolute right-10 top-16 h-72 w-72 rounded-full bg-orange-500/10 blur-3xl" />
-        <div className="pointer-events-none absolute left-10 bottom-10 h-64 w-64 rounded-full bg-rose-500/10 blur-3xl" />
+      <section className="relative overflow-hidden bg-[#fbf7ef] py-20 text-[#393629] md:py-24 dark:bg-[#050509] dark:text-white">
+        <div className="pointer-events-none absolute top-16 right-10 h-72 w-72 rounded-full bg-orange-500/10 blur-3xl" />
+        <div className="pointer-events-none absolute bottom-10 left-10 h-64 w-64 rounded-full bg-rose-500/10 blur-3xl" />
 
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr]">
             {/* Left Content */}
             <div className="text-center lg:text-left">
-              <span className="inline-flex rounded-full border border-orange-500/20 bg-orange-500/10 px-4 py-1.5 font-mont text-xs font-semibold uppercase tracking-[0.18em] text-orange-600 dark:text-orange-300">
+              <span className="inline-flex rounded-full border border-orange-500/20 bg-orange-500/10 px-4 py-1.5 font-mont text-xs font-semibold tracking-[0.18em] text-orange-600 uppercase dark:text-orange-300">
                 Career Growth
               </span>
 
-              <h2 className="mt-5 font-unbounded text-3xl font-extrabold leading-tight sm:text-4xl lg:text-5xl">
+              <h2 className="mt-5 font-unbounded text-3xl leading-tight font-extrabold sm:text-4xl lg:text-5xl">
                 Helping students move closer to{" "}
                 <span className="bg-linear-to-r from-orange-500 via-rose-500 to-yellow-400 bg-clip-text text-transparent">
                   better careers
@@ -589,9 +622,9 @@ export default function Jobs() {
               </h2>
 
               <p className="mx-auto mt-5 max-w-xl font-mont text-base leading-8 text-[#6b6658] lg:mx-0 dark:text-slate-400">
-                Jobzy connects job seekers with verified opportunities and gives them
-                a smoother way to discover roles, review companies, and apply with
-                confidence.
+                Jobzy connects job seekers with verified opportunities and gives
+                them a smoother way to discover roles, review companies, and
+                apply with confidence.
               </p>
 
               <div className="mt-10 grid gap-4 sm:grid-cols-3">
@@ -630,8 +663,9 @@ export default function Jobs() {
                 ].map((src, index) => (
                   <div
                     key={src}
-                    className={`overflow-hidden rounded-[2rem] border border-white bg-white p-2 shadow-xl shadow-orange-500/10 dark:border-none dark:shadow-none dark:bg-transparent ${index === 0 || index === 2 ? "sm:mt-14" : ""
-                      } ${index === 4 ? "sm:-mt-14" : ""}`}
+                    className={`overflow-hidden rounded-[2rem] border border-white bg-white p-2 shadow-xl shadow-orange-500/10 dark:border-none dark:bg-transparent dark:shadow-none ${
+                      index === 0 || index === 2 ? "sm:mt-14" : ""
+                    } ${index === 4 ? "sm:-mt-14" : ""}`}
                   >
                     <img
                       src={src}
@@ -647,22 +681,21 @@ export default function Jobs() {
       </section>
       {/* CTA */}
       <section className="relative overflow-hidden bg-[#fbf7ef] px-4 py-14 dark:bg-[#050509]">
-        <div className="mx-auto max-w-7xl overflow-hidden rounded-[2rem] border border-slate-200 bg-[#111118] px-6 py-10 shadow-2xl shadow-orange-500/10 dark:border-white/10 sm:px-10">
-
+        <div className="mx-auto max-w-7xl overflow-hidden rounded-[2rem] border border-slate-200 bg-[#111118] px-6 py-10 shadow-2xl shadow-orange-500/10 sm:px-10 dark:border-white/10">
           <div className="flex flex-col items-center justify-between gap-8 lg:flex-row">
-
             {/* Left */}
             <div className="max-w-2xl text-center lg:text-left">
-              <span className="rounded-full border border-orange-500/20 bg-orange-500/10 px-4 py-1 font-mont text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-300">
+              <span className="rounded-full border border-orange-500/20 bg-orange-500/10 px-4 py-1 font-mont text-[11px] font-semibold tracking-[0.18em] text-orange-300 uppercase">
                 Jobzy Platform
               </span>
 
-              <h2 className="mt-4 font-unbounded text-2xl font-bold leading-tight text-white sm:text-3xl">
+              <h2 className="mt-4 font-unbounded text-2xl leading-tight font-bold text-white sm:text-3xl">
                 Find better jobs. Hire better talent.
               </h2>
 
               <p className="mt-3 font-mont text-sm leading-7 text-slate-400 sm:text-base">
-                Built for students, professionals, and recruiters looking for faster hiring experiences.
+                Built for students, professionals, and recruiters looking for
+                faster hiring experiences.
               </p>
             </div>
 
@@ -673,7 +706,7 @@ export default function Jobs() {
               </button>
 
               <button className="rounded-2xl border border-white/10 bg-white/5 px-6 py-3 font-mont text-sm font-semibold text-white transition hover:bg-white/10">
-                  Build Your Career
+                Build Your Career
               </button>
             </div>
           </div>
@@ -682,5 +715,3 @@ export default function Jobs() {
     </>
   )
 }
-
-
