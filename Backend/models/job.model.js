@@ -1,4 +1,3 @@
-import { application } from "express";
 import mongoose from "mongoose";
 
 const jobSchema = new mongoose.Schema(
@@ -10,6 +9,10 @@ const jobSchema = new mongoose.Schema(
     description: {
       type: String,
       required: true,
+    },
+    responsibilities: {
+      type: [String],
+      default: [],
     },
     requirements: [
       {
@@ -55,7 +58,7 @@ const jobSchema = new mongoose.Schema(
       },
     ],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 // Create and export the Job model
 export default mongoose.model("Job", jobSchema);

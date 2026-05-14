@@ -10,6 +10,7 @@ export const createJob = async (req, res) => {
       experienceLevel,
       salary,
       requirements,
+      responsibilities,
       jobType,
       position,
       companyId,
@@ -24,8 +25,9 @@ export const createJob = async (req, res) => {
       experienceLevel === undefined ||
       salary === undefined ||
       !requirements ||
+      !responsibilities ||
       !jobType ||
-      !position ||
+      position === undefined ||
       !companyId
     ) {
       return res.status(400).json({
@@ -38,11 +40,19 @@ export const createJob = async (req, res) => {
       title,
       description,
       location,
-      experienceLevel,
-      salary,
-      requirements: requirements.split(",").map((item) => item.trim()),
-      jobType, // keep this as string
-      position,
+      experienceLevel: Number(experienceLevel),
+      salary: Number(salary),
+
+      requirements: Array.isArray(requirements)
+        ? requirements
+        : requirements.split(",").map((item) => item.trim()),
+
+      responsibilities: Array.isArray(responsibilities)
+        ? responsibilities
+        : responsibilities.split(",").map((item) => item.trim()),
+
+      jobType,
+      position: Number(position),
       company: companyId,
       created_by: userId,
     });
@@ -63,30 +73,16 @@ export const createJob = async (req, res) => {
 // Get all jobs
 export const getAllJobs = async (req, res) => {
   try {
-    // ADDING QUERY PARAMETER FOR SEARCHING
     const keyword = req.query.keyword || "";
-    const query = {
-      $or: [
-        { title: { $regex: keyword, $options: "i" } },
-        { description: { $regex: keyword, $options: "i" } },
-      ],
-    };
 
-    // Fetch all jobs from the database that match the search query
-    // const jobs = await Job.find(query)
-    //   .populate({
-    //     path: "company",
-    //   })
-    //   .sort({
-    //     createdAt: -1,
-    //   });
-
-    // if (jobs.length === 0 || !jobs) {
-    //   return res.status(404).json({
-    //     message: "No jobs found",
-    //     success: false,
-    //   });
-    // }
+    const query = keyword
+      ? {
+          $or: [
+            { title: { $regex: keyword, $options: "i" } },
+            { description: { $regex: keyword, $options: "i" } },
+          ],
+        }
+      : {};
 
     const jobs = await Job.find(query)
       .populate({
@@ -98,18 +94,9 @@ export const getAllJobs = async (req, res) => {
           path: "applicant",
         },
       })
-      .sort({
-        createdAt: -1,
-      });
+      .sort({ createdAt: -1 });
 
-    if (jobs.length === 0 || !jobs) {
-      return res.status(404).json({
-        message: "No jobs found",
-        success: false,
-      });
-    }
-
-    // Return the list of jobs in the response
+    console.log(jobs.length);
     return res.status(200).json({
       message: "Jobs fetched successfully",
       success: true,
@@ -133,9 +120,9 @@ export const getJobById = async (req, res) => {
         path: "company",
       })
       .populate({
-        path: "applications",  // populate Application docs
+        path: "applications", // populate Application docs
         populate: {
-          path: "applicant",   // then populate the user inside each application
+          path: "applicant", // then populate the user inside each application
         },
       });
 
@@ -158,16 +145,23 @@ export const getJobById = async (req, res) => {
     });
   }
 };
+
 // Get jobs created by a specific recruiter
 export const getJobsByRecruiter = async (req, res) => {
   try {
     const recruiterId = req.id;
-    const jobs = await Job.find({ created_by: recruiterId });
 
-    if (jobs.length === 0 || !jobs) {
-      return res.status(404).json({
+    const jobs = await Job.find({ created_by: recruiterId })
+      .populate({
+        path: "company",
+      })
+      .sort({ createdAt: -1 });
+
+    if (!jobs || jobs.length === 0) {
+      return res.status(200).json({
         message: "No jobs found for this recruiter",
-        success: false,
+        success: true,
+        jobs: [],
       });
     }
 
