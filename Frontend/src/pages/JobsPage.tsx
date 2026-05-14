@@ -267,7 +267,7 @@ export default function Jobs() {
       </section>
       {/* jobs-section */}
       <div className="min-h-screen overflow-hidden bg-[#fbf7ef] text-[#393629] dark:bg-[#050509] dark:text-white">
-        <section className="relative mx-auto max-w-7xl px-4 pt-10 sm:px-6 lg:px-8">
+        <section className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="pointer-events-none absolute top-6 left-1/2 h-72 w-72 -translate-x-1/2 rounded-full bg-orange-500/10 blur-3xl" />
 
           <div className="relative z-10 mx-auto max-w-4xl text-center">
@@ -284,7 +284,7 @@ export default function Jobs() {
           </div>
         </section>
 
-        <section className="max-w-9xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+        <section className="w-full px-4 py-8 sm:px-6 lg:px-8">
           {/* Mobile Filter Dropdown */}
           <div className="mb-5 lg:hidden">
             <button
@@ -355,14 +355,15 @@ export default function Jobs() {
                   </p>
                 </div>
               ) : (
-                <div className="lg:max-h-[72vh] lg:overflow-y-auto lg:pr-2">
-                  <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+                <div className="scrollbar-thin max-h-[72vh] overflow-x-hidden overflow-y-auto pr-2 scrollbar-thumb-orange-400/40 scrollbar-track-transparent hover:scrollbar-thumb-orange-400">
+                  <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
                     {visibleJobs.map((job) => (
                       <SingleJobs key={job._id} job={job} />
                     ))}
                   </div>
+
                   {hasMoreJobs && (
-                    <div className="mt-6 flex justify-center pb-2">
+                    <div className="sticky bottom-0 mt-6 flex justify-center bg-white/80 py-4 backdrop-blur dark:bg-[#111118]/80">
                       <button
                         onClick={handleLoadMore}
                         className="rounded-full bg-[#393629] px-7 py-3 font-mont text-sm font-semibold text-white shadow-lg shadow-orange-500/10 transition hover:-translate-y-1 hover:bg-[#c65d3b] dark:bg-white dark:text-[#111118] dark:hover:bg-orange-300"

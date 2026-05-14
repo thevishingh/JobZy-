@@ -116,6 +116,11 @@ export default function JobsDetails() {
           ...singleJob,
           applications: [...singleJob.applications, { applicant: user._id }],
         }
+
+        const successSound = new Audio("/sounds/success.mp3")
+        successSound.volume = 0.5
+        successSound.play()
+
         toast.success("Applied successfully!")
         dispatch(setSingleJobs(updatedSingleJob)) // real time update ui
       }
@@ -254,7 +259,7 @@ export default function JobsDetails() {
                         className={`mt-5 h-12 w-full rounded-full border-0 font-unbounded text-sm font-medium transition ${
                           isApplied
                             ? "cursor-not-allowed bg-emerald-300 text-black hover:bg-emerald-300"
-                            : "bg-linear-to-r from-fuchsia-500 to-cyan-500 text-white hover:opacity-90"
+                            : "cursor-pointer bg-linear-to-r from-fuchsia-500 to-cyan-500 text-white hover:opacity-90"
                         }`}
                       >
                         {isApplied ? "Already Applied" : "Apply Now"}
@@ -430,7 +435,13 @@ export default function JobsDetails() {
 
                 <Button
                   variant="outline"
-                  className="mt-5 h-11 w-full rounded-full border-white/15 bg-white/5 font-unbounded text-white hover:bg-white/10 hover:text-white"
+                  disabled={!singleJob?.company?.website}
+                  onClick={() => {
+                    if (singleJob?.company?.website) {
+                      window.open(singleJob.company.website, "_blank")
+                    }
+                  }}
+                  className="mt-5 h-11 w-full cursor-pointer rounded-full border-white/15 bg-white/5 font-unbounded text-white hover:bg-white/10 hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   View Company
                 </Button>
