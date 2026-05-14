@@ -62,7 +62,7 @@ export default function JobsDetails() {
         if (response.data.success) {
           dispatch(setSingleJobs(response.data.job))
           setisApplied(
-            response.data.job.applications?.some((application) => {
+            response.data.job.applications?.some((application:) => {
               const applicantId =
                 typeof application.applicant === "object"
                   ? application.applicant?._id
@@ -137,8 +137,8 @@ export default function JobsDetails() {
       <section className="relative min-h-screen overflow-hidden bg-transparent px-4 py-22 sm:px-6 lg:p-28 lg:px-8">
         {/* Ambient blur orbs */}
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="absolute top-10 left-[-80px] h-72 w-72 rounded-full bg-fuchsia-500/20 blur-3xl" />
-          <div className="absolute top-24 right-[-60px] h-80 w-80 rounded-full bg-cyan-500/20 blur-3xl" />
+          <div className="absolute top-10 -left-20 h-72 w-72 rounded-full bg-fuchsia-500/20 blur-3xl" />
+          <div className="absolute top-24 -right-15 h-80 w-80 rounded-full bg-cyan-500/20 blur-3xl" />
           <div className="absolute bottom-10 left-1/3 h-72 w-72 rounded-full bg-violet-500/10 blur-3xl" />
         </div>
 

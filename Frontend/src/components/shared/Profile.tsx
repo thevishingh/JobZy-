@@ -17,7 +17,6 @@ import {
   User,
   Globe,
 } from "lucide-react"
-import { Link } from "react-router-dom"
 import AppliedJobsTable from "./AppliedJobsTable"
 import UpdateProfileModal from "./UpdateProfileModal"
 import { useState } from "react"
@@ -55,7 +54,7 @@ export default function Profile() {
                       {user?.fullName || "User Name"}
                     </h1>
 
-                    <p className="mt-2 mt-4 max-w-xl font-unbounded text-sm leading-6 text-[#6b6658] dark:text-slate-400">
+                    <p className="mt-4 max-w-xl font-unbounded text-sm leading-6 text-[#6b6658] dark:text-slate-400">
                       {user?.profile?.bio || "No bio added yet."}
                     </p>
 
