@@ -20,12 +20,16 @@ import {
 import AppliedJobsTable from "../students/AppliedJobsTable"
 import UpdateProfileModal from "./UpdateProfileModal"
 import { useState } from "react"
+import useGetAllAppliedJobs from "@/hooks/useGetAllAppliedJobs"
 
 export default function Profile() {
   const { user } = useSelector((store: RootState) => store.auth)
   const [open, setOpen] = useState(false)
   const skills = user?.profile?.skills || []
   const education = user?.profile?.education || []
+
+  // getting All Applied Applications
+  useGetAllAppliedJobs()
 
   return (
     <>

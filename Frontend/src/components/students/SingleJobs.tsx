@@ -1,40 +1,40 @@
-import { Bookmark } from "lucide-react";
-import { Button } from "../ui/button";
-import { Avatar, AvatarImage } from "../ui/avatar";
-import { Badge } from "../ui/badge";
-import { useNavigate } from "react-router-dom";
+import { Bookmark } from "lucide-react"
+import { Button } from "../ui/button"
+import { Avatar, AvatarImage } from "../ui/avatar"
+import { Badge } from "../ui/badge"
+import { useNavigate } from "react-router-dom"
 
 type SingleJobsProps = {
-  job: any;
-};
+  job: any
+}
 
 export default function SingleJobs({ job }: SingleJobsProps) {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const getDaysAgo = (dateString: string) => {
-    const postedDate = new Date(dateString);
-    const today = new Date();
+    const postedDate = new Date(dateString)
+    const today = new Date()
 
     const utcPosted = Date.UTC(
       postedDate.getFullYear(),
       postedDate.getMonth(),
       postedDate.getDate()
-    );
+    )
 
     const utcToday = Date.UTC(
       today.getFullYear(),
       today.getMonth(),
       today.getDate()
-    );
+    )
 
     const diffInDays = Math.floor(
       (utcToday - utcPosted) / (1000 * 60 * 60 * 24)
-    );
+    )
 
-    return Math.max(0, diffInDays);
-  };
+    return Math.max(0, diffInDays)
+  }
 
-  const postedDaysAgo = job?.createdAt ? getDaysAgo(job.createdAt) : null;
+  const postedDaysAgo = job?.createdAt ? getDaysAgo(job.createdAt) : null
 
   const postedLabel =
     postedDaysAgo === null
@@ -43,11 +43,11 @@ export default function SingleJobs({ job }: SingleJobsProps) {
         ? "Today"
         : postedDaysAgo === 1
           ? "1 day ago"
-          : `${postedDaysAgo} days ago`;
+          : `${postedDaysAgo} days ago`
 
   return (
-    <section className="group relative w-full overflow-hidden rounded-[2rem] border border-slate-200 bg-white mt-2 p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-orange-500/10 dark:border-white/10 dark:bg-[#111118] dark:hover:shadow-black/40">
-      <div className="absolute right-0 top-0 h-28 w-28 rounded-full bg-orange-500/10 blur-3xl" />
+    <section className="group relative mt-2 w-full overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-orange-500/10 dark:border-white/10 dark:bg-[#111118] dark:hover:shadow-black/40">
+      <div className="absolute top-0 right-0 h-28 w-28 rounded-full bg-orange-500/10 blur-3xl" />
 
       {/* Top Row */}
       <div className="relative flex items-center justify-between font-mont text-sm text-[#6b6658] dark:text-slate-400">
@@ -84,7 +84,7 @@ export default function SingleJobs({ job }: SingleJobsProps) {
 
       {/* Job Info */}
       <div className="relative mt-5">
-        <h1 className="line-clamp-1 font-unbounded text-lg font-semibold capitalize text-[#393629] dark:text-white">
+        <h1 className="line-clamp-1 font-unbounded text-lg font-semibold text-[#393629] capitalize dark:text-white">
           {job?.title}
         </h1>
 
@@ -125,5 +125,5 @@ export default function SingleJobs({ job }: SingleJobsProps) {
         </Button>
       </div>
     </section>
-  );
+  )
 }

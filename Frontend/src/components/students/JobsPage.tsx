@@ -10,7 +10,7 @@ import {
   SlidersHorizontal,
   ChevronDown,
 } from "lucide-react"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import {
   Accordion,
   AccordionContent,
@@ -67,19 +67,59 @@ export default function Jobs() {
   // Accessing jobs from Redux store
   const { allJobs } = useSelector((store: RootState) => store.job)
 
+  const [selectedFilters, setSelectedFilters] = useState<
+    Record<string, string>
+  >({})
+
+  // filter logic
+  const filteredJobs = useMemo(() => {
+    return allJobs.filter((job: any) => {
+      return Object.entries(selectedFilters).every(([key, value]) => {
+        if (!value) return true
+
+        const filterValue = value.toLowerCase()
+
+        if (key === "location") {
+          return job?.location?.toLowerCase().includes(filterValue)
+        }
+
+        if (key === "industry") {
+          return job?.industry?.toLowerCase().includes(filterValue)
+        }
+
+        if (key === "jobType") {
+          return job?.jobType?.toLowerCase().includes(filterValue)
+        }
+
+        if (key === "skills") {
+          return (
+            job?.title?.toLowerCase().includes(filterValue) ||
+            job?.description?.toLowerCase().includes(filterValue) ||
+            job?.requirements?.some((skill: string) =>
+              skill.toLowerCase().includes(filterValue)
+            )
+          )
+        }
+
+        if (key === "company") {
+          return job?.company?.name?.toLowerCase().includes(filterValue)
+        }
+
+        return true
+      })
+    })
+  }, [allJobs, selectedFilters])
+
   const [showFilters, setShowFilters] = useState(false)
   const [visibleCount, setVisibleCount] = useState(12)
 
-  const visibleJobs = allJobs.slice(0, visibleCount)
-  const hasMoreJobs = visibleCount < allJobs.length
-
-  console.log("Redux allJobs:", allJobs)
-  console.log("allJobs length:", allJobs.length)
-  console.log("visibleJobs length:", visibleJobs.length)
+  const visibleJobs = filteredJobs.slice(0, visibleCount)
+  const hasMoreJobs = visibleCount < filteredJobs.length
 
   const handleLoadMore = () => {
     setVisibleCount((prev) => prev + 12)
   }
+
   return (
     <>
       {/* Hero section */}
@@ -322,7 +362,10 @@ export default function Jobs() {
                 </p>
               </div>
 
-              <FilterCards />
+              <FilterCards
+                selectedFilters={selectedFilters}
+                setSelectedFilters={setSelectedFilters}
+              />
             </aside>
 
             {/* Jobs Panel */}
@@ -334,7 +377,7 @@ export default function Jobs() {
                   </h2>
 
                   <p className="mt-1 font-mont text-sm text-[#6b6658] dark:text-slate-400">
-                    Showing {visibleJobs.length} of {allJobs.length}{" "}
+                    Showing {visibleJobs.length} of {filteredJobs.length}{" "}
                     opportunities for you
                   </p>
                 </div>
@@ -344,15 +387,60 @@ export default function Jobs() {
                 </button>
               </div>
 
-              {allJobs.length <= 0 ? (
-                <div className="flex min-h-87.5 flex-col items-center justify-center rounded-3xl border border-dashed border-slate-300 bg-[#fbf7ef] p-6 text-center dark:border-white/15 dark:bg-[#050509]">
-                  <p className="font-unbounded text-lg font-bold text-[#393629] dark:text-white">
-                    No jobs found
+              {filteredJobs.length <= 0 ? (
+                <div className="relative flex min-h-[350px] flex-col items-center justify-center overflow-hidden rounded-3xl border border-dashed border-slate-300 bg-[#fbf7ef] p-6 text-center dark:border-white/15 dark:bg-[#050509]">
+                  {/* Background Glow */}
+                  <div className="absolute top-10 h-40 w-40 rounded-full bg-orange-200/20 blur-3xl dark:bg-orange-500/5" />
+
+                  {/* Ripple */}
+                  <div className="absolute h-44 w-44 animate-pulse rounded-full border border-orange-200/40 dark:border-orange-500/10" />
+
+                  {/* Lost Character */}
+                  <div className="relative mb-7">
+                    {/* Floating Circle */}
+                    <div className="flex h-28 w-28 animate-[float_4s_ease-in-out_infinite] items-center justify-center rounded-full bg-white shadow-xl dark:bg-[#111118]">
+                      <div className="relative">
+                        {/* Eyes */}
+                        <div className="flex items-center gap-5">
+                          <div className="h-3 w-3 rounded-full bg-[#393629] dark:bg-white" />
+                          <div className="h-3 w-3 rounded-full bg-[#393629] dark:bg-white" />
+                        </div>
+
+                        {/* Sad Mouth */}
+                        <div className="mx-auto mt-4 h-3 w-8 rounded-b-full border-b-[3px] border-[#393629] dark:border-white" />
+
+                        {/* Tear */}
+                        <div className="absolute top-5 -right-2 h-4 w-2 animate-bounce rounded-full bg-sky-400 opacity-80" />
+                      </div>
+                    </div>
+
+                    {/* Floating Docs */}
+                    <div className="absolute top-2 -left-10 h-14 w-10 rotate-[-12deg] rounded-xl border border-[#eadfce] bg-white shadow-sm dark:border-white/10 dark:bg-[#111118]" />
+
+                    <div className="absolute -right-10 bottom-0 h-16 w-11 rotate-[10deg] rounded-xl border border-[#eadfce] bg-white shadow-sm dark:border-white/10 dark:bg-[#111118]" />
+                  </div>
+
+                  {/* Content */}
+                  <p className="font-unbounded text-xl font-bold tracking-tight text-[#393629] dark:text-white">
+                    Oops... nothing matched
                   </p>
 
-                  <p className="mt-2 max-w-sm font-mont text-sm text-[#6b6658] dark:text-slate-400">
-                    Try changing your filters or search with different keywords.
+                  <p className="mt-3 max-w-sm font-mont text-sm leading-7 text-[#6b6658] dark:text-slate-400">
+                    We searched everywhere but couldn’t find the right
+                    opportunity for your current filters.
                   </p>
+
+                  {/* Suggestion Pills */}
+                  <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
+                    {["React", "Remote", "Frontend", "Banking"].map((item) => (
+                      <button
+                        key={item}
+                        className="rounded-full border border-[#eadfce] bg-white px-4 py-2 font-unbounded text-xs text-[#5f5648] transition-all duration-300 hover:-translate-y-1 hover:border-orange-200 hover:shadow-md dark:border-white/10 dark:bg-[#111118] dark:text-slate-300"
+                      >
+                        {item}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               ) : (
                 <div className="scrollbar-thin max-h-[72vh] overflow-x-hidden overflow-y-auto pr-2 scrollbar-thumb-orange-400/40 scrollbar-track-transparent hover:scrollbar-thumb-orange-400">

@@ -270,3 +270,30 @@
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: rgba(251, 146, 60, 0.7);
 }
+
+/* jobs not foun Animation */
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes blink {
+
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}

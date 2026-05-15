@@ -8,7 +8,7 @@ import Login from "./pages/Login"
 import Register from "./pages/Register"
 import Footer from "./components/shared/Footer"
 import BrowseJobs from "./components/students/BrowseJobs"
-import Profile from "./components/shared/Profile"
+import Profile from "./components/students/Profile"
 import JobsDetails from "./components/students/JobsDetails"
 import RecruiterJobs from "./components/admin/RecruiterJobs"
 import ProtectedRoute from "./ProtectedRoute"
@@ -19,6 +19,7 @@ import Company from "./components/admin/Company"
 import Home from "./pages/Home"
 import UpdateCompanyPage from "./components/admin/UpdateCompanyPage"
 import UpdateJobPage from "./components/admin/UpdateJobPage"
+import Applicants from "./components/admin/ApplicantsPage "
 
 export function App() {
   const { pathname } = useLocation()
@@ -47,6 +48,7 @@ export function App() {
   const validDynamicRoutes = [
     /^\/job-details\/[^/]+$/,
     /^\/admin\/companies\/details-update\/[^/]+$/,
+    /^\/admin\/jobs\/[^/]+\/applicants$/,
   ]
 
   const isValidStaticRoute = validStaticRoutes.includes(pathname)
@@ -126,14 +128,14 @@ export function App() {
               </ProtectedRoute>
             }
           />
-          {/* <Route
-            path="/admin/jobs/details-update/:id"
+          <Route
+            path="/admin/jobs/:id/applicants"
             element={
               <ProtectedRoute allowedRoles={["recruiter"]}>
-                <UpdateJobPage />
+                <Applicants />
               </ProtectedRoute>
             }
-          /> */}
+          />
           <Route
             path="/admin/jobs/new-jobs"
             element={

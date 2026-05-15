@@ -27,7 +27,6 @@ const avatars = [
 export default function RecruiterJobs() {
   // All jobs posted by recruiters
   useGetAllAdminJobs()
-  console.log(useGetAllAdminJobs())
   return (
     <>
       {/* hero section  */}

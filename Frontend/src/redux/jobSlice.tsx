@@ -4,12 +4,14 @@ interface JobState {
   allJobs: any[]
   allAdminJobs: []
   singleJob: any | null
+  allAppliedJobs:[]
 }
 
 const initialState: JobState = {
   allJobs: [],
   allAdminJobs: [],
   singleJob: null,
+  allAppliedJobs:[]
 }
 
 const jobSlice = createSlice({
@@ -32,9 +34,14 @@ const jobSlice = createSlice({
     setAllAdminJobs: (state, action) => {
       state.allAdminJobs = action.payload
     },
+
+    setAllAppliedJobs: (state,action)=>{
+      state.allAppliedJobs = action.payload
+    }
+
   },
 })
 
-export const { setAllJobs, setSingleJobs, setAllAdminJobs } = jobSlice.actions
+export const { setAllJobs, setSingleJobs, setAllAdminJobs, setAllAppliedJobs } = jobSlice.actions
 
 export default jobSlice.reducer

@@ -14,8 +14,6 @@ export default function useGetAllAdminJobs() {
           withCredentials: true,
         })
 
-        console.log("Admin jobs response:", response.data)
-
         if (response.data.success) {
           dispatch(setAllAdminJobs(response.data.jobs || []))
         }

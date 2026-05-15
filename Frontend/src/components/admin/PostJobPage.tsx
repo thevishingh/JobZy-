@@ -10,6 +10,7 @@ import {
   IndianRupee,
   UsersRound,
   X,
+  Users,
 } from "lucide-react"
 import { useState } from "react"
 import { useSelector } from "react-redux"
@@ -183,11 +184,25 @@ export default function PostJobPage() {
                     </div>
 
                     <div className="flex items-center gap-2">
+                      {/* view job details */}
                       <button
                         onClick={() => setSelectedJob(job)}
                         className="cursor-pointer rounded-xl p-2 transition hover:bg-[#f8f5ef] dark:hover:bg-white/5"
                       >
                         <Eye className="h-5 w-5 text-[#6b6658] dark:text-slate-400" />
+                      </button>
+                      {/* Applicants */}
+                      <button
+                        className="flex cursor-pointer items-center gap-1 rounded-xl p-2 transition hover:bg-[#f8f5ef] dark:hover:bg-white/5"
+                        onClick={() =>
+                          navigate(`/admin/jobs/${job._id}/applicants`)
+                        }
+                      >
+                        <Users className="h-5 w-5 text-[#6b6658] dark:text-slate-400" />
+
+                        <span className="text-sm font-medium text-[#6b6658] dark:text-slate-400">
+                          {job?.applications?.length || 0}
+                        </span>
                       </button>
                     </div>
                   </div>
