@@ -96,7 +96,7 @@ export const getAllJobs = async (req, res) => {
       })
       .sort({ createdAt: -1 });
 
-    console.log(jobs.length);
+    // console.log(jobs.length);
     return res.status(200).json({
       message: "Jobs fetched successfully",
       success: true,
