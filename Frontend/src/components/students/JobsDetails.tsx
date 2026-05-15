@@ -62,7 +62,7 @@ export default function JobsDetails() {
         if (response.data.success) {
           dispatch(setSingleJobs(response.data.job))
           setisApplied(
-            response.data.job.applications?.some((application:) => {
+            response.data.job.applications?.some((application: { applicant: { _id: any } }) => {
               const applicantId =
                 typeof application.applicant === "object"
                   ? application.applicant?._id

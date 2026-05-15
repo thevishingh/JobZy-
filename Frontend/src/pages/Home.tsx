@@ -1,7 +1,5 @@
-import CanvasTextDemo from "@/components/canvas-text-demo"
-import CoverDemo from "@/components/cover-demo"
 import BrandLogo from "@/components/shared/BrandLogo"
-import LatestJobs from "@/components/shared/LatestJobs"
+import LatestJobs from "@/components/students/LatestJobs"
 import { MarqueeDemo } from "@/components/shared/MarqueeDemo"
 import { Highlighter } from "@/components/ui/highlighter"
 import useGetAllJobs from "@/hooks/useGetAllJobs"

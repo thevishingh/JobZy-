@@ -1,5 +1,5 @@
-import FilterCards from "@/components/shared/FilterCards"
-import SingleJobs from "@/components/shared/SingleJobs"
+import FilterCards from "@/components/students/FilterCards"
+import SingleJobs from "@/components/students/SingleJobs"
 import { motion } from "motion/react"
 import {
   ArrowRight,

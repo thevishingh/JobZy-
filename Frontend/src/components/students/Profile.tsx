@@ -17,7 +17,7 @@ import {
   User,
   Globe,
 } from "lucide-react"
-import AppliedJobsTable from "./AppliedJobsTable"
+import AppliedJobsTable from "../students/AppliedJobsTable"
 import UpdateProfileModal from "./UpdateProfileModal"
 import { useState } from "react"
 
