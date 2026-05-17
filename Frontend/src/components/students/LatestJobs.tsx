@@ -1,4 +1,4 @@
-// import React from "react"
+// 
 // import LatestJobsCards from "./LatestJobsCards"
 // import { useSelector } from "react-redux"
 // import store, { type RootState } from "@/redux/store"

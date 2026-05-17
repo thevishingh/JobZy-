@@ -1,5 +1,5 @@
 import SingleJobs from "./SingleJobs"
-import { Search, Sparkles, X } from "lucide-react"
+import { Search, X } from "lucide-react"
 import { useSelector } from "react-redux"
 import type { RootState } from "@/redux/store"
 import BrowserJobsHeroSection from "./BrowserJobsHeroSection"

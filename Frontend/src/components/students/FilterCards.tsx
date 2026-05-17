@@ -6,13 +6,7 @@ import {
   Clock,
   Layers,
   Code2,
-  Building2,
   Laptop2,
-  GraduationCap,
-  BadgeCheck,
-  CalendarDays,
-  Gift,
-  Users,
   X,
 } from "lucide-react"
 

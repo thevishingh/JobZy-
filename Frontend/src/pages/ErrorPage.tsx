@@ -1,8 +1,17 @@
-import React from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { ArrowLeft, Compass, Home, SearchSlash } from "lucide-react"
 
-export default function ErrorPage({ user }) {
+// interface
+interface User {
+  name: string
+  role: string
+}
+
+interface ErrorPageProps {
+  user: User
+}
+
+export default function ErrorPage({ user }: ErrorPageProps) {
   const navigate = useNavigate()
 
   const getAccessibleRoute = () => {

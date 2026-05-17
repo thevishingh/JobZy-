@@ -98,7 +98,7 @@ export default function Header1() {
   const isDark = theme === "dark"
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
+  const [, setActiveDropdown] = useState<string | null>(null)
   const location = useLocation()
 
   // theme toggle handler
@@ -294,7 +294,7 @@ export default function Header1() {
               <ThemeToggleButton />
 
               <DropdownMenu>
-                <DropdownMenuTrigger asChild>
+                <DropdownMenuTrigger>
                   <button className="group relative rounded-full ring-offset-background transition-all duration-200 outline-none hover:scale-105 focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2">
                     <Avatar className="h-10 w-10 cursor-pointer border border-border shadow-sm transition-all duration-200 group-hover:shadow-md">
                       <AvatarImage
@@ -397,7 +397,7 @@ export default function Header1() {
                   <div className="p-1.5 lg:hidden">
                     {user?.role === "student" && (
                       <>
-                        <DropdownMenuItem asChild>
+                        <DropdownMenuItem>
                           <Link
                             to="/jobs"
                             className="group flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 font-mont text-sm text-foreground transition-all duration-200 outline-none hover:bg-muted"
@@ -415,7 +415,7 @@ export default function Header1() {
                           </Link>
                         </DropdownMenuItem>
 
-                        <DropdownMenuItem asChild>
+                        <DropdownMenuItem>
                           <Link
                             to="/browse-jobs"
                             className="group flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 font-mont text-sm text-foreground transition-all duration-200 outline-none hover:bg-muted"
@@ -437,7 +437,7 @@ export default function Header1() {
 
                     {user?.role === "recruiter" && (
                       <>
-                        <DropdownMenuItem asChild>
+                        <DropdownMenuItem>
                           <Link
                             to="/admin/companies"
                             className="group flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 font-mont text-sm text-foreground transition-all duration-200 outline-none hover:bg-muted"
@@ -455,7 +455,7 @@ export default function Header1() {
                           </Link>
                         </DropdownMenuItem>
 
-                        <DropdownMenuItem asChild>
+                        <DropdownMenuItem>
                           <Link
                             to="/admin/jobs"
                             className="group flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 font-mont text-sm text-foreground transition-all duration-200 outline-none hover:bg-muted"
@@ -482,7 +482,7 @@ export default function Header1() {
                       <Separator />
 
                       <div className="p-1.5">
-                        <DropdownMenuItem asChild>
+                        <DropdownMenuItem>
                           <Link
                             to="/profile"
                             className="group flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 font-mont text-sm text-foreground transition-all duration-200 outline-none hover:bg-muted"

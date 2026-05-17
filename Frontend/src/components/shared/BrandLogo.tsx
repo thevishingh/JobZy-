@@ -1,12 +1,5 @@
 import { ArrowDownRight } from "lucide-react"
 
-type Logo = {
-  src: string
-  alt: string
-  hidden?: boolean
-  height?: string
-}
-
 const companies = [
   {
     name: "Google",

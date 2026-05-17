@@ -7,7 +7,7 @@ import { APPLICATION_API_END_POINT } from "@/utils/constant"
 import { useParams } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { setApplicants } from "@/redux/applicationSlice"
-import  { type RootState } from "@/redux/store"
+import { type RootState } from "@/redux/store"
 
 const ApplicantsPage = () => {
   // getting id

@@ -345,7 +345,10 @@ export default function Jobs() {
 
             {showFilters && (
               <div className="mt-3 rounded-3xl border border-slate-200 bg-white p-4 shadow-xl shadow-orange-500/10 dark:border-white/10 dark:bg-[#111118] dark:shadow-black/40">
-                <FilterCards />
+                <FilterCards
+                  selectedFilters={selectedFilters}
+                  setSelectedFilters={setSelectedFilters}
+                />
               </div>
             )}
           </div>
@@ -600,12 +603,7 @@ export default function Jobs() {
 
             {/* FAQ card */}
             <div className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-2xl shadow-violet-500/10 sm:p-6 dark:border-white/10 dark:bg-[#111118] dark:shadow-black/40">
-              <Accordion
-                type="single"
-                collapsible
-                defaultValue="item-0"
-                className="space-y-4"
-              >
+              <Accordion defaultValue={["item-0"]} className="space-y-4">
                 {faqs.map((faq, index) => (
                   <AccordionItem
                     key={index}
