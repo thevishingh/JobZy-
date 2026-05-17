@@ -126,8 +126,8 @@ export const loginUser = async (req, res) => {
       .cookie("token", token, {
         maxAge: 24 * 60 * 60 * 1000,
         httpOnly: true,
-        sameSite: "strict",
-        secure: process.env.NODE_ENV === "production",
+        sameSite: "none",
+        secure: true,
       })
       .json({
         message: `welcome back ${user.fullName}`,
@@ -150,8 +150,8 @@ export const logoutUser = async (req, res) => {
       .status(200)
       .clearCookie("token", {
         httpOnly: true,
-        sameSite: "strict",
-        secure: process.env.NODE_ENV === "production",
+        sameSite: "none",
+        secure: true,
       })
       .json({
         message: "User logged out successfully",
