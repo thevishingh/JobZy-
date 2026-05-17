@@ -648,7 +648,7 @@ export default function About() {
         </div>
       </section>
       {/* Testimonials */}
-      <section className="dark:dark-glass-bg overflow-hidden bg-[#faf7ef] px-4  text-foreground sm:px-6 lg:px-8 dark:bg-background">
+      <section className="dark:dark-glass-bg overflow-hidden bg-[#faf7ef] px-4 text-foreground sm:px-6 lg:px-8 dark:bg-background">
         <div className="mx-auto max-w-7xl">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
             <div>
@@ -726,7 +726,7 @@ export default function About() {
                     className="flex"
                   >
                     {testimonials.map((item, i) => (
-                      <div key={i} className="w-full py-4 shrink-0 px-2">
+                      <div key={i} className="w-full shrink-0 px-2 py-4">
                         <div
                           className={`rounded-[2rem] border border-border bg-card/80 p-8 shadow-xl shadow-yellow-500/10 transition-all duration-500 dark:bg-white/[0.06] dark:shadow-black/40 ${
                             i % 2 === 0 ? "-rotate-[2deg]" : "rotate-[2deg]"

@@ -20,6 +20,8 @@ import Home from "./pages/Home"
 import UpdateCompanyPage from "./components/admin/UpdateCompanyPage"
 import UpdateJobPage from "./components/admin/UpdateJobPage"
 import Applicants from "./components/admin/ApplicantsPage "
+import ComingSoonConstruction from "./components/shared/ComingSoon"
+import JobzyPrivacyPage from "./pages/privacyPage"
 
 export function App() {
   const { pathname } = useLocation()
@@ -38,6 +40,7 @@ export function App() {
     "/signup",
     "/unauthorized",
     "/jobs",
+    "/privacy-policy",
     "/browse-jobs",
     "/profile",
     "/admin/jobs",
@@ -79,6 +82,11 @@ export function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Register />} />
+          <Route path="/privacy-policy" element={<JobzyPrivacyPage />} />
+          <Route
+            path="/coming-soon/:feature"
+            element={<ComingSoonConstruction />}
+          />
           <Route path="/unauthorized" element={<ErrorPage user={user} />} />
           <Route path="*" element={<ErrorPage user={user} />} />
 

@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from "framer-motion"
 import {
   Menu,
   X,
-  ChevronDown,
   ArrowRight,
   Sparkles,
   Search,
@@ -31,6 +30,7 @@ import { toast } from "sonner"
 import axios, { AxiosError } from "axios"
 import { USER_API_END_POINT } from "@/utils/constant"
 import { setAuthUser } from "@/redux/authSlice"
+import { getHomePath } from "@/utils/getHomePath"
 
 interface NavItem {
   name: string
@@ -120,6 +120,9 @@ export default function Header1() {
   // User
   const { user } = useSelector((store: RootState) => store.auth)
 
+  // routes
+  const routes = getHomePath(user?.role)
+
   // pages change effect
   const isSignupPage = location.pathname === "/signup"
 
@@ -146,11 +149,6 @@ export default function Header1() {
   const mobileMenuVariants = {
     closed: { opacity: 0, height: 0 },
     open: { opacity: 1, height: "auto" },
-  }
-
-  const dropdownVariants = {
-    hidden: { opacity: 0, y: -10, scale: 0.95 },
-    visible: { opacity: 1, y: 0, scale: 1 },
   }
 
   // distpatch
@@ -208,16 +206,7 @@ export default function Header1() {
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 400, damping: 10 }}
           >
-            <Link
-              to={
-                user?.role === "student"
-                  ? "/jobs"
-                  : user?.role === "recruiter"
-                    ? "/admin/companies"
-                    : "/"
-              }
-              className="group flex items-center gap-2.5"
-            >
+            <Link to={routes.home} className="group flex items-center gap-2.5">
               <div className="relative flex h-9 w-9 items-center justify-center rounded-2xl border border-border bg-background shadow-sm transition group-hover:scale-105">
                 <div className="absolute inset-1 rounded-xl bg-linear-to-br from-rose-500 via-orange-500 to-red-600" />
                 <Sparkles className="relative z-10 h-4.5 w-4.5 text-white" />
@@ -257,7 +246,7 @@ export default function Header1() {
                   <div className="group relative">
                     <Link
                       to={item.to || "#"}
-                      className={`flex font-unbounded items-center space-x-1 font-medium transition-colors duration-200 hover:text-rose-500 dark:text-white dark:hover:text-lime-400 ${
+                      className={`flex items-center space-x-1 font-unbounded font-medium transition-colors duration-200 hover:text-rose-500 dark:text-white dark:hover:text-lime-400 ${
                         isSignupPage ? "text-white" : "text-black"
                       }`}
                     >
@@ -266,7 +255,7 @@ export default function Header1() {
 
                     {item.description && (
                       <div className="pointer-events-none absolute top-full left-1/2 z-50 mt-3 hidden w-max max-w-60 -translate-x-1/2 rounded-xl border border-zinc-200 bg-white/95 px-3 py-2 text-xs leading-relaxed font-medium text-zinc-700 shadow-[0_10px_30px_rgba(0,0,0,0.08)] backdrop-blur-sm group-hover:block dark:border-zinc-700 dark:bg-zinc-900/95 dark:text-zinc-200">
-                        <div className="absolute top-0 left-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rotate-45 border-t border-l border-zinc-200 font-unbounded bg-white/95 dark:border-zinc-700 dark:bg-zinc-900/95" />
+                        <div className="absolute top-0 left-1/2 h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rotate-45 border-t border-l border-zinc-200 bg-white/95 font-unbounded dark:border-zinc-700 dark:bg-zinc-900/95" />
                         {item.description}
                       </div>
                     )}

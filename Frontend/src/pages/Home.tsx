@@ -20,6 +20,9 @@ import {
 } from "lucide-react"
 import React, { useEffect } from "react"
 import { Link } from "react-router-dom"
+import { useSelector } from "react-redux"
+import type { RootState } from "@/redux/store"
+import DummyJobs from "@/components/shared/DummyJobs"
 
 // categories
 
@@ -51,6 +54,9 @@ const categories = [
 ]
 
 const Home: React.FC = () => {
+  // user
+  const { user } = useSelector((store: RootState) => store.auth)
+
   // category animation
   const [scope, animate] = useAnimate()
 
@@ -68,7 +74,6 @@ const Home: React.FC = () => {
 
   // get All jobs
   useGetAllJobs()
-  console.log(useGetAllJobs())
 
   return (
     <>
@@ -334,7 +339,7 @@ const Home: React.FC = () => {
 
           <div className="rounded-[2rem] border border-slate-200 bg-white/70 p-4 shadow-2xl shadow-orange-500/10 sm:p-6 dark:border-none dark:bg-transparent dark:shadow-none">
             <div className="mt-8">
-              <LatestJobs />
+           {user ? <LatestJobs /> : <DummyJobs />}
             </div>
           </div>
         </div>
