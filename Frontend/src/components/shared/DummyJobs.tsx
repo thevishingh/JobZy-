@@ -1,5 +1,5 @@
 import DummyJobCard from "./DummyJobCard"
-import { dummyJobs } from "@/data/dummyJobs"
+import { dummyJobs } from "@/data/DummyJobs.ts"
 
 import {
   Carousel,
