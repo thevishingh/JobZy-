@@ -1,4 +1,4 @@
-import DummyJobCard from "./DummyJobCard"
+import DummyJobCard from "./DummyJobCardDesign"
 import { dummyJobs } from "@/data/DummyJobs"
 
 import {
