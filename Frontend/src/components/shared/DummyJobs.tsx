@@ -9,8 +9,10 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 
+type DummyJob = (typeof dummyJobs)[number]
+
 export default function DummyJobs() {
-  return ( 
+  return (
     <Carousel
       opts={{
         align: "start",
@@ -19,7 +21,7 @@ export default function DummyJobs() {
       className="w-full"
     >
       <CarouselContent className="-ml-2">
-        {dummyJobs.slice(0, 6).map((job) => (
+        {dummyJobs.slice(0, 6).map((job: DummyJob) => (
           <CarouselItem
             key={job.id}
             className="pl-4 md:basis-1/2 lg:basis-[38%] xl:basis-1/3"
