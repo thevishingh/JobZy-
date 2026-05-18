@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/carousel"
 
 export default function DummyJobs() {
-  return (
+  return ( 
     <Carousel
       opts={{
         align: "start",
