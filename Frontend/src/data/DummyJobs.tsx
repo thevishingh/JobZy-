@@ -1,0 +1,98 @@
+export const dummyJobs = [
+  {
+    id: 1,
+    title: "DevOps Engineer",
+    company: "Jobzy International",
+    location: "Noida Uttar Pradesh",
+    type: "full-time",
+    positions: "2 Positions",
+    salary: "₹ 1400000",
+    description:
+      "Design, automate, and maintain CI/CD pipelines, cloud infrastructure, and deployment workflows.",
+    posted: "Posted 2 days ago",
+  },
+  {
+    id: 2,
+    title: "Frontend Developer",
+    company: "TechNova Solutions",
+    location: "Pune Maharashtra",
+    type: "full-time",
+    positions: "4 Positions",
+    salary: "₹ 800000",
+    description:
+      "Build responsive React interfaces, reusable UI components, and modern user experiences.",
+    posted: "Posted 1 day ago",
+  },
+  {
+    id: 3,
+    title: "Backend Developer",
+    company: "CodeCraft Labs",
+    location: "Bangalore Karnataka",
+    type: "full-time",
+    positions: "3 Positions",
+    salary: "₹ 1200000",
+    description:
+      "Develop scalable REST APIs, manage databases, and optimize backend services.",
+    posted: "Posted 3 days ago",
+  },
+  {
+    id: 4,
+    title: "UI/UX Designer",
+    company: "PixelWorks Studio",
+    location: "Remote",
+    type: "part-time",
+    positions: "1 Position",
+    salary: "₹ 600000",
+    description:
+      "Create clean product designs, wireframes, prototypes, and user-centered design systems.",
+    posted: "Posted 5 days ago",
+  },
+  {
+    id: 5,
+    title: "QA Engineer",
+    company: "NextEdge Systems",
+    location: "Hyderabad Telangana",
+    type: "full-time",
+    positions: "2 Positions",
+    salary: "₹ 700000",
+    description:
+      "Perform manual and automated testing to ensure product quality, reliability, and release readiness.",
+    posted: "Posted 1 day ago",
+  },
+  {
+    id: 6,
+    title: "Data Analyst",
+    company: "InsightGrid Analytics",
+    location: "Gurgaon Haryana",
+    type: "full-time",
+    positions: "2 Positions",
+    salary: "₹ 900000",
+    description:
+      "Analyze business data, create dashboards, and generate insights to support decision-making.",
+    posted: "Posted 4 days ago",
+  },
+  {
+    id: 7,
+    title: "React Native Developer",
+    company: "Mobiloft Technologies",
+    location: "Mumbai Maharashtra",
+    type: "full-time",
+    positions: "3 Positions",
+    salary: "₹ 1100000",
+    description:
+      "Build and maintain cross-platform mobile applications with React Native and modern app architecture.",
+    posted: "Posted 2 days ago",
+  },
+  {
+    id: 8,
+    title: "Product Manager",
+    company: "LaunchBridge",
+    location: "Remote",
+    type: "full-time",
+    positions: "1 Position",
+    salary: "₹ 1600000",
+    description:
+      "Define product strategy, manage roadmaps, and collaborate with design and engineering teams.",
+    posted: "Posted 6 days ago",
+  },
+]
