@@ -22,7 +22,7 @@ import React, { useEffect } from "react"
 import { Link } from "react-router-dom"
 import { useSelector } from "react-redux"
 import type { RootState } from "@/redux/store"
-import DummyJobs from "@/components/shared/DummyJobs"
+import DummyJobs from "@/components/shared/DummyJobsCards"
 
 // categories
 
