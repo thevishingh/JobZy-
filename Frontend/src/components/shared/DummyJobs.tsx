@@ -1,5 +1,5 @@
 import DummyJobCard from "./DummyJobCard"
-import { dummyJobs } from "@/data/dummyJobs"
+import { dummyJobs } from "@/data/DummyJobs"
 
 import {
   Carousel,
@@ -30,8 +30,8 @@ export default function DummyJobs() {
       </CarouselContent>
 
       <div className="mt-8 flex items-center justify-center gap-4">
-        <CarouselPrevious className="static cursor-pointer translate-y-0" />
-        <CarouselNext className="static cursor-pointer translate-y-0" />
+        <CarouselPrevious className="static translate-y-0 cursor-pointer" />
+        <CarouselNext className="static translate-y-0 cursor-pointer" />
       </div>
     </Carousel>
   )
