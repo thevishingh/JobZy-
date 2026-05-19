@@ -132,7 +132,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/contact" className={linkClass}>
+                <Link to={routes.home} className={linkClass}>
                   Contact
                 </Link>
               </li>

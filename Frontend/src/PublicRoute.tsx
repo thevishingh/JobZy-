@@ -9,8 +9,12 @@ type PublicRouteProps = {
 export default function PublicRoute({ children }: PublicRouteProps) {
   const { user } = useSelector((store: RootState) => store.auth)
 
-  if (user) {
-    return <Navigate to="/" replace />
+  if (user?.role === "student") {
+    return <Navigate to="/jobs" replace />
+  }
+
+  if (user?.role === "recruiter") {
+    return <Navigate to="/admin/jobs" replace />
   }
 
   return children

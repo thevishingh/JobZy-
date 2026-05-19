@@ -12,7 +12,7 @@ const ComingSoonConstruction = () => {
 
   return (
     <>
-      <section className="relative min-h-screen overflow-hidden bg-[#0b0d10] text-white">
+      <section className="relative min-h-screen overflow-hidden bg-[#0b0d10] py-16 text-white lg:py-12">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(251,191,36,0.14),transparent_26%),radial-gradient(circle_at_bottom_right,rgba(255,255,255,0.05),transparent_24%)]" />
 
         <div className="absolute inset-0 [background-image:linear-gradient(rgba(255,255,255,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.07)_1px,transparent_1px)] [background-size:72px_72px] opacity-[0.06]" />

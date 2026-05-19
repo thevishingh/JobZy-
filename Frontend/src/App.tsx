@@ -7,6 +7,7 @@ import { useSelector } from "react-redux"
 import type { RootState } from "./redux/store"
 import PremiumLoader from "./components/shared/PremiumLoader"
 import ScrollToTop from "./components/shared/ScrollToTop"
+import PublicRoute from "./PublicRoute"
 
 const Home = lazy(() => import("./pages/Home"))
 const About = lazy(() => import("./pages/About"))
@@ -88,13 +89,62 @@ export function App() {
         <Suspense fallback={<PremiumLoader />}>
           <Routes>
             {/* Public Routes */}
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/pricing" element={<Pricing />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Register />} />
-            <Route path="/privacy-policy" element={<JobzyPrivacyPage />} />
+            <Route
+              path="/"
+              element={
+                <PublicRoute>
+                  <Home />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/about"
+              element={
+                <PublicRoute>
+                  <About />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/pricing"
+              element={
+                <PublicRoute>
+                  <Pricing />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/contact"
+              element={
+                <PublicRoute>
+                  <Contact />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                <PublicRoute>
+                  <Login />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/signup"
+              element={
+                <PublicRoute>
+                  <Register />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/privacy-policy"
+              element={
+                <PublicRoute>
+                  <JobzyPrivacyPage />
+                </PublicRoute>
+              }
+            />
             <Route
               path="/coming-soon/:feature"
               element={<ComingSoonConstruction />}
